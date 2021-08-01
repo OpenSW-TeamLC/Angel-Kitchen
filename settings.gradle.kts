@@ -1,2 +1,2 @@
 rootProject.name = "AngelKitchen"
-include ':app'
+include(":app")
