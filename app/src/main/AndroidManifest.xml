@@ -3,6 +3,7 @@
     package="hello.world.angelkitchen">
 
     <application
+        android:name=".AngelKitchenApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
