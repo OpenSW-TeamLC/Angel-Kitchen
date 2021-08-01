@@ -2,10 +2,13 @@ package hello.world.angelkitchen
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import hello.world.angelkitchen.base.BindingActivity
+import hello.world.angelkitchen.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding.tv.text = "Angel Kitchen!"
     }
 }
