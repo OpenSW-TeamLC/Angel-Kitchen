@@ -8,6 +8,7 @@ import android.os.Looper
 import android.widget.Toast
 import androidx.annotation.UiThread
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.*
@@ -20,46 +21,60 @@ import com.naver.maps.map.widget.ZoomControlView
 import java.util.concurrent.Executor
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback {
+    private val LOCATION_PERMISSION_REQUEST_CODE = 1000
+    private val locationSource: FusedLocationSource? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_main)
+        val options = NaverMapOptions()
+            .camera(CameraPosition(LatLng(37.5666102, 126.9783881), 16.0))
+            .mapType(NaverMap.MapType.Basic)
         val fm = supportFragmentManager
         val mapFragment = fm.findFragmentById(R.id.map) as MapFragment?
-            ?: MapFragment.newInstance().also {
+            ?: MapFragment.newInstance(options).also {
                 fm.beginTransaction().add(R.id.map, it).commit()
             }
         mapFragment.getMapAsync(this)
     }
 
     override fun onMapReady(naverMap: NaverMap) {
-        val cameraPosition = CameraPosition(
-            LatLng(37.5666102, 126.9783881), // 대상 지점
-            16.0, // 줌 레벨
-            20.0, // 기울임 각도
-            180.0 // 베어링 각도
-        )
-
-        Toast.makeText(this,
-            "대상 지점 위도: ${cameraPosition.target.latitude}, " +
-                    "대상 지점 경도: ${cameraPosition.target.longitude}, " +
-                    "줌 레벨: ${cameraPosition.zoom}, " +
-                    "기울임 각도: ${cameraPosition.tilt}, " +
-                    "베어링 각도: ${cameraPosition.bearing}",
-            Toast.LENGTH_SHORT).show()
-        val cameraUpdate = CameraUpdate.scrollTo(LatLng(37.5666102, 126.9783881))
-        naverMap.moveCamera(cameraUpdate)
         val uiSettings = naverMap.uiSettings
-        uiSettings.isCompassEnabled=true
-        val marker = Marker()
-        marker.position = LatLng(37.5670135, 126.9783740)
-        marker.map = naverMap
+        uiSettings.isCompassEnabled = true
         val infoWindow = InfoWindow()
+        val marker1 = Marker()
+        val marker2 = Marker()
+        val marker3 = Marker()
+
+        marker1.position = LatLng(37.5770135, 126.9783740)
+        marker1.map = naverMap
+        marker2.position = LatLng(37.5670135, 126.9783740)
+        marker2.map = naverMap
+        marker3.position = LatLng(37.5680135, 126.9783740)
+        marker3.map = naverMap
+
+        naverMap.setOnMapClickListener { coord, point -> infoWindow.close() }
+
+        marker1.tag = "마커 1"
+        marker1.setOnClickListener {
+            // 마커를 클릭할 때 정보창을 엶
+            infoWindow.open(marker1)
+            true
+        }
+
+        marker2.tag = "마커 2"
+        marker2.setOnClickListener {
+            // 마커를 클릭할 때 정보창을 엶
+            infoWindow.open(marker2)
+            true
+        }
+
         infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(this) {
             override fun getText(infoWindow: InfoWindow): CharSequence {
-                return "정보 창 내용"
+                // 정보 창이 열린 마커의 tag를 텍스트로 노출하도록 반환
+                return infoWindow.marker?.tag as CharSequence? ?: ""
             }
         }
-        }
+
     }
+}
 
