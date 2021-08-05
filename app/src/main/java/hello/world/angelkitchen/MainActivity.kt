@@ -1,5 +1,6 @@
 package hello.world.angelkitchen
 
+import android.graphics.Color
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,10 +13,6 @@ import androidx.fragment.app.FragmentManager
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.*
-import com.naver.maps.map.overlay.InfoWindow
-import com.naver.maps.map.overlay.Marker
-import com.naver.maps.map.overlay.Overlay
-import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.widget.ZoomControlView
 import java.util.*
@@ -24,6 +21,7 @@ import com.naver.maps.map.CameraPosition
 
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.NaverMap.OnCameraChangeListener
+import com.naver.maps.map.overlay.*
 
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback {
@@ -74,6 +72,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             true
         }
         val markers= listOf(marker1.position,marker2.position,marker3.position)
+        val markers1=listOf(marker1,marker2,marker3)
         infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(this) {
             override fun getText(infoWindow: InfoWindow): CharSequence {
                 // 정보 창이 열린 마커의 tag를 텍스트로 노출하도록 반환
@@ -84,13 +83,29 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             freeActiveMarkers()
             // 정의된 마커위치들중 가시거리 내에있는것들만 마커 생성
             val currentPosition = getCurrentPosition(naverMap)
-            for (markerPosition in markers) {
-                if (!withinSightMarker(LatLng(38.5680135, 126.9783740), markerPosition)) continue
+            for (markerPosition in markers1) {
+                if (!withinSightMarker(LatLng(37.5680135, 126.9783740), markerPosition.position)) continue
                 val marker = Marker()
-                marker.position = markerPosition
+                marker.position = markerPosition.position
+                marker.tag=markerPosition.tag
+                marker.setOnClickListener {
+                    // 마커를 클릭할 때 정보창을 엶
+                    infoWindow.open(marker)
+                    true
+                }
                 marker.map = naverMap
             }
         }
+        val path = PathOverlay()
+        path.coords = listOf(
+            LatLng(37.57152, 126.97714),
+            LatLng(37.56607, 126.98268),
+            LatLng(37.56445, 126.97707),
+            LatLng(37.55855, 126.97822)
+        )
+        path.width=30
+        path.color = Color.RED
+        path.map = naverMap
 
     }
     private var markersPosition: Vector<LatLng>? = null
