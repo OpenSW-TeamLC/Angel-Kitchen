@@ -79,21 +79,19 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                 return infoWindow.marker?.tag as CharSequence? ?: ""
             }
         }
+        val marker = Marker()
         naverMap.addOnCameraChangeListener { reason, animated ->
-            freeActiveMarkers()
+            //freeActiveMarkers(markers1)
             // 정의된 마커위치들중 가시거리 내에있는것들만 마커 생성
             val currentPosition = getCurrentPosition(naverMap)
+            val cameraPosition = naverMap.cameraPosition
             for (markerPosition in markers1) {
-                if (!withinSightMarker(LatLng(37.5680135, 126.9783740), markerPosition.position)) continue
-                val marker = Marker()
-                marker.position = markerPosition.position
-                marker.tag=markerPosition.tag
-                marker.setOnClickListener {
-                    // 마커를 클릭할 때 정보창을 엶
-                    infoWindow.open(marker)
-                    true
+                if (withinSightMarker(LatLng(cameraPosition.target.latitude, cameraPosition.target.longitude), markerPosition.position)) {
+                    markerPosition.map = naverMap
                 }
-                marker.map = naverMap
+                else{
+                    markerPosition.map = null
+                }
             }
         }
         val path = PathOverlay()
@@ -106,7 +104,6 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         path.width=30
         path.color = Color.RED
         path.map = naverMap
-
     }
     private var markersPosition: Vector<LatLng>? = null
     private var activeMarkers: Vector<Marker>? = null
@@ -118,24 +115,14 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
     // 선택한 마커의 위치가 가시거리(카메라가 보고있는 위치 반경 3km 내)에 있는지 확인
     val REFERANCE_LAT = 1 / 109.958489129649955
     val REFERANCE_LNG = 1 / 88.74
-    val REFERANCE_LAT_X3 = 3 / 109.958489129649955
-    val REFERANCE_LNG_X3 = 3 / 88.74
+    val REFERANCE_LAT_X3 = 1 / 109.958489129649955
+    val REFERANCE_LNG_X3 = 1 / 88.74
     fun withinSightMarker(currentPosition: LatLng, markerPosition: LatLng): Boolean {
         val withinSightMarkerLat =
             Math.abs(currentPosition.latitude - markerPosition.latitude) <= REFERANCE_LAT_X3
         val withinSightMarkerLng =
             Math.abs(currentPosition.longitude - markerPosition.longitude) <= REFERANCE_LNG_X3
         return withinSightMarkerLat && withinSightMarkerLng
-    }
-    private fun freeActiveMarkers() {
-        if (activeMarkers == null) {
-            activeMarkers = Vector()
-            return
-        }
-        for (activeMarker in activeMarkers!!) {
-            activeMarker.map = null
-        }
-        activeMarkers = Vector()
     }
 }
 
