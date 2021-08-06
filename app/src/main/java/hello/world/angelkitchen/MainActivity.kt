@@ -109,8 +109,8 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
         path.width=30
         path.color = Color.RED
         path.map = naverMap
-        val APIKEY_ID = "uzlzuhd2pa"
-        val APIKEY = "INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc"
+        val APIKEY_ID = ""
+        val APIKEY = ""
         //레트로핏 객체 생성
         val retrofit = Retrofit.Builder().
         baseUrl("https://naveropenapi.apigw.ntruss.com/map-direction/").
