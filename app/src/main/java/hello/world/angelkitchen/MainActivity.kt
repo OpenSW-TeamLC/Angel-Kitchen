@@ -22,9 +22,14 @@ import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.NaverMap.OnCameraChangeListener
 import com.naver.maps.map.overlay.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 
-class MainActivity : FragmentActivity(), OnMapReadyCallback {
+class MainActivity : FragmentActivity(), OnMapReadyCallback{
     private val LOCATION_PERMISSION_REQUEST_CODE = 1000
     private val locationSource: FusedLocationSource? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,6 +109,54 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         path.width=30
         path.color = Color.RED
         path.map = naverMap
+        val APIKEY_ID = "uzlzuhd2pa"
+        val APIKEY = "INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc"
+        //레트로핏 객체 생성
+        val retrofit = Retrofit.Builder().
+        baseUrl("https://naveropenapi.apigw.ntruss.com/map-direction/").
+        addConverterFactory(GsonConverterFactory.create()).
+        build()
+
+        val api = retrofit.create(NaverAPI::class.java)
+        //근처에서 길찾기
+        val callgetPath = api.getPath(APIKEY_ID, APIKEY,"126.97714,37.57152", "126.97822,37.55855")
+
+        callgetPath.enqueue(object : Callback<ResultPath> {
+            override fun onResponse(
+                call: Call<ResultPath>,
+                response: Response<ResultPath>
+            ) {
+                var path_cords_list = response.body()?.route?.traoptimal
+                //경로 그리기 응답바디가 List<List<Double>> 이라서 2중 for문 썼음
+                val path = PathOverlay()
+                //MutableList에 add 기능 쓰기 위해 더미 원소 하나 넣어둠
+                val path_container : MutableList<LatLng>? = mutableListOf(LatLng(0.1,0.1))
+                for(path_cords in path_cords_list!!){
+                    for(path_cords_xy in path_cords?.path){
+                        //구한 경로를 하나씩 path_container에 추가해줌
+                        path_container?.add(LatLng(path_cords_xy[1], path_cords_xy[0]))
+                    }
+                }
+                //더미원소 드랍후 path.coords에 path들을 넣어줌.
+                path.coords = path_container?.drop(1)!!
+                path.color = Color.RED
+                path.map = naverMap
+
+                //경로 시작점으로 화면 이동
+                if(path.coords != null) {
+                    val cameraUpdate = CameraUpdate.scrollTo(path.coords[0]!!)
+                        .animate(CameraAnimation.Fly, 3000)
+                    naverMap.moveCamera(cameraUpdate)
+
+                    Toast.makeText(this@MainActivity, "경로 안내가 시작됩니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ResultPath>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
     private var markersPosition: Vector<LatLng>? = null
     private var activeMarkers: Vector<Marker>? = null
