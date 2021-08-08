@@ -53,16 +53,18 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
         val marker1 = Marker()
         val marker2 = Marker()
         val marker3 = Marker()
-
+        var i=0;
+        var sum=0;
+        for(i in 1..3){
+            sum+=i
+        }
         marker1.position = LatLng(37.5770135, 126.9783740)
         //marker1.map = naverMap
         marker2.position = LatLng(37.5670135, 126.9783740)
         //marker2.map = naverMap
         marker3.position = LatLng(37.5680135, 126.9783740)
         //marker3.map = naverMap
-
         naverMap.setOnMapClickListener { coord, point -> infoWindow.close() }
-
         marker1.tag = "마커 1"
         marker1.setOnClickListener {
             // 마커를 클릭할 때 정보창을 엶
@@ -76,7 +78,16 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
             infoWindow.open(marker2)
             true
         }
-        val markers= listOf(marker1.position,marker2.position,marker3.position)
+        val markere = mutableListOf<Marker>()
+        markere.add(marker1)
+        markere.add(marker2)
+        markere.add(marker3)
+        val markers = mutableListOf<Marker>()
+        for(i in 0..2){
+            markers.add(markere[i])
+        }
+        markers.add(marker1)
+        markers.add(marker2)
         val markers1=listOf(marker1,marker2,marker3)
         infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(this) {
             override fun getText(infoWindow: InfoWindow): CharSequence {
@@ -90,7 +101,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
             // 정의된 마커위치들중 가시거리 내에있는것들만 마커 생성
             val currentPosition = getCurrentPosition(naverMap)
             val cameraPosition = naverMap.cameraPosition
-            for (markerPosition in markers1) {
+            for (markerPosition in markers) {
                 if (withinSightMarker(LatLng(cameraPosition.target.latitude, cameraPosition.target.longitude), markerPosition.position)) {
                     markerPosition.map = naverMap
                 }
