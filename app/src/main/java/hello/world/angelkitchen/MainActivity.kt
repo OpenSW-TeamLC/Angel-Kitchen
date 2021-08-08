@@ -19,6 +19,10 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         }
     }
 
+    override fun startView() {
+
+    }
+
     private fun startFragment() {
         val intent = Intent(this@MainActivity, OnboardActivity::class.java)
         startActivity(intent)
