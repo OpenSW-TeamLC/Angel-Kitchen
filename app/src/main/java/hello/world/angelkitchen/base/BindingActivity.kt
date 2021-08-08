@@ -11,6 +11,7 @@ abstract class BindingActivity<T: ViewDataBinding>(
 ) : AppCompatActivity() {
     protected lateinit var binding: T
     abstract fun initView()
+    abstract fun stopView()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,5 +19,10 @@ abstract class BindingActivity<T: ViewDataBinding>(
         binding.lifecycleOwner = this
 
         initView()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        stopView()
     }
 }

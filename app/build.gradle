@@ -56,4 +56,7 @@ dependencies {
 
     // Feature module Support
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+
+    // Logger
+    implementation 'com.orhanobut:logger:2.2.0'
 }

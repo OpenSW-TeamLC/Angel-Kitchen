@@ -1,10 +1,15 @@
 package hello.world.angelkitchen.view.onboard
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import hello.world.angelkitchen.R
+import hello.world.angelkitchen.base.BindingFragment
+import hello.world.angelkitchen.databinding.FragmentSecondBinding
 
-class SecondFragment : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+class SecondFragment : BindingFragment<FragmentSecondBinding>(R.layout.fragment_second) {
+    override fun initView() {
+        binding.btnNext.setOnClickListener {
+            findNavController().popBackStack(R.id.firstFragment, true)
+            findNavController().navigate(R.id.thirdFragment)
+        }
     }
 }
