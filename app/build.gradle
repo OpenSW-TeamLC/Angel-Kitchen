@@ -4,6 +4,10 @@ plugins {
     id 'kotlin-kapt'
 }
 
+ext {
+    androidStepperVersion = '0.3.0'
+}
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -59,4 +63,7 @@ dependencies {
 
     // Logger
     implementation 'com.orhanobut:logger:2.2.0'
+
+    // android-stepper
+    implementation "com.github.acefalobi:android-stepper:0.2.2"
 }
