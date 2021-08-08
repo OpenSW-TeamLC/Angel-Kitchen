@@ -64,6 +64,9 @@ dependencies {
     // Logger
     implementation 'com.orhanobut:logger:2.2.0'
 
-    // android-stepper
+    // android-stepper (Not implementation 0.3.0)
     implementation "com.github.acefalobi:android-stepper:0.2.2"
+
+    // Ted Permission
+    implementation 'io.github.ParkSangGwon:tedpermission:2.3.0'
 }
