@@ -19,7 +19,8 @@
             app:stepperItems="@menu/step_menu"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fg_onboard"/>
+            app:layout_constraintTop_toBottomOf="@id/fg_onboard"
+            app:stepperType="tab_numbered"/>
 
 
         <!-- Not support to androidx -->
