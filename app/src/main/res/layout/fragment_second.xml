@@ -12,19 +12,17 @@
         android:layout_height="match_parent"
         tools:context=".view.onboard.FirstFragment">
 
-        <TextView
-            android:id="@+id/tv_second"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_angel"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Second"
-            android:textAlignment="center"
-            android:textSize="100sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="300dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/angel"
+            app:layout_constraintBottom_toTopOf="@id/btn_next"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <Button
             android:id="@+id/btn_next"
@@ -34,7 +32,7 @@
             android:text="Next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_second" />
+            app:layout_constraintTop_toBottomOf="@+id/lottie_angel" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

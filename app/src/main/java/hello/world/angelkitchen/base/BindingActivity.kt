@@ -24,6 +24,7 @@ abstract class BindingActivity<T: ViewDataBinding>(
 
     override fun onStart() {
         super.onStart()
+        startView()
     }
 
     override fun onStop() {
