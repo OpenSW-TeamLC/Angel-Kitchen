@@ -60,7 +60,7 @@ dependencies {
     // Material Design
     implementation(MaterialDesignDependencies.materialDesign)
 
-    // Libraray
+    // Libraray => Coil로 변경
     implementation(LibraryDependencies.glide)
     kapt(KaptDependencies.glide)
 
