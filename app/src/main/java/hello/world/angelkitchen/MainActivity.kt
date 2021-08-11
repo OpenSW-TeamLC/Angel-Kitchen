@@ -1,11 +1,12 @@
 package hello.world.angelkitchen
-
+import android.content.ContentValues.TAG
 import android.graphics.Color
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.UiThread
 import androidx.fragment.app.FragmentActivity
@@ -117,20 +118,41 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
             LatLng(37.56445, 126.97707),
             LatLng(37.55855, 126.97822)
         )
+        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
         path.width=30
         path.color = Color.RED
         path.map = naverMap
-        val APIKEY_ID = ""
-        val APIKEY = ""
+        val retrofitfood = Retrofit.Builder().
+        baseUrl("http://api.data.go.kr/openapi/").
+        addConverterFactory(GsonConverterFactory.create()).
+        build()
+        val foodapi = retrofitfood.create(AngelKitchen::class.java)
+        val foodlocation = foodapi.getPath("VEAAk7E%2BAFl%2BebvIIp8rYPoQ0%2BdqaJRy4NRnWbo2wju5lvbYzuhlA55ZDydaRcdaViJftJwWTQiFtjtdS2Kkiw%3D%3D","1", "100","json")
+        foodlocation.enqueue(object : Callback<ResultData> {
+            override fun onResponse(
+                call: Call<ResultData>,
+                response: Response<ResultData>
+            ) {
+                val fooddata=response.body()
+                Log.d("태그","내용"+fooddata)
+            }
+            override fun onFailure(call: Call<ResultData>, t: Throwable) {
+                t.message?.let {
+                    Toast.makeText(this@MainActivity, "Error", Toast.LENGTH_SHORT).show()
+                } ?: Toast.makeText(this@MainActivity, "error", Toast.LENGTH_SHORT).show()
+            }
+
+        })
         //레트로핏 객체 생성
+        val APIKEY_ID = "uzlzuhd2pa"
+        val APIKEY = "INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc"
         val retrofit = Retrofit.Builder().
         baseUrl("https://naveropenapi.apigw.ntruss.com/map-direction/").
         addConverterFactory(GsonConverterFactory.create()).
         build()
-
         val api = retrofit.create(NaverAPI::class.java)
         //근처에서 길찾기
-        val callgetPath = api.getPath(APIKEY_ID, APIKEY,"126.97714,37.57152", "126.97822,37.55855")
+        val callgetPath = api.getPath(APIKEY_ID, APIKEY,"126.87714,37.57152", "126.97822,37.55855")
 
         callgetPath.enqueue(object : Callback<ResultPath> {
             override fun onResponse(
@@ -189,4 +211,3 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
         return withinSightMarkerLat && withinSightMarkerLng
     }
 }
-

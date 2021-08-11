@@ -3,8 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/tmdtj/dev/Angel-Kitchen/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/tmdtj/dev/Angel-Kitchen/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/Users/tmdtj/dev/Angel-Kitchen/app/src/main/res/drawable/ic_analytics.xml" value="0.1" />
+        <entry key="..\:/Users/tmdtj/dev/Angel-Kitchen/app/src/main/res/drawable/ic_baseline_bookmarks_24.xml" value="0.1" />
+        <entry key="..\:/Users/tmdtj/dev/Angel-Kitchen/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1" />
+        <entry key="..\:/Users/tmdtj/dev/Angel-Kitchen/app/src/main/res/drawable/ic_baseline_view_headline_24.xml" value="0.17604166666666668" />
+        <entry key="..\:/Users/tmdtj/dev/Angel-Kitchen/app/src/main/res/drawable/ic_pets.xml" value="0.1" />
+        <entry key="..\:/Users/tmdtj/dev/Angel-Kitchen/app/src/main/res/drawable/ic_search.xml" value="0.1" />
+        <entry key="..\:/Users/tmdtj/dev/Angel-Kitchen/app/src/main/res/layout/activity_main.xml" value="0.14666666666666667" />
+        <entry key="..\:/Users/tmdtj/dev/Angel-Kitchen/app/src/main/res/layout/activity_map.xml" value="0.10666666666666667" />
         <entry key="..\:/Users/tmdtj/dev/Angel-Kitchen/app/src/main/res/layout/fragment_blank.xml" value="0.16621376811594202" />
+        <entry key="..\:/Users/tmdtj/dev/Angel-Kitchen/app/src/main/res/layout/fragment_board.xml" value="0.14628623188405798" />
+        <entry key="..\:/Users/tmdtj/dev/Angel-Kitchen/app/src/main/res/layout/fragment_map.xml" value="0.15489130434782608" />
+        <entry key="..\:/Users/tmdtj/dev/Angel-Kitchen/app/src/main/res/layout/navi_menu.xml" value="0.1" />
+        <entry key="..\:/Users/tmdtj/dev/Angel-Kitchen/app/src/main/res/menu/navi_menu.xml" value="0.16666666666666666" />
       </map>
     </option>
   </component>
