@@ -7,12 +7,12 @@ import hello.world.angelkitchen.databinding.FragmentSecondBinding
 
 class SecondFragment : BindingFragment<FragmentSecondBinding>(R.layout.fragment_second) {
     override fun initView() {
-        val animation = binding.lottieAngel
-        animation.setAnimation(R.raw.angel)
-        animation.playAnimation()
-
         binding.btnNext.setOnClickListener {
-            findNavController().navigate(R.id.step_3_dest)
+            findNavController().navigate(R.id.action_secondFragment_to_thirdFragment)
+//            val animation = binding.lottieAngel
+//            animation.setAnimation(R.raw.angel)
+//            animation.playAnimation()
+//            animation.
         }
     }
 }

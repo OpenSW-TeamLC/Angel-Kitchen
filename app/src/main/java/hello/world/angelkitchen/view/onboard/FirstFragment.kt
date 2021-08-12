@@ -9,7 +9,7 @@ import hello.world.angelkitchen.databinding.FragmentFirstBinding
 class FirstFragment : BindingFragment<FragmentFirstBinding>(R.layout.fragment_first) {
     override fun initView() {
         binding.btnNext.setOnClickListener {
-            findNavController().navigate(R.id.step_2_dest)
+            findNavController().navigate(R.id.action_firstFragment_to_secondFragment)
         }
     }
 }
