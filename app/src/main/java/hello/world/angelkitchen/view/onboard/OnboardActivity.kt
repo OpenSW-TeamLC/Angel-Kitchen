@@ -14,10 +14,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.base.BindingActivity
 import hello.world.angelkitchen.databinding.ActivityOnboardBinding
 
+@AndroidEntryPoint
 class OnboardActivity : BindingActivity<ActivityOnboardBinding>(R.layout.activity_onboard) {
     private lateinit var context: Context
     private lateinit var permissionlistener: PermissionListener
