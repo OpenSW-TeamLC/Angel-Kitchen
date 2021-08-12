@@ -1,13 +1,18 @@
 package hello.world.angelkitchen
 
 import android.content.Intent
+import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.base.BindingActivity
 import hello.world.angelkitchen.databinding.ActivityMainBinding
+import hello.world.angelkitchen.view.dialog.AddActionExitDialogFragment
 import hello.world.angelkitchen.view.onboard.OnboardActivity
 
+@AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun initView() {
+        AddActionExitDialogFragment().show(supportFragmentManager, "Test")
+
         binding.btnFirst.setOnClickListener {
             startFragment()
         }
