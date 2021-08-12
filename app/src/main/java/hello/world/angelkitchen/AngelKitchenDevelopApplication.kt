@@ -8,7 +8,7 @@ import hello.world.angelkitchen.util.PreferenceUtil
 @HiltAndroidApp
 class AngelKitchenDevelopApplication : Application() {
     override fun onCreate() {
-        prefs = PreferenceUtil(applicationContext)
+        prefs = PreferenceUtil(this)
         super.onCreate()
         pixelRatio = PixelRatio(this)
     }
