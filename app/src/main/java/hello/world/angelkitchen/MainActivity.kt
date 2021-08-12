@@ -84,11 +84,55 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
         markere.add(marker2)
         markere.add(marker3)
         val markers = mutableListOf<Marker>()
-        for(i in 0..2){
-            markers.add(markere[i])
-        }
         markers.add(marker1)
         markers.add(marker2)
+        val retrofitfood = Retrofit.Builder().
+        baseUrl("http://api.data.go.kr/openapi/").
+        addConverterFactory(GsonConverterFactory.create()).
+        build()
+        var path_lat: MutableList<String> = mutableListOf()
+        var path_long: MutableList<String> = mutableListOf()
+        val foodapi = retrofitfood.create(AngelKitchen::class.java)
+        for(i in 0..15) {
+            val foodlocation = foodapi.getPath(
+                "VEAAk7E+AFl+ebvIIp8rYPoQ0+dqaJRy4NRnWbo2wju5lvbYzuhlA55ZDydaRcdaViJftJwWTQiFtjtdS2Kkiw==",
+                i.toString(),
+                "100",
+                "json"
+            )
+            foodlocation.enqueue(object : Callback<FoodData> {
+                override fun onResponse(
+                    call: Call<FoodData>,
+                    response: Response<FoodData>
+                ) {
+                    Toast.makeText(this@MainActivity, "error", Toast.LENGTH_SHORT).show()
+                    var foodposition: List<items> = mutableListOf()
+                    var theDataList: List<items> = ArrayList<items>()
+                    foodposition = response.body()?.response?.body?.items!!
+                    for(j in 0..(foodposition.size-1)){
+                        val marker = Marker()
+                        path_lat.add(foodposition[j].latitude)
+                        path_long.add(foodposition[j].longitude)
+                        marker.position=LatLng(path_lat[j].toDouble(),path_long[j].toDouble())
+                        marker.tag = foodposition[j].fcltyNm
+                        marker.setOnClickListener {
+                            // 마커를 클릭할 때 정보창을 엶
+                            infoWindow.open(marker)
+                            true
+                        }
+                        markers.add(marker)
+                    }
+                    Toast.makeText(this@MainActivity, response.body().toString(), Toast.LENGTH_LONG)
+                        .show()
+                }
+                override fun onFailure(call: Call<FoodData>, t: Throwable) {
+                    t.message?.let {
+                        Toast.makeText(this@MainActivity, "Error", Toast.LENGTH_SHORT).show()
+                    } ?: Toast.makeText(this@MainActivity, "error", Toast.LENGTH_SHORT).show()
+                }
+
+            })
+        }
         val markers1=listOf(marker1,marker2,marker3)
         infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(this) {
             override fun getText(infoWindow: InfoWindow): CharSequence {
@@ -96,7 +140,6 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                 return infoWindow.marker?.tag as CharSequence? ?: ""
             }
         }
-        val marker = Marker()
         naverMap.addOnCameraChangeListener { reason, animated ->
             //freeActiveMarkers(markers1)
             // 정의된 마커위치들중 가시거리 내에있는것들만 마커 생성
@@ -111,38 +154,6 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                 }
             }
         }
-        val path = PathOverlay()
-        path.coords = listOf(
-            LatLng(37.57152, 126.97714),
-            LatLng(37.56607, 126.98268),
-            LatLng(37.56445, 126.97707),
-            LatLng(37.55855, 126.97822)
-        )
-        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
-        path.width=30
-        path.color = Color.RED
-        path.map = naverMap
-        val retrofitfood = Retrofit.Builder().
-        baseUrl("http://api.data.go.kr/openapi/").
-        addConverterFactory(GsonConverterFactory.create()).
-        build()
-        val foodapi = retrofitfood.create(AngelKitchen::class.java)
-        val foodlocation = foodapi.getPath("VEAAk7E%2BAFl%2BebvIIp8rYPoQ0%2BdqaJRy4NRnWbo2wju5lvbYzuhlA55ZDydaRcdaViJftJwWTQiFtjtdS2Kkiw%3D%3D","1", "100","json")
-        foodlocation.enqueue(object : Callback<ResultData> {
-            override fun onResponse(
-                call: Call<ResultData>,
-                response: Response<ResultData>
-            ) {
-                val fooddata=response.body()
-                Log.d("태그","내용"+fooddata)
-            }
-            override fun onFailure(call: Call<ResultData>, t: Throwable) {
-                t.message?.let {
-                    Toast.makeText(this@MainActivity, "Error", Toast.LENGTH_SHORT).show()
-                } ?: Toast.makeText(this@MainActivity, "error", Toast.LENGTH_SHORT).show()
-            }
-
-        })
         //레트로핏 객체 생성
         val APIKEY_ID = "uzlzuhd2pa"
         val APIKEY = "INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc"
@@ -201,8 +212,8 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
     // 선택한 마커의 위치가 가시거리(카메라가 보고있는 위치 반경 3km 내)에 있는지 확인
     val REFERANCE_LAT = 1 / 109.958489129649955
     val REFERANCE_LNG = 1 / 88.74
-    val REFERANCE_LAT_X3 = 1 / 109.958489129649955
-    val REFERANCE_LNG_X3 = 1 / 88.74
+    val REFERANCE_LAT_X3 = 3 / 109.958489129649955
+    val REFERANCE_LNG_X3 = 3 / 88.74
     fun withinSightMarker(currentPosition: LatLng, markerPosition: LatLng): Boolean {
         val withinSightMarkerLat =
             Math.abs(currentPosition.latitude - markerPosition.latitude) <= REFERANCE_LAT_X3
