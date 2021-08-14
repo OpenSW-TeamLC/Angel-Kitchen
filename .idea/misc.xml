@@ -3,12 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/activity_main.xml" value="0.14925373134328357" />
-        <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/activity_onboard.xml" value="0.1" />
+        <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/drawable/bottom_nav_bg.xml" value="0.25677083333333334" />
+        <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/drawable/ic_arrow.xml" value="0.25677083333333334" />
+        <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/activity_bottom_menu.xml" value="0.36614583333333334" />
+        <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/activity_onboard.xml" value="0.18" />
+        <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/fragment_bookmark.xml" value="0.23125" />
+        <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/fragment_find_direction.xml" value="0.23125" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/fragment_first.xml" value="0.22" />
+        <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/fragment_search.xml" value="0.23125" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/fragment_second.xml" value="0.14" />
+        <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/fragment_setting.xml" value="0.23125" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/fragment_third.xml" value="0.10106382978723404" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/test_on_dialog.xml" value="0.2296875" />
+        <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/menu/bottom_menu.xml" value="0.240625" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/menu/step_menu.xml" value="0.12037037037037036" />
       </map>
     </option>
