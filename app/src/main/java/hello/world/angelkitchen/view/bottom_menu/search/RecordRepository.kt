@@ -3,22 +3,25 @@ package hello.world.angelkitchen.view.bottom_menu.search
 import androidx.lifecycle.MutableLiveData
 
 class RecordRepository {
-    private val recordData = ArrayList<RecordData>()
 
     fun loadRecyclerData(
-        recordLiveData: MutableLiveData<ArrayList<RecordData>>
+        recordLiveData: MutableLiveData<List<RecordData>>
     ) {
-        recordData.add(RecordData("무료 급식소"))
-        recordData.add(RecordData("송파구 무료"))
-        recordData.add(RecordData("밥"))
-        recordLiveData.postValue(recordData)
+//        recordData.add(RecordData("무료 급식소"))
+//        recordData.add(RecordData("송파구 무료"))
+//        recordData.add(RecordData("밥"))
+//        this.recordData.add(recordData[0])
+//        this.recordData.add(recordData[1])
+//        this.recordData.add(recordData[2])
+//        recordLiveData.postValue(recordData)
     }
 
     fun addRecyclerData(
-        recordData: ArrayList<RecordData>,
-        recordLiveData: MutableLiveData<ArrayList<RecordData>>
+        recordData: RecordData,
+        recordDataList: MutableList<RecordData>,
+        recordLiveData: MutableLiveData<List<RecordData>>
     ) {
-        this.recordData.add(recordData[0])
-        recordLiveData.postValue(this.recordData)
+        recordDataList.add(recordData)
+        recordLiveData.value = recordDataList
     }
 }

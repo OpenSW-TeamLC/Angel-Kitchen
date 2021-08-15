@@ -56,8 +56,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         binding.tfEt.setOnKeyListener { _, keyCode, event ->
             if((event.action == KeyEvent.ACTION_DOWN) && keyCode == KeyEvent.KEYCODE_ENTER) {
                 val inputSearchTextString = binding.tfEt.text.toString()
-                val inputSearchText = ArrayList<RecordData>()
-                inputSearchText.add(RecordData(inputSearchTextString))
+                val inputSearchText = RecordData(inputSearchTextString)
                 addVM(inputSearchText)
                 return@setOnKeyListener true
             } else {
@@ -65,7 +64,12 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
             }
         }
 
-        initVM()
+        addVM(RecordData("무료 급식소"))
+        addVM(RecordData("송파구 무료"))
+        addVM(RecordData("밥"))
+
+        // 나중에 Room 이랑 연동할 때 사용
+        //initVM()
         initRecyclerView()
     }
 
@@ -82,8 +86,9 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         }
     }
 
+    // 나중에 Room 이랑 연동할 때 사용
     private fun initVM() {
-        viewModel.getLiveDataObserver().observe(this, Observer {
+        viewModel.recordDataList.observe(this, {
             Log.d("SearchFragment", "$it")
             if(it != null) {
                 recordAdapter.setRecordData(it)
@@ -93,8 +98,8 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         viewModel.loadListOfData()
     }
 
-    private fun addVM(inputSearchText: ArrayList<RecordData>) {
-        viewModel.getLiveDataObserver().observe(this, Observer {
+    private fun addVM(inputSearchText: RecordData) {
+        viewModel.getLiveDataObserver().observe(this, {
             if(it != null) {
                 recordAdapter.setRecordData(it)
                 recordAdapter.notifyDataSetChanged()

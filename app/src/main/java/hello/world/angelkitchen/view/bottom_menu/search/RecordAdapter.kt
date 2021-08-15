@@ -7,19 +7,19 @@ import hello.world.angelkitchen.databinding.RecyclerRecordItemBinding
 
 class RecordAdapter : RecyclerView.Adapter<RecordAdapter.MyViewHolder>() {
 
-    private var recordList: ArrayList<RecordData>? = null
+    private var recordList: List<RecordData>? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RecordAdapter.MyViewHolder {
+    ): MyViewHolder {
         val binding = RecyclerRecordItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
         return MyViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RecordAdapter.MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         recordList?.get(position)?.let { holder.bind(it) }
     }
 
@@ -28,7 +28,7 @@ class RecordAdapter : RecyclerView.Adapter<RecordAdapter.MyViewHolder>() {
         else recordList!!.size
     }
 
-    fun setRecordData(recordData: ArrayList<RecordData>) {
+    fun setRecordData(recordData: List<RecordData>) {
         recordList = recordData
     }
 
