@@ -4,16 +4,10 @@ import androidx.lifecycle.MutableLiveData
 
 class RecordRepository {
 
+    // 나중에 Room 이랑 연동할 때 사용
     fun loadRecyclerData(
         recordLiveData: MutableLiveData<List<RecordData>>
     ) {
-//        recordData.add(RecordData("무료 급식소"))
-//        recordData.add(RecordData("송파구 무료"))
-//        recordData.add(RecordData("밥"))
-//        this.recordData.add(recordData[0])
-//        this.recordData.add(recordData[1])
-//        this.recordData.add(recordData[2])
-//        recordLiveData.postValue(recordData)
     }
 
     fun addRecyclerData(

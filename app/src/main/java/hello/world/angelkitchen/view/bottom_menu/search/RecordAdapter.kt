@@ -1,13 +1,17 @@
 package hello.world.angelkitchen.view.bottom_menu.search
 
+import android.graphics.Paint
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import hello.world.angelkitchen.databinding.RecyclerRecordItemBinding
 
-class RecordAdapter : RecyclerView.Adapter<RecordAdapter.MyViewHolder>() {
-
-    private var recordList: List<RecordData>? = null
+class RecordAdapter(
+    private var recordList: List<RecordData>,
+    val onClickDelete: (recordData: RecordData) -> Unit,
+    val onClickItem: (recordData: RecordData) -> Unit
+) : RecyclerView.Adapter<RecordAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -20,24 +24,30 @@ class RecordAdapter : RecyclerView.Adapter<RecordAdapter.MyViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        recordList?.get(position)?.let { holder.bind(it) }
-    }
+        val selectItem = recordList[position]
+        holder.binding.tvRecord.text = selectItem.recordText
+        if(selectItem.isClicked) {
+            holder.binding.tvRecord.apply {
+                paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                setTypeface(null, Typeface.ITALIC)
+            }
+        } else {
+            holder.binding.tvRecord.apply {
+                paintFlags = 0
+                setTypeface(null, Typeface.NORMAL)
+            }
+        }
 
-    override fun getItemCount(): Int {
-        return if(recordList == null) 0
-        else recordList!!.size
-    }
-
-    fun setRecordData(recordData: List<RecordData>) {
-        recordList = recordData
-    }
-
-    class MyViewHolder(binding: RecyclerRecordItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        private val record = binding.tvRecord
-
-        fun bind(recordData: RecordData) {
-            record.text = recordData.record
+        holder.binding.ivRemove.setOnClickListener {
+            onClickDelete.invoke(selectItem)
+        }
+        holder.binding.root.setOnClickListener {
+            onClickItem.invoke(selectItem)
         }
     }
+
+    override fun getItemCount(): Int = recordList.size
+
+    class MyViewHolder(val binding: RecyclerRecordItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

@@ -1,5 +1,6 @@
 package hello.world.angelkitchen.view.bottom_menu.search
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,24 +9,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val repository: RecordRepository
+
 ) : ViewModel() {
-    private val list = mutableListOf<RecordData>()
-    private val _recordDataList: MutableLiveData<List<RecordData>> = MutableLiveData()
-    val recordDataList: LiveData<List<RecordData>> = _recordDataList
 
-    init {
-        _recordDataList.value = list
+    val recordDataList = arrayListOf<RecordData>()
+
+
+    fun toggleRecord(recordData: RecordData) {
+        recordData.isClicked = !recordData.isClicked
     }
 
-    fun getLiveDataObserver():
-            MutableLiveData<List<RecordData>> = _recordDataList
-
-    fun loadListOfData() {
-        repository.loadRecyclerData(_recordDataList)
+    fun addRecord(recordData: RecordData) {
+        recordDataList.add(recordData)
     }
 
-    fun addData(recordData: RecordData) {
-        repository.addRecyclerData(recordData, list, _recordDataList)
+    fun deleteRecord(recordData: RecordData) {
+        recordDataList.remove(recordData)
     }
 }
