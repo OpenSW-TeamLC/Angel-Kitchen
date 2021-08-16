@@ -12,6 +12,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.R
@@ -80,6 +81,8 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
             stackFromEnd = true
         }
 
+        val decoration = DividerItemDecoration(activity, linearLayoutManager.orientation)
+
         recordAdapter = RecordAdapter(
             viewModel.recordDataList,
             onClickItem = {
@@ -95,6 +98,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         binding.rvRecord.apply {
             layoutManager = linearLayoutManager
             adapter = recordAdapter
+            addItemDecoration(decoration)
         }
     }
 }

@@ -95,4 +95,7 @@ dependencies {
 
     // Saved state module for ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+
+    // Coil
+    implementation "io.coil-kt:coil:0.10.0"
 }
