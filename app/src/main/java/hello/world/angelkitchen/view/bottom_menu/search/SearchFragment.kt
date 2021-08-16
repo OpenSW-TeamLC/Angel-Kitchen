@@ -57,16 +57,16 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
             if((event.action == KeyEvent.ACTION_DOWN) && keyCode == KeyEvent.KEYCODE_ENTER) {
                 val inputSearchText = RecordData(binding.tfEt.text.toString())
                 viewModel.addRecord(inputSearchText)
-                binding.rvRecord.adapter?.notifyDataSetChanged()
+                recordAdapter.notifyDataSetChanged()
                 return@setOnKeyListener true
             } else {
                 return@setOnKeyListener false
             }
         }
 
-//        viewModel.test.observe(this, {
-//            binding.tfEt.setText(it)
-//        })
+        viewModel.recordDataList.observe(this, {
+            recordAdapter.setData(it)
+        })
     }
 
     override fun onResume() {
@@ -84,14 +84,14 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         val decoration = DividerItemDecoration(activity, linearLayoutManager.orientation)
 
         recordAdapter = RecordAdapter(
-            viewModel.recordDataList,
+            emptyList(),
             onClickItem = {
                 viewModel.toggleRecord(it)
-                binding.rvRecord.adapter?.notifyDataSetChanged()
+                recordAdapter.notifyDataSetChanged()
             },
             onClickDelete = {
                 viewModel.deleteRecord(it)
-                binding.rvRecord.adapter?.notifyDataSetChanged()
+                recordAdapter.notifyDataSetChanged()
             }
         )
 

@@ -48,6 +48,11 @@ class RecordAdapter(
 
     override fun getItemCount(): Int = recordList.size
 
+    fun setData(newData : List<RecordData>) {
+        recordList = newData
+        notifyDataSetChanged()
+    }
+
     class MyViewHolder(val binding: RecyclerRecordItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 }

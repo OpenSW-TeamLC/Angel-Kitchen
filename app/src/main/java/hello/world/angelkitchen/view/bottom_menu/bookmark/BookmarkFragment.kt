@@ -19,6 +19,10 @@ class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragm
 
     override fun initView() {
         initRecyclerView()
+
+        viewModel.bookmarkDataList.observe(this, {
+            bookmarkAdapter.setData(it)
+        })
     }
 
     private fun initRecyclerView() {
@@ -29,7 +33,7 @@ class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragm
         val decoration = DividerItemDecoration(activity, linearLayoutManager.orientation)
 
         bookmarkAdapter = BookmarkAdapter(
-            viewModel.bookmarkDataList,
+            emptyList(),
             onClickItem = {
                 val position = viewModel.showToastBookmark(it)
                 Toast.makeText(activity, "$position List Clicked", Toast.LENGTH_SHORT).show()
@@ -69,7 +73,7 @@ class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragm
                 "02-1234-5678"
             )
         )
-        binding.rvBookmark.adapter?.notifyDataSetChanged()
+            bookmarkAdapter.notifyDataSetChanged()
     }
 
     override fun onDestroyView() {

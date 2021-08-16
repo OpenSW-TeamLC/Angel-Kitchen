@@ -9,6 +9,7 @@ import coil.transform.CircleCropTransformation
 import hello.world.angelkitchen.AngelKitchenDevelopApplication
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.databinding.RecyclerBookmarkItemBinding
+import hello.world.angelkitchen.view.bottom_menu.search.RecordData
 
 class BookmarkAdapter(
     private var bookmarkList: List<BookmarkData>,
@@ -46,6 +47,11 @@ class BookmarkAdapter(
     }
 
     override fun getItemCount(): Int = bookmarkList.size
+
+    fun setData(newData: List<BookmarkData>) {
+        bookmarkList = newData
+        notifyDataSetChanged()
+    }
 
     class MyViewHolder(val binding: RecyclerBookmarkItemBinding) :
         RecyclerView.ViewHolder(binding.root)
