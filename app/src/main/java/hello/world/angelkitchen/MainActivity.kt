@@ -31,11 +31,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback{
+    public var usercurrentlat:Double = 0.0
+    public var usercurrentlong:Double=0.0
     private val LOCATION_PERMISSION_REQUEST_CODE = 1000
-    private val locationSource: FusedLocationSource? = null
+    private var locationSource: FusedLocationSource? = null
+    private lateinit var naverMap: NaverMap
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        locationSource =
+            FusedLocationSource(this, LocationTrackingActivity.LOCATION_PERMISSION_REQUEST_CODE)
         val options = NaverMapOptions()
             .camera(CameraPosition(LatLng(37.5666102, 126.9783881), 16.0))
             .mapType(NaverMap.MapType.Basic)
@@ -45,6 +50,19 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                 fm.beginTransaction().add(R.id.map, it).commit()
             }
         mapFragment.getMapAsync(this)
+    }
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>,
+                                            grantResults: IntArray) {
+        if (locationSource?.onRequestPermissionsResult(requestCode, permissions,
+                grantResults) == true
+        ) {
+            if (!locationSource?.isActivated!!) { // 권한 거부됨
+                naverMap.locationTrackingMode = LocationTrackingMode.None
+            }
+            return
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun onMapReady(naverMap: NaverMap) {
@@ -105,7 +123,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                     call: Call<FoodData>,
                     response: Response<FoodData>
                 ) {
-                    Toast.makeText(this@MainActivity, "error", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this@MainActivity, "error", Toast.LENGTH_SHORT).show()
                     var foodposition: List<items> = mutableListOf()
                     var theDataList: List<items> = ArrayList<items>()
                     foodposition = response.body()?.response?.body?.items!!
@@ -122,13 +140,9 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                         }
                         markers.add(marker)
                     }
-                    Toast.makeText(this@MainActivity, response.body().toString(), Toast.LENGTH_LONG)
-                        .show()
+                    //Toast.makeText(this@MainActivity, response.body().toString(), Toast.LENGTH_LONG).show()
                 }
                 override fun onFailure(call: Call<FoodData>, t: Throwable) {
-                    t.message?.let {
-                        Toast.makeText(this@MainActivity, "Error", Toast.LENGTH_SHORT).show()
-                    } ?: Toast.makeText(this@MainActivity, "error", Toast.LENGTH_SHORT).show()
                 }
 
             })
@@ -187,20 +201,20 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                 path.map = naverMap
 
                 //경로 시작점으로 화면 이동
-                if(path.coords != null) {
-                    val cameraUpdate = CameraUpdate.scrollTo(path.coords[0]!!)
-                        .animate(CameraAnimation.Fly, 3000)
-                    naverMap.moveCamera(cameraUpdate)
-
-                    Toast.makeText(this@MainActivity, "경로 안내가 시작됩니다.", Toast.LENGTH_SHORT).show()
-                }
             }
 
             override fun onFailure(call: Call<ResultPath>, t: Throwable) {
-                TODO("Not yet implemented")
+                //TODO("Not yet implemented")
             }
 
         })
+        this.naverMap = naverMap
+        naverMap.locationSource = locationSource
+        naverMap.locationTrackingMode = LocationTrackingMode.Follow
+        naverMap.addOnLocationChangeListener { location ->
+            Toast.makeText(this, "${location.latitude}, ${location.longitude}",
+                Toast.LENGTH_SHORT).show()
+        }
     }
     private var markersPosition: Vector<LatLng>? = null
     private var activeMarkers: Vector<Marker>? = null
@@ -220,5 +234,8 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
         val withinSightMarkerLng =
             Math.abs(currentPosition.longitude - markerPosition.longitude) <= REFERANCE_LNG_X3
         return withinSightMarkerLat && withinSightMarkerLng
+    }
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
     }
 }
