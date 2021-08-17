@@ -18,36 +18,10 @@ class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragm
     private lateinit var bookmarkAdapter: BookmarkAdapter
 
     override fun initView() {
-        initRecyclerView()
 
         viewModel.bookmarkDataList.observe(this, {
             bookmarkAdapter.setData(it)
         })
-    }
-
-    private fun initRecyclerView() {
-        linearLayoutManager.apply {
-            reverseLayout = true
-            stackFromEnd = true
-        }
-        val decoration = DividerItemDecoration(activity, linearLayoutManager.orientation)
-
-        bookmarkAdapter = BookmarkAdapter(
-            emptyList(),
-            onClickItem = {
-                val position = viewModel.showToastBookmark(it)
-                Toast.makeText(activity, "$position List Clicked", Toast.LENGTH_SHORT).show()
-            },
-            onClickButton = {
-                Toast.makeText(activity, "Button Clicked", Toast.LENGTH_SHORT).show()
-            }
-        )
-
-        binding.rvBookmark.apply {
-            layoutManager = linearLayoutManager
-            adapter = bookmarkAdapter
-            addItemDecoration(decoration)
-        }
 
         viewModel.addBookmark(
             BookmarkData(
@@ -73,7 +47,33 @@ class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragm
                 "02-1234-5678"
             )
         )
-            bookmarkAdapter.notifyDataSetChanged()
+
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView() {
+        linearLayoutManager.apply {
+            reverseLayout = true
+            stackFromEnd = true
+        }
+        val decoration = DividerItemDecoration(activity, linearLayoutManager.orientation)
+
+        bookmarkAdapter = BookmarkAdapter(
+            emptyList(),
+            onClickItem = {
+                val position = viewModel.showToastBookmark(it)
+                Toast.makeText(activity, "$position List Clicked", Toast.LENGTH_SHORT).show()
+            },
+            onClickButton = {
+                Toast.makeText(activity, "Button Clicked", Toast.LENGTH_SHORT).show()
+            }
+        )
+
+        binding.rvBookmark.apply {
+            layoutManager = linearLayoutManager
+            adapter = bookmarkAdapter
+            addItemDecoration(decoration)
+        }
     }
 
     override fun onDestroyView() {

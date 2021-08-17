@@ -11,22 +11,24 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
 ) : ViewModel() {
 
-    val recordDataList = MutableLiveData<List<RecordData>>()
     private val data = arrayListOf<RecordData>()
+
+    private val _recordDataList = MutableLiveData<List<RecordData>>()
+    val recordDataList: LiveData<List<RecordData>> = _recordDataList
 
 
     fun toggleRecord(recordData: RecordData) {
         recordData.isClicked = !recordData.isClicked
-        recordDataList.value = data
+        _recordDataList.value = data
     }
 
     fun addRecord(recordData: RecordData) {
         data.add(recordData)
-        recordDataList.value = data
+        _recordDataList.value = data
     }
 
     fun deleteRecord(recordData: RecordData) {
         data.remove(recordData)
-        recordDataList.value = data
+        _recordDataList.value = data
     }
 }

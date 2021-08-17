@@ -1,5 +1,6 @@
 package hello.world.angelkitchen.view.bottom_menu.bookmark
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,19 +12,21 @@ import javax.inject.Inject
 class BookmarkViewModel @Inject constructor(
 ) : ViewModel() {
 
-    val bookmarkDataList = MutableLiveData<List<BookmarkData>>()
     private val data = arrayListOf<BookmarkData>()
+
+    private val _bookmarkDataList = MutableLiveData<List<BookmarkData>>()
+    val bookmarkDataList: LiveData<List<BookmarkData>> = _bookmarkDataList
 
     fun showToastBookmark(bookmarkData: BookmarkData): Int =
         data.indexOf(bookmarkData)
 
     fun addBookmark(bookmarkData: BookmarkData) {
         data.add(bookmarkData)
-        bookmarkDataList.value = data
+        _bookmarkDataList.value = data
     }
 
     fun removeAllBookmark() {
         data.clear()
-        bookmarkDataList.value = data
+        _bookmarkDataList.value = data
     }
 }

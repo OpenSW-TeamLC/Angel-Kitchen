@@ -24,26 +24,7 @@ class RecordAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val selectItem = recordList[position]
-        holder.binding.tvRecord.text = selectItem.recordText
-        if(selectItem.isClicked) {
-            holder.binding.tvRecord.apply {
-                paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                setTypeface(null, Typeface.ITALIC)
-            }
-        } else {
-            holder.binding.tvRecord.apply {
-                paintFlags = 0
-                setTypeface(null, Typeface.NORMAL)
-            }
-        }
-
-        holder.binding.ivRemove.setOnClickListener {
-            onClickDelete.invoke(selectItem)
-        }
-        holder.binding.root.setOnClickListener {
-            onClickItem.invoke(selectItem)
-        }
+        holder.bind(recordList[position], onClickDelete, onClickItem)
     }
 
     override fun getItemCount(): Int = recordList.size
@@ -54,5 +35,32 @@ class RecordAdapter(
     }
 
     class MyViewHolder(val binding: RecyclerRecordItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root) {
+
+            fun bind(
+                recordData: RecordData,
+                onClickDelete: (recordData: RecordData) -> Unit,
+                onClickItem: (recordData: RecordData) -> Unit
+            ) {
+                binding.tvRecord.text = recordData.recordText
+                if(recordData.isClicked) {
+                    binding.tvRecord.apply {
+                        paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                        setTypeface(null, Typeface.ITALIC)
+                    }
+                } else {
+                    binding.tvRecord.apply {
+                        paintFlags = 0
+                        setTypeface(null, Typeface.NORMAL)
+                    }
+                }
+
+                binding.ivRemove.setOnClickListener {
+                    onClickDelete.invoke(recordData)
+                }
+                binding.root.setOnClickListener {
+                    onClickItem.invoke(recordData)
+                }
+            }
+        }
 }

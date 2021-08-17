@@ -28,22 +28,7 @@ class BookmarkAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val selectItem = bookmarkList[position]
-        holder.binding.tvPlace.text = selectItem.place
-        holder.binding.tvAddress.text = selectItem.address
-        holder.binding.tvPhone.text = selectItem.number
-        holder.binding.ivThumb.load(selectItem.imgPath) {
-            crossfade(true)
-            placeholder(R.drawable.ic_launcher_foreground)
-            transformations(CircleCropTransformation())
-        }
-
-        holder.binding.btnDirection.setOnClickListener {
-            onClickButton.invoke(selectItem)
-        }
-        holder.binding.root.setOnClickListener {
-            onClickItem.invoke(selectItem)
-        }
+        holder.bind(bookmarkList[position], onClickItem, onClickButton)
     }
 
     override fun getItemCount(): Int = bookmarkList.size
@@ -54,5 +39,28 @@ class BookmarkAdapter(
     }
 
     class MyViewHolder(val binding: RecyclerBookmarkItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(
+            bookmarkData: BookmarkData,
+            onClickItem: (bookmarkData: BookmarkData) -> Unit,
+            onClickButton: (bookmarkData: BookmarkData) -> Unit
+        ) {
+            binding.tvPlace.text = bookmarkData.place
+            binding.tvAddress.text = bookmarkData.address
+            binding.tvPhone.text = bookmarkData.number
+            binding.ivThumb.load(bookmarkData.imgPath) {
+                crossfade(true)
+                placeholder(R.drawable.ic_launcher_foreground)
+                transformations(CircleCropTransformation())
+            }
+
+            binding.btnDirection.setOnClickListener {
+                onClickButton.invoke(bookmarkData)
+            }
+            binding.root.setOnClickListener {
+                onClickItem.invoke(bookmarkData)
+            }
+        }
+    }
 }
