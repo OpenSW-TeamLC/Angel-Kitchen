@@ -23,6 +23,7 @@ class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragm
             bookmarkAdapter.setData(it)
         })
 
+        for(i in 1..30000){
         viewModel.addBookmark(
             BookmarkData(
                 "https://picsum.photos/200/300",
@@ -46,7 +47,7 @@ class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragm
                 "서울 강남구 테헤란로 13-1",
                 "02-1234-5678"
             )
-        )
+        )}
 
         initRecyclerView()
     }

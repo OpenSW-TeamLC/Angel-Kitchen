@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
+import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
 import hello.world.angelkitchen.AngelKitchenDevelopApplication
 import hello.world.angelkitchen.R
@@ -53,6 +54,7 @@ class BookmarkAdapter(
                 crossfade(true)
                 placeholder(R.drawable.ic_launcher_foreground)
                 transformations(CircleCropTransformation())
+                memoryCachePolicy(CachePolicy.DISABLED)
             }
 
             binding.btnDirection.setOnClickListener {
