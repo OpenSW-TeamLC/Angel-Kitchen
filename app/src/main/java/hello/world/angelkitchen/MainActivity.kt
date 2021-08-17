@@ -1,6 +1,7 @@
 package hello.world.angelkitchen
 import android.content.ContentValues.TAG
 import android.graphics.Color
+import android.location.Location
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -28,11 +29,14 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ted.gun0912.clustering.naver.TedNaverClustering
 
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback{
     public var usercurrentlat:Double = 0.0
     public var usercurrentlong:Double=0.0
+    public val markers = mutableListOf<Marker>()
+    private var isFirstLocation = true;
     private val LOCATION_PERMISSION_REQUEST_CODE = 1000
     private var locationSource: FusedLocationSource? = null
     private lateinit var naverMap: NaverMap
@@ -64,8 +68,58 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
-
     override fun onMapReady(naverMap: NaverMap) {
+        this.naverMap = naverMap
+        naverMap.locationSource = locationSource
+        naverMap.locationTrackingMode = LocationTrackingMode.Follow
+        naverMap.addOnLocationChangeListener { location ->
+            Toast.makeText(this, "${location.latitude},${location.longitude}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "${isFirstLocation}", Toast.LENGTH_SHORT).show()
+            if (isFirstLocation) { // 현재 위치로 초기 화면 이동
+                //레트로핏 객체 생성
+                val APIKEY_ID = "uzlzuhd2pa"
+                val APIKEY = "INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc"
+                val retrofit = Retrofit.Builder().
+                baseUrl("https://naveropenapi.apigw.ntruss.com/map-direction/").
+                addConverterFactory(GsonConverterFactory.create()).
+                build()
+                val api = retrofit.create(NaverAPI::class.java)
+                //근처에서 길찾기
+                val callgetPath = api.getPath(APIKEY_ID, APIKEY,"${location.longitude},${location.latitude}", "126.97822,37.55855")
+                callgetPath.enqueue(object : Callback<ResultPath> {
+                    override fun onResponse(
+                        call: Call<ResultPath>,
+                        response: Response<ResultPath>
+                    ) {
+                        var path_cords_list = response.body()?.route?.traoptimal
+                        //경로 그리기 응답바디가 List<List<Double>> 이라서 2중 for문 썼음
+                        val path = PathOverlay()
+                        //MutableList에 add 기능 쓰기 위해 더미 원소 하나 넣어둠
+                        val path_container : MutableList<LatLng>? = mutableListOf(LatLng(0.1,0.1))
+                        for(path_cords in path_cords_list!!){
+                            for(path_cords_xy in path_cords?.path){
+                                //구한 경로를 하나씩 path_container에 추가해줌
+                                path_container?.add(LatLng(path_cords_xy[1], path_cords_xy[0]))
+                            }
+                        }
+                        //더미원소 드랍후 path.coords에 path들을 넣어줌.
+                        path.coords = path_container?.drop(1)!!
+                        path.color = Color.RED
+                        path.map = naverMap
+
+                        //경로 시작점으로 화면 이동
+                    }
+
+                    override fun onFailure(call: Call<ResultPath>, t: Throwable) {
+                        //TODO("Not yet implemented")
+                    }
+
+                })
+            }
+            isFirstLocation = false;
+        }
+        Toast.makeText(this, "${isFirstLocation}", Toast.LENGTH_SHORT).show()
+        var po4=naverMap.cameraPosition
         val uiSettings = naverMap.uiSettings
         uiSettings.isCompassEnabled = true
         val infoWindow = InfoWindow()
@@ -101,7 +155,6 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
         markere.add(marker1)
         markere.add(marker2)
         markere.add(marker3)
-        val markers = mutableListOf<Marker>()
         markers.add(marker1)
         markers.add(marker2)
         val retrofitfood = Retrofit.Builder().
@@ -168,54 +221,20 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                 }
             }
         }
-        //레트로핏 객체 생성
-        val APIKEY_ID = "uzlzuhd2pa"
-        val APIKEY = "INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc"
-        val retrofit = Retrofit.Builder().
-        baseUrl("https://naveropenapi.apigw.ntruss.com/map-direction/").
-        addConverterFactory(GsonConverterFactory.create()).
-        build()
-        val api = retrofit.create(NaverAPI::class.java)
-        //근처에서 길찾기
-        val callgetPath = api.getPath(APIKEY_ID, APIKEY,"126.87714,37.57152", "126.97822,37.55855")
+        TedNaverClustering.with<NaverItem>(this, naverMap)
+            .items(getItems())
+            .make()
+    }
 
-        callgetPath.enqueue(object : Callback<ResultPath> {
-            override fun onResponse(
-                call: Call<ResultPath>,
-                response: Response<ResultPath>
-            ) {
-                var path_cords_list = response.body()?.route?.traoptimal
-                //경로 그리기 응답바디가 List<List<Double>> 이라서 2중 for문 썼음
-                val path = PathOverlay()
-                //MutableList에 add 기능 쓰기 위해 더미 원소 하나 넣어둠
-                val path_container : MutableList<LatLng>? = mutableListOf(LatLng(0.1,0.1))
-                for(path_cords in path_cords_list!!){
-                    for(path_cords_xy in path_cords?.path){
-                        //구한 경로를 하나씩 path_container에 추가해줌
-                        path_container?.add(LatLng(path_cords_xy[1], path_cords_xy[0]))
-                    }
-                }
-                //더미원소 드랍후 path.coords에 path들을 넣어줌.
-                path.coords = path_container?.drop(1)!!
-                path.color = Color.RED
-                path.map = naverMap
-
-                //경로 시작점으로 화면 이동
+    private fun getItems(): Collection<NaverItem> {
+        return ArrayList<NaverItem>().apply {
+            for(ma in markers){
+                val temp = NaverItem(ma.position)
+                add(temp)
             }
-
-            override fun onFailure(call: Call<ResultPath>, t: Throwable) {
-                //TODO("Not yet implemented")
-            }
-
-        })
-        this.naverMap = naverMap
-        naverMap.locationSource = locationSource
-        naverMap.locationTrackingMode = LocationTrackingMode.Follow
-        naverMap.addOnLocationChangeListener { location ->
-            Toast.makeText(this, "${location.latitude}, ${location.longitude}",
-                Toast.LENGTH_SHORT).show()
         }
     }
+
     private var markersPosition: Vector<LatLng>? = null
     private var activeMarkers: Vector<Marker>? = null
     fun getCurrentPosition(naverMap: NaverMap): LatLng? {
