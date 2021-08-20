@@ -30,7 +30,12 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ted.gun0912.clustering.naver.TedNaverClustering
-
+import com.odsay.odsayandroidsdk.API;
+import com.odsay.odsayandroidsdk.ODsayData;
+import com.odsay.odsayandroidsdk.ODsayService;
+import com.odsay.odsayandroidsdk.OnResultCallbackListener;
+import org.json.JSONArray
+import org.json.JSONObject
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback{
     public var usercurrentlat:Double = 0.0
@@ -40,6 +45,9 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
     private val LOCATION_PERMISSION_REQUEST_CODE = 1000
     private var locationSource: FusedLocationSource? = null
     private lateinit var naverMap: NaverMap
+    private var odsayService: ODsayService? = null
+    private var jsonObject: JSONObject? = null
+    private var mapObject: Map<*, *>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -50,7 +58,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
             .mapType(NaverMap.MapType.Basic)
         val fm = supportFragmentManager
         val mapFragment = fm.findFragmentById(R.id.map) as MapFragment?
-            ?: MapFragment.newInstance(options).also {
+            ?: MapFragment.newInstance().also {
                 fm.beginTransaction().add(R.id.map, it).commit()
             }
         mapFragment.getMapAsync(this)
@@ -73,9 +81,40 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
         naverMap.locationSource = locationSource
         naverMap.locationTrackingMode = LocationTrackingMode.Follow
         naverMap.addOnLocationChangeListener { location ->
-            Toast.makeText(this, "${location.latitude},${location.longitude}", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "${location.latitude},${location.longitude}", Toast.LENGTH_SHORT).show()
             Toast.makeText(this, "${isFirstLocation}", Toast.LENGTH_SHORT).show()
             if (isFirstLocation) { // 현재 위치로 초기 화면 이동
+                odsayService = ODsayService.init(this, "hP2EaYjPlmGiruLHA/z7j0zBbnD5prF5PBfU2R9xqNg")
+                odsayService?.setReadTimeout(3000)
+                odsayService?.setConnectionTimeout(3000)
+                odsayService?.requestSearchPubTransPath("${location.longitude}","${location.latitude}","127.126936754911","37.5004198786564","0","0","0",object : OnResultCallbackListener {
+                    override fun onSuccess(oDsayData: ODsayData, api: API) {
+                        jsonObject = oDsayData.json.getJSONObject("result")
+                        val odsay_path = PathOverlay()
+                        val odsay_container : MutableList<LatLng>? = mutableListOf(LatLng(0.1,0.1))
+                        var pathobject: JSONArray? =jsonObject?.getJSONArray("path")
+                        var i=0
+                        var pathsub:JSONObject?=pathobject?.getJSONObject(0)
+                        var pathobject1: JSONArray?=pathsub?.getJSONArray("subPath")
+                        var pathsub1:JSONObject?=pathobject1?.getJSONObject(1)
+                        var pathobject2:JSONObject?=pathsub1?.getJSONObject("passStopList")
+                        var pathsub2: JSONArray?=pathobject2?.getJSONArray("stations")
+                        while(i < pathsub2?.length()!!) {
+                            var pathobject3:JSONObject?=pathsub2?.getJSONObject(i)
+                            var odsay_lat= (pathobject3?.getString("x"))?.toDouble()!!
+                            var odsay_long= (pathobject3?.getString("y"))?.toDouble()!!
+                            odsay_container?.add(LatLng(odsay_long,odsay_lat))
+                            i++
+                        }
+                        odsay_path.coords = odsay_container?.drop(1)!!
+                        odsay_path.color = Color.RED
+                        odsay_path.map = naverMap
+                    }
+
+                    override fun onError(p0: Int, p1: String?, p2: API?) {
+                        TODO("Not yet implemented")
+                    }
+                })
                 //레트로핏 객체 생성
                 val APIKEY_ID = "uzlzuhd2pa"
                 val APIKEY = "INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc"
@@ -96,16 +135,18 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                         val path = PathOverlay()
                         //MutableList에 add 기능 쓰기 위해 더미 원소 하나 넣어둠
                         val path_container : MutableList<LatLng>? = mutableListOf(LatLng(0.1,0.1))
-                        for(path_cords in path_cords_list!!){
-                            for(path_cords_xy in path_cords?.path){
-                                //구한 경로를 하나씩 path_container에 추가해줌
-                                path_container?.add(LatLng(path_cords_xy[1], path_cords_xy[0]))
+                        if (path_cords_list != null) {
+                            for(path_cords in path_cords_list){
+                                for(path_cords_xy in path_cords?.path){
+                                    //구한 경로를 하나씩 path_container에 추가해줌
+                                    path_container?.add(LatLng(path_cords_xy[1], path_cords_xy[0]))
+                                }
                             }
+                            //더미원소 드랍후 path.coords에 path들을 넣어줌.
+                            path.coords = path_container?.drop(1)!!
+                            path.color = Color.RED
+                            path.map = naverMap
                         }
-                        //더미원소 드랍후 path.coords에 path들을 넣어줌.
-                        path.coords = path_container?.drop(1)!!
-                        path.color = Color.RED
-                        path.map = naverMap
 
                         //경로 시작점으로 화면 이동
                     }
@@ -115,48 +156,14 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                     }
 
                 })
+                Toast.makeText(this, "${isFirstLocation}", Toast.LENGTH_SHORT).show()
             }
             isFirstLocation = false;
         }
-        Toast.makeText(this, "${isFirstLocation}", Toast.LENGTH_SHORT).show()
-        var po4=naverMap.cameraPosition
         val uiSettings = naverMap.uiSettings
         uiSettings.isCompassEnabled = true
         val infoWindow = InfoWindow()
-        val marker1 = Marker()
-        val marker2 = Marker()
-        val marker3 = Marker()
-        var i=0;
-        var sum=0;
-        for(i in 1..3){
-            sum+=i
-        }
-        marker1.position = LatLng(37.5770135, 126.9783740)
-        //marker1.map = naverMap
-        marker2.position = LatLng(37.5670135, 126.9783740)
-        //marker2.map = naverMap
-        marker3.position = LatLng(37.5680135, 126.9783740)
-        //marker3.map = naverMap
-        naverMap.setOnMapClickListener { coord, point -> infoWindow.close() }
-        marker1.tag = "마커 1"
-        marker1.setOnClickListener {
-            // 마커를 클릭할 때 정보창을 엶
-            infoWindow.open(marker1)
-            true
-        }
 
-        marker2.tag = "마커 2"
-        marker2.setOnClickListener {
-            // 마커를 클릭할 때 정보창을 엶
-            infoWindow.open(marker2)
-            true
-        }
-        val markere = mutableListOf<Marker>()
-        markere.add(marker1)
-        markere.add(marker2)
-        markere.add(marker3)
-        markers.add(marker1)
-        markers.add(marker2)
         val retrofitfood = Retrofit.Builder().
         baseUrl("http://api.data.go.kr/openapi/").
         addConverterFactory(GsonConverterFactory.create()).
@@ -177,21 +184,25 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                     response: Response<FoodData>
                 ) {
                     //Toast.makeText(this@MainActivity, "error", Toast.LENGTH_SHORT).show()
-                    var foodposition: List<items> = mutableListOf()
+                    var foodposition: List<items>? = mutableListOf()
                     var theDataList: List<items> = ArrayList<items>()
-                    foodposition = response.body()?.response?.body?.items!!
-                    for(j in 0..(foodposition.size-1)){
-                        val marker = Marker()
-                        path_lat.add(foodposition[j].latitude)
-                        path_long.add(foodposition[j].longitude)
-                        marker.position=LatLng(path_lat[j].toDouble(),path_long[j].toDouble())
-                        marker.tag = foodposition[j].fcltyNm
-                        marker.setOnClickListener {
-                            // 마커를 클릭할 때 정보창을 엶
-                            infoWindow.open(marker)
-                            true
+                    if(response.body()?.response?.body?.items!=null) {
+                        foodposition = response.body()?.response?.body?.items
+                    }
+                    if (foodposition != null) {
+                        for(j in 0..(foodposition.size-1)){
+                            val marker = Marker()
+                            path_lat.add(foodposition[j].latitude)
+                            path_long.add(foodposition[j].longitude)
+                            marker.position=LatLng(path_lat[j].toDouble(),path_long[j].toDouble())
+                            marker.tag = foodposition[j].fcltyNm
+                            marker.setOnClickListener {
+                                // 마커를 클릭할 때 정보창을 엶
+                                infoWindow.open(marker)
+                                true
+                            }
+                            markers.add(marker)
                         }
-                        markers.add(marker)
                     }
                     //Toast.makeText(this@MainActivity, response.body().toString(), Toast.LENGTH_LONG).show()
                 }
@@ -200,7 +211,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
 
             })
         }
-        val markers1=listOf(marker1,marker2,marker3)
+
         infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(this) {
             override fun getText(infoWindow: InfoWindow): CharSequence {
                 // 정보 창이 열린 마커의 tag를 텍스트로 노출하도록 반환
