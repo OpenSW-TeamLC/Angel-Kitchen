@@ -83,38 +83,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
         naverMap.addOnLocationChangeListener { location ->
             //Toast.makeText(this, "${location.latitude},${location.longitude}", Toast.LENGTH_SHORT).show()
             Toast.makeText(this, "${isFirstLocation}", Toast.LENGTH_SHORT).show()
-            if (isFirstLocation) { // 현재 위치로 초기 화면 이동
-                odsayService = ODsayService.init(this, "hP2EaYjPlmGiruLHA/z7j0zBbnD5prF5PBfU2R9xqNg")
-                odsayService?.setReadTimeout(3000)
-                odsayService?.setConnectionTimeout(3000)
-                odsayService?.requestSearchPubTransPath("${location.longitude}","${location.latitude}","127.126936754911","37.5004198786564","0","0","0",object : OnResultCallbackListener {
-                    override fun onSuccess(oDsayData: ODsayData, api: API) {
-                        jsonObject = oDsayData.json.getJSONObject("result")
-                        val odsay_path = PathOverlay()
-                        val odsay_container : MutableList<LatLng>? = mutableListOf(LatLng(0.1,0.1))
-                        var pathobject: JSONArray? =jsonObject?.getJSONArray("path")
-                        var i=0
-                        var pathsub:JSONObject?=pathobject?.getJSONObject(0)
-                        var pathobject1: JSONArray?=pathsub?.getJSONArray("subPath")
-                        var pathsub1:JSONObject?=pathobject1?.getJSONObject(1)
-                        var pathobject2:JSONObject?=pathsub1?.getJSONObject("passStopList")
-                        var pathsub2: JSONArray?=pathobject2?.getJSONArray("stations")
-                        while(i < pathsub2?.length()!!) {
-                            var pathobject3:JSONObject?=pathsub2?.getJSONObject(i)
-                            var odsay_lat= (pathobject3?.getString("x"))?.toDouble()!!
-                            var odsay_long= (pathobject3?.getString("y"))?.toDouble()!!
-                            odsay_container?.add(LatLng(odsay_long,odsay_lat))
-                            i++
-                        }
-                        odsay_path.coords = odsay_container?.drop(1)!!
-                        odsay_path.color = Color.RED
-                        odsay_path.map = naverMap
-                    }
-
-                    override fun onError(p0: Int, p1: String?, p2: API?) {
-                        TODO("Not yet implemented")
-                    }
-                })
+            if (isFirstLocation) {
                 //레트로핏 객체 생성
                 val APIKEY_ID = "uzlzuhd2pa"
                 val APIKEY = "INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc"
@@ -123,7 +92,6 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                 addConverterFactory(GsonConverterFactory.create()).
                 build()
                 val api = retrofit.create(NaverAPI::class.java)
-                //근처에서 길찾기
                 val callgetPath = api.getPath(APIKEY_ID, APIKEY,"${location.longitude},${location.latitude}", "126.97822,37.55855")
                 callgetPath.enqueue(object : Callback<ResultPath> {
                     override fun onResponse(
@@ -131,9 +99,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                         response: Response<ResultPath>
                     ) {
                         var path_cords_list = response.body()?.route?.traoptimal
-                        //경로 그리기 응답바디가 List<List<Double>> 이라서 2중 for문 썼음
                         val path = PathOverlay()
-                        //MutableList에 add 기능 쓰기 위해 더미 원소 하나 넣어둠
                         val path_container : MutableList<LatLng>? = mutableListOf(LatLng(0.1,0.1))
                         if (path_cords_list != null) {
                             for(path_cords in path_cords_list){
@@ -147,10 +113,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                             path.color = Color.RED
                             path.map = naverMap
                         }
-
-                        //경로 시작점으로 화면 이동
                     }
-
                     override fun onFailure(call: Call<ResultPath>, t: Throwable) {
                         //TODO("Not yet implemented")
                     }
