@@ -5,18 +5,19 @@ import android.graphics.drawable.ColorDrawable
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSnapHelper
 import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.base.BindingFragment
 import hello.world.angelkitchen.databinding.FragmentSearchResultBinding
 import hello.world.angelkitchen.view.bottom_menu.search.SearchViewModel
+import hello.world.angelkitchen.view.bottom_menu.search.search_result.bottom_sheet.BottomSheetFragment
 
 @AndroidEntryPoint
-class SearchResultFragment : BindingFragment<FragmentSearchResultBinding>(R.layout.fragment_search_result) {
+class SearchResultFragment :
+    BindingFragment<FragmentSearchResultBinding>(R.layout.fragment_search_result) {
     private val searchViewModel: SearchViewModel by activityViewModels()
-    private val searchResultViewModel :SearchResultViewModel by activityViewModels()
+    private val searchResultViewModel: SearchResultViewModel by activityViewModels()
     private lateinit var searchResultAdapter: SearchResultAdapter
     private val linearLayoutManager: LinearLayoutManager by lazy { LinearLayoutManager(activity) }
 
@@ -27,18 +28,25 @@ class SearchResultFragment : BindingFragment<FragmentSearchResultBinding>(R.layo
             searchResultAdapter.setData(it)
         })
 
-        for(i in 1..3)
-        searchResultViewModel.addPlace(
-            SearchResultData(
-                "https://picsum.photos/200/300",
-                "${i}강남 급식소",
-                "서울 강남구 테헤란로 13-1",
-                "02-1234-5678"
+        searchResultViewModel.searchResultPlace.observe(this, {
+            val sheet = BottomSheetFragment()
+
+            sheet.show(activity?.supportFragmentManager!!, "DemoBottomSheetFragment")
+        })
+
+        for (i in 1..3)
+            searchResultViewModel.addPlace(
+                SearchResultData(
+                    "https://picsum.photos/200/300",
+                    "${i}강남 급식소",
+                    "서울 강남구 테헤란로 13-1",
+                    "02-1234-5678"
+                )
             )
-        )
         initRecyclerView()
 
-        Toast.makeText(activity, "${binding.recycler.getSelectedPosition()}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, "${binding.recycler.getSelectedPosition()}", Toast.LENGTH_SHORT)
+            .show()
 
         // 추후 BindingAdapter로 변경
         binding.ivPre.setBackgroundDrawable(ColorDrawable(Color.RED))
@@ -76,7 +84,11 @@ class SearchResultFragment : BindingFragment<FragmentSearchResultBinding>(R.layo
             stackFromEnd = true
         }
 
-        searchResultAdapter = SearchResultAdapter(emptyList())
+        searchResultAdapter = SearchResultAdapter(
+            emptyList(),
+            onClickItem = {
+                searchResultViewModel.touchItem(it)
+            })
 
         binding.recycler.adapter = searchResultAdapter
         binding.recycler.setFlat(true)

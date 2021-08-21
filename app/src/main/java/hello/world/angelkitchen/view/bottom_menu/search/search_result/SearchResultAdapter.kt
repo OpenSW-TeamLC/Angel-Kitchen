@@ -9,9 +9,11 @@ import coil.transform.CircleCropTransformation
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.databinding.RecyclerSearchResultItemBinding
 import hello.world.angelkitchen.view.bottom_menu.bookmark.BookmarkData
+import hello.world.angelkitchen.view.bottom_menu.search.RecordData
 
 class SearchResultAdapter(
-    private var resultList: List<SearchResultData>
+    private var resultList: List<SearchResultData>,
+    val onClickItem: (searchResultData: SearchResultData) -> Unit
 ) : RecyclerView.Adapter<SearchResultAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -22,7 +24,7 @@ class SearchResultAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(resultList[position])
+        holder.bind(resultList[position], onClickItem)
     }
 
     override fun getItemCount(): Int = resultList.size
@@ -32,19 +34,12 @@ class SearchResultAdapter(
         notifyDataSetChanged()
     }
 
-    fun swapItems(curIndex: Int, chIndex: Int) {
-        val temp = resultList.toMutableList()
-        val curItem = resultList[curIndex]
-        val chItem = resultList[chIndex]
-        temp[chIndex] = curItem
-        temp[curIndex] = chItem
-        resultList = temp
-        notifyDataSetChanged()
-    }
-
     class MyViewHolder(val binding: RecyclerSearchResultItemBinding) :
-    RecyclerView.ViewHolder(binding.root) {
-        fun bind(searchResultData: SearchResultData) {
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(
+            searchResultData: SearchResultData,
+            onClickItem: (searchResultData: SearchResultData) -> Unit
+        ) {
             binding.tvPlace.text = searchResultData.place
             binding.tvAddress.text = searchResultData.address
             binding.tvPhone.text = searchResultData.number
@@ -53,6 +48,9 @@ class SearchResultAdapter(
                 placeholder(R.drawable.ic_launcher_foreground)
                 transformations(CircleCropTransformation())
                 memoryCachePolicy(CachePolicy.DISABLED)
+            }
+            binding.root.setOnClickListener {
+                onClickItem.invoke(searchResultData)
             }
         }
     }

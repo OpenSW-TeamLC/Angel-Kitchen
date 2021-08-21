@@ -13,4 +13,9 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="Plain" parent="BottomDialogTheme">
+        <item name="bottom_sheet_extra_padding">0dp</item>
+        <item name="should_draw_under_status_bar">false</item>
+    </style>
 </resources>

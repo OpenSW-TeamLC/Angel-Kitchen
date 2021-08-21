@@ -17,6 +17,15 @@ class SearchResultViewModel @Inject constructor(
     val resultList: LiveData<List<SearchResultData>>
         get() = _resultList
 
+    private val _searchResultPlace = MutableLiveData<SearchResultData>()
+    val searchResultPlace: LiveData<SearchResultData>
+        get() = _searchResultPlace
+
+    fun touchItem(resultData: SearchResultData) {
+        _resultList.value = data
+        _searchResultPlace.value = resultData
+    }
+
     fun addPlace(resultData: SearchResultData) {
         data.add(resultData)
         _resultList.value = data

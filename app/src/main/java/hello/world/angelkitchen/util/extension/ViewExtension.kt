@@ -23,3 +23,12 @@ fun AppCompatActivity.replaceToBackStack(
         .addToBackStack(null)
         .commit()
 }
+
+fun AppCompatActivity.replaceAdd(
+    fragment: androidx.fragment.app.Fragment
+) {
+    supportFragmentManager
+        .beginTransaction()
+        .add(fragment, null)
+        .commit()
+}

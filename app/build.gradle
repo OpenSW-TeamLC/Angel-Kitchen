@@ -99,5 +99,9 @@ dependencies {
     // Coil
     implementation "io.coil-kt:coil:0.10.0"
 
+    // Carousel
     implementation 'com.github.sparrow007:carouselrecyclerview:1.2.1'
+
+    // Bottom Sheet
+    implementation 'com.github.HeyAlex:BottomDrawer:v1.0.0'
 }
