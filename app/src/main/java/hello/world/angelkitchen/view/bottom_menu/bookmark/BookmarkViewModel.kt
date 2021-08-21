@@ -15,7 +15,8 @@ class BookmarkViewModel @Inject constructor(
     private val data = arrayListOf<BookmarkData>()
 
     private val _bookmarkDataList = MutableLiveData<List<BookmarkData>>()
-    val bookmarkDataList: LiveData<List<BookmarkData>> = _bookmarkDataList
+    val bookmarkDataList: LiveData<List<BookmarkData>>
+        get() = _bookmarkDataList
 
     fun showToastBookmark(bookmarkData: BookmarkData): Int =
         data.indexOf(bookmarkData)

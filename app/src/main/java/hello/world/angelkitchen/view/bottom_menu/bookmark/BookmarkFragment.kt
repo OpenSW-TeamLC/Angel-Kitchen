@@ -80,6 +80,5 @@ class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragm
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.removeAllBookmark()
-        initView()
     }
 }

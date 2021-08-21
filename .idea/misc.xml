@@ -7,6 +7,7 @@
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/drawable/ic_arrow.xml" value="0.25677083333333334" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/drawable/ic_bookmark.xml" value="0.34814814814814815" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/drawable/ic_phone.xml" value="0.35833333333333334" />
+        <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/drawable/search_result_bd.xml" value="0.3435185185185185" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/activity_bottom_menu.xml" value="0.15949367088607594" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/activity_onboard.xml" value="0.18" />
@@ -14,11 +15,13 @@
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/fragment_find_direction.xml" value="0.23125" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/fragment_first.xml" value="0.22" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/fragment_search.xml" value="0.1" />
+        <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/fragment_search_result.xml" value="0.22040816326530613" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/fragment_second.xml" value="0.14" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/fragment_setting.xml" value="0.23125" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/fragment_third.xml" value="0.10106382978723404" />
-        <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/recycler_bookmark_item.xml" value="0.1" />
+        <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/recycler_bookmark_item.xml" value="0.22" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/recycler_record_item.xml" value="0.25" />
+        <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/recycler_search_result_item.xml" value="0.22" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/layout/test_on_dialog.xml" value="0.2296875" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/menu/bottom_menu.xml" value="0.240625" />
         <entry key="..\:/Gong2021/AngelKitchen_develop/app/src/main/res/menu/step_menu.xml" value="0.12037037037037036" />

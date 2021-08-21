@@ -1,33 +1,20 @@
 package hello.world.angelkitchen.view.bottom_menu.search
 
 import android.content.Context
-import android.util.Log
 import android.view.KeyEvent
-import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethod
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.base.BindingFragment
-import hello.world.angelkitchen.databinding.ActivityMainBinding
 import hello.world.angelkitchen.databinding.FragmentSearchBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_search) {
     private val viewModel: SearchViewModel by activityViewModels()
-    private val linearLayoutManager: LinearLayoutManager by lazy{ LinearLayoutManager(activity) }
+    private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var recordAdapter: RecordAdapter
 
     override fun initView() {
@@ -75,7 +62,13 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         imm.showSoftInput(binding.tfEt, InputMethodManager.HIDE_IMPLICIT_ONLY)
     }
 
+    override fun onPause() {
+        super.onPause()
+        linearLayoutManager = LinearLayoutManager(activity)
+    }
+
     private fun initRecyclerView() {
+        linearLayoutManager = LinearLayoutManager(activity)
         linearLayoutManager.apply {
             reverseLayout = true
             stackFromEnd = true
@@ -86,7 +79,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         recordAdapter = RecordAdapter(
             emptyList(),
             onClickItem = {
-                viewModel.toggleRecord(it)
+                viewModel.touchItem(it)
                 recordAdapter.notifyDataSetChanged()
             },
             onClickDelete = {

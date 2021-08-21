@@ -12,3 +12,14 @@ fun AppCompatActivity.replace(
         .replace(frameId, fragment, null)
         .commit()
 }
+
+fun AppCompatActivity.replaceToBackStack(
+    @IdRes frameId: Int,
+    fragment: androidx.fragment.app.Fragment
+) {
+    supportFragmentManager
+        .beginTransaction()
+        .replace(frameId, fragment, null)
+        .addToBackStack(null)
+        .commit()
+}

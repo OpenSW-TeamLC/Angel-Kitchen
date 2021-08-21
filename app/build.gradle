@@ -98,4 +98,6 @@ dependencies {
 
     // Coil
     implementation "io.coil-kt:coil:0.10.0"
+
+    implementation 'com.github.sparrow007:carouselrecyclerview:1.2.1'
 }
