@@ -55,6 +55,8 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
             }
         mapFragment.getMapAsync(this)
     }
+
+    //사용자 위치 추척 함수
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>,
                                             grantResults: IntArray) {
@@ -68,6 +70,8 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
+
+    //naver Map이 렌더링 완료되면 실행 되는 함수
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
         //naver Map 사용자 위치 추적
