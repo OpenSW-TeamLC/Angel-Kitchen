@@ -12,7 +12,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:nestedScrollingEnabled="false">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -248,10 +249,10 @@
                         android:textSize="16dp" />
                 </LinearLayout>
 
-                <ImageView
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/container_map_temp"
                     android:layout_width="match_parent"
-                    android:layout_height="500dp"
-                    android:src="@drawable/ic_launcher_foreground" />
+                    android:layout_height="500dp"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>

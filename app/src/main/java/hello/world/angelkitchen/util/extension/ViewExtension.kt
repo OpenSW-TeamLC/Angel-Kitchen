@@ -2,6 +2,11 @@ package hello.world.angelkitchen.util.extension
 
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import com.naver.maps.map.MapFragment
+import com.naver.maps.map.NaverMap
+import com.naver.maps.map.OnMapReadyCallback
 
 fun AppCompatActivity.replace(
     @IdRes frameId: Int,

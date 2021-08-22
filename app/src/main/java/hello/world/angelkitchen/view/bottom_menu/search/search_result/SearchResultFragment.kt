@@ -6,23 +6,30 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
+import com.naver.maps.map.NaverMap
+import com.naver.maps.map.OnMapReadyCallback
 import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.base.BindingFragment
 import hello.world.angelkitchen.databinding.FragmentSearchResultBinding
+import hello.world.angelkitchen.util.extension.setNaverMapRender
 import hello.world.angelkitchen.view.bottom_menu.search.SearchViewModel
 import hello.world.angelkitchen.view.bottom_menu.search.search_result.bottom_sheet.BottomSheetFragment
 
 @AndroidEntryPoint
 class SearchResultFragment :
-    BindingFragment<FragmentSearchResultBinding>(R.layout.fragment_search_result) {
+    BindingFragment<FragmentSearchResultBinding>(R.layout.fragment_search_result), OnMapReadyCallback {
+
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val searchResultViewModel: SearchResultViewModel by activityViewModels()
     private lateinit var searchResultAdapter: SearchResultAdapter
     private val linearLayoutManager: LinearLayoutManager by lazy { LinearLayoutManager(activity) }
+    private lateinit var naverMap: NaverMap
 
     override fun initView() {
         Toast.makeText(activity, searchViewModel.sharePlace.value, Toast.LENGTH_SHORT).show()
+
+        setNaverMapRender(R.id.container_map, activity?.supportFragmentManager!!, this)
 
         searchResultViewModel.resultList.observe(this, {
             searchResultAdapter.setData(it)
@@ -76,6 +83,10 @@ class SearchResultFragment :
     override fun onDestroyView() {
         super.onDestroyView()
         searchResultViewModel.removeAllSearchResult()
+    }
+
+    override fun onMapReady(naverMap: NaverMap) {
+        this.naverMap = naverMap
     }
 
     private fun initRecyclerView() {

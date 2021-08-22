@@ -1,12 +1,14 @@
 package hello.world.angelkitchen
 
 import android.content.Intent
+import androidx.annotation.UiThread
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.base.BindingActivity
 import hello.world.angelkitchen.databinding.ActivityMainBinding
+import hello.world.angelkitchen.util.extension.setNaverMapRender
 import hello.world.angelkitchen.view.bottom_menu.BottomMenuActivity
 import hello.world.angelkitchen.view.bottom_menu.bookmark.BookmarkFragment
 import hello.world.angelkitchen.view.bottom_menu.direction.DirectionFragment
@@ -25,13 +27,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 //        AddActionExitDialogFragment().show(supportFragmentManager, "Test")
 
         initBottomNavigation()
-
-        val fm = supportFragmentManager
-        val mapFragment = fm.findFragmentById(R.id.container_map) as MapFragment?
-            ?: MapFragment.newInstance().also {
-                fm.beginTransaction().add(R.id.container_map, it).commit()
-            }
-        mapFragment.getMapAsync { naverMap = it }
+        setNaverMapRender(R.id.container_map, supportFragmentManager, this)
     }
 
     override fun startView() {
@@ -42,7 +38,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
     }
 
-    override fun onMapReady(p0: NaverMap) {
+    @UiThread
+    override fun onMapReady(naverMap: NaverMap) {
+        this.naverMap = naverMap
 
     }
 
