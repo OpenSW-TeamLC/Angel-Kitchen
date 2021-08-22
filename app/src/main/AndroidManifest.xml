@@ -19,6 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AngelKitchen">
+        <meta-data android:name="com.naver.maps.map.CLIENT_ID" android:value="uzlzuhd2pa" />
         <activity android:name=".view.onboard.OnboardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
