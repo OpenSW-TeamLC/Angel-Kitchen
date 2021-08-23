@@ -8,8 +8,6 @@ import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.databinding.RecyclerSearchResultItemBinding
-import hello.world.angelkitchen.view.bottom_menu.bookmark.BookmarkData
-import hello.world.angelkitchen.view.bottom_menu.search.RecordData
 
 class SearchResultAdapter(
     private var resultList: List<SearchResultData>,

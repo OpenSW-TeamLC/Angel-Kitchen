@@ -1,5 +1,6 @@
 package hello.world.angelkitchen.view.bottom_menu.search.search_result.bottom_sheet
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -13,13 +14,9 @@ import androidx.fragment.app.activityViewModels
 import coil.api.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
-import com.github.heyalex.bottomdrawer.BottomDrawer
 import com.github.heyalex.bottomdrawer.BottomDrawerDialog
 import com.github.heyalex.bottomdrawer.BottomDrawerFragment
 import com.github.heyalex.handle.PlainHandleView
-import com.github.heyalex.utils.BottomDrawerDelegate
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,10 +24,6 @@ import hello.world.angelkitchen.R
 import hello.world.angelkitchen.databinding.FragmentBottomSheetBinding
 import hello.world.angelkitchen.util.extension.setNaverMapRender
 import hello.world.angelkitchen.view.bottom_menu.search.search_result.SearchResultViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class BottomSheetFragment : BottomDrawerFragment(), OnMapReadyCallback {
@@ -84,6 +77,12 @@ class BottomSheetFragment : BottomDrawerFragment(), OnMapReadyCallback {
                 layoutParams = params
             }
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        dialog.cancel()
+        dialog.dismiss()
     }
 
     override fun onDestroy() {

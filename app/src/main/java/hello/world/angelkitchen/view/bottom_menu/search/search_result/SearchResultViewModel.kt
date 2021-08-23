@@ -1,10 +1,10 @@
 package hello.world.angelkitchen.view.bottom_menu.search.search_result
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import hello.world.angelkitchen.view.bottom_menu.search.RecordData
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,6 +20,8 @@ class SearchResultViewModel @Inject constructor(
     private val _searchResultPlace = MutableLiveData<SearchResultData>()
     val searchResultPlace: LiveData<SearchResultData>
         get() = _searchResultPlace
+
+    fun getLiveDataObserver(): MutableLiveData<SearchResultData> = _searchResultPlace
 
     fun touchItem(resultData: SearchResultData) {
         _resultList.value = data

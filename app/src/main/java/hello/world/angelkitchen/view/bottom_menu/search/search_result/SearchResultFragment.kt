@@ -13,21 +13,18 @@ import hello.world.angelkitchen.R
 import hello.world.angelkitchen.base.BindingFragment
 import hello.world.angelkitchen.databinding.FragmentSearchResultBinding
 import hello.world.angelkitchen.util.extension.setNaverMapRender
-import hello.world.angelkitchen.view.bottom_menu.search.SearchViewModel
 import hello.world.angelkitchen.view.bottom_menu.search.search_result.bottom_sheet.BottomSheetFragment
 
 @AndroidEntryPoint
 class SearchResultFragment :
     BindingFragment<FragmentSearchResultBinding>(R.layout.fragment_search_result), OnMapReadyCallback {
-
-    private val searchViewModel: SearchViewModel by activityViewModels()
     private val searchResultViewModel: SearchResultViewModel by activityViewModels()
     private lateinit var searchResultAdapter: SearchResultAdapter
     private val linearLayoutManager: LinearLayoutManager by lazy { LinearLayoutManager(activity) }
+    private val sheet: BottomSheetFragment by lazy { BottomSheetFragment() }
     private lateinit var naverMap: NaverMap
 
     override fun initView() {
-        Toast.makeText(activity, searchViewModel.sharePlace.value, Toast.LENGTH_SHORT).show()
 
         setNaverMapRender(R.id.container_map, activity?.supportFragmentManager!!, this)
 
@@ -36,9 +33,6 @@ class SearchResultFragment :
         })
 
         searchResultViewModel.searchResultPlace.observe(this, {
-            val sheet = BottomSheetFragment()
-
-            sheet.show(activity?.supportFragmentManager!!, "DemoBottomSheetFragment")
         })
 
         for (i in 1..3)
@@ -99,6 +93,7 @@ class SearchResultFragment :
             emptyList(),
             onClickItem = {
                 searchResultViewModel.touchItem(it)
+                sheet.show(activity?.supportFragmentManager!!, "DemoBottomSheetFragment")
             })
 
         binding.recycler.adapter = searchResultAdapter

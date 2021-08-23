@@ -8,8 +8,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.base.BindingFragment
 import hello.world.angelkitchen.databinding.FragmentBookmarkBinding
-import hello.world.angelkitchen.view.bottom_menu.search.RecordAdapter
-import hello.world.angelkitchen.view.bottom_menu.search.RecordData
 
 @AndroidEntryPoint
 class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragment_bookmark) {

@@ -9,6 +9,11 @@ import hello.world.angelkitchen.util.PreferenceUtil
 
 @HiltAndroidApp
 class AngelKitchenDevelopApplication : Application() {
+
+    init {
+        instance = this
+    }
+
     override fun onCreate() {
         prefs = PreferenceUtil(this)
         super.onCreate()
@@ -19,5 +24,9 @@ class AngelKitchenDevelopApplication : Application() {
     companion object {
         lateinit var prefs: PreferenceUtil
         lateinit var pixelRatio: PixelRatio
+        lateinit var instance: AngelKitchenDevelopApplication
+        fun ApplicationContext(): Context {
+            return instance.applicationContext
+        }
     }
 }

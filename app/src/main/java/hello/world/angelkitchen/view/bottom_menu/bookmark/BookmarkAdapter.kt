@@ -7,10 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
-import hello.world.angelkitchen.AngelKitchenDevelopApplication
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.databinding.RecyclerBookmarkItemBinding
-import hello.world.angelkitchen.view.bottom_menu.search.RecordData
 
 class BookmarkAdapter(
     private var bookmarkList: List<BookmarkData>,

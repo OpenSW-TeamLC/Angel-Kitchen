@@ -7,15 +7,12 @@ import hello.world.angelkitchen.R
 import hello.world.angelkitchen.base.BindingActivity
 import hello.world.angelkitchen.databinding.ActivityBottomMenuBinding
 import hello.world.angelkitchen.util.extension.replace
-import hello.world.angelkitchen.util.extension.replaceAdd
 import hello.world.angelkitchen.util.extension.replaceToBackStack
 import hello.world.angelkitchen.view.bottom_menu.bookmark.BookmarkFragment
 import hello.world.angelkitchen.view.bottom_menu.direction.DirectionFragment
 import hello.world.angelkitchen.view.bottom_menu.search.SearchFragment
 import hello.world.angelkitchen.view.bottom_menu.search.SearchViewModel
 import hello.world.angelkitchen.view.bottom_menu.search.search_result.SearchResultFragment
-import hello.world.angelkitchen.view.bottom_menu.search.search_result.SearchResultViewModel
-import hello.world.angelkitchen.view.bottom_menu.search.search_result.bottom_sheet.BottomSheetFragment
 import hello.world.angelkitchen.view.bottom_menu.setting.SettingFragment
 
 @AndroidEntryPoint
@@ -32,7 +29,7 @@ class BottomMenuActivity : BindingActivity<ActivityBottomMenuBinding>(R.layout.a
         Log.d("BottomMenuActivity", isSelectedBottomMenu)
         replaceFragment(isSelectedBottomMenu)
 
-        searchViewModel.sharePlace.observe(this, {
+        searchViewModel.touchItem.observe(this, {
             replaceToBackStack(R.id.container_main, searchResultFragment)
         })
     }

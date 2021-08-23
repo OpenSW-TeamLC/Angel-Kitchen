@@ -9,7 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.base.BindingFragment
+import hello.world.angelkitchen.database.search_fragment.SearchFragmentEntity
 import hello.world.angelkitchen.databinding.FragmentSearchBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_search) {
@@ -21,13 +26,13 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         initRecyclerView()
 
         binding.tfLayout.setStartIconOnClickListener {
-            if(binding.tfLayout.startIconContentDescription == "Search Icon") {
+            if (binding.tfLayout.startIconContentDescription == "Search Icon") {
                 activity?.finish()
             }
         }
 
         binding.tfEt.setOnFocusChangeListener { _, hasFocus ->
-            if(hasFocus) {
+            if (hasFocus) {
                 binding.tfLayout.apply {
                     setStartIconDrawable(R.drawable.ic_back)
                     startIconContentDescription = "Search Icon"
@@ -41,19 +46,20 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         }
 
         binding.tfEt.setOnKeyListener { _, keyCode, event ->
-            if((event.action == KeyEvent.ACTION_DOWN) && keyCode == KeyEvent.KEYCODE_ENTER) {
-                val inputSearchText = RecordData(binding.tfEt.text.toString())
-                viewModel.addRecord(inputSearchText)
-                recordAdapter.notifyDataSetChanged()
+            if ((event.action == KeyEvent.ACTION_DOWN) && keyCode == KeyEvent.KEYCODE_ENTER) {
+                val inputSearchText = SearchFragmentEntity(0, binding.tfEt.text.toString())
+                viewModel.insertPreWorld(inputSearchText)
                 return@setOnKeyListener true
             } else {
                 return@setOnKeyListener false
             }
         }
 
-        viewModel.recordDataList.observe(this, {
-            recordAdapter.setData(it)
-        })
+        CoroutineScope(Main).launch {
+            viewModel.getAllData().collect {
+                recordAdapter.setData(it)
+            }
+        }
     }
 
     override fun onResume() {
@@ -79,12 +85,10 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         recordAdapter = RecordAdapter(
             emptyList(),
             onClickItem = {
-                viewModel.touchItem(it)
-                recordAdapter.notifyDataSetChanged()
+                viewModel.touchItem(true)
             },
             onClickDelete = {
-                viewModel.deleteRecord(it)
-                recordAdapter.notifyDataSetChanged()
+                viewModel.deletePreWorld(it)
             }
         )
 

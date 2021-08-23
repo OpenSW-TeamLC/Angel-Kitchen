@@ -1,21 +1,28 @@
 package hello.world.angelkitchen.view.bottom_menu.search
 
-import androidx.lifecycle.MutableLiveData
+import hello.world.angelkitchen.database.search_fragment.SearchFragmentDao
+import hello.world.angelkitchen.database.search_fragment.SearchFragmentEntity
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class RecordRepository {
 
-    // 나중에 Room 이랑 연동할 때 사용
-    fun loadRecyclerData(
-        recordLiveData: MutableLiveData<List<RecordData>>
+class RecordRepository @Inject constructor(
+    private val searchFragmentDao: SearchFragmentDao
+) {
+
+    fun getAllData(): Flow<List<SearchFragmentEntity>> =
+        searchFragmentDao.getAllData()
+
+    fun insertData(
+        searchFragmentEntity: SearchFragmentEntity
     ) {
+        searchFragmentDao.insertData(searchFragmentEntity)
     }
 
-    fun addRecyclerData(
-        recordData: RecordData,
-        recordDataList: MutableList<RecordData>,
-        recordLiveData: MutableLiveData<List<RecordData>>
+    fun deleteData(
+        searchFragmentEntity: SearchFragmentEntity
     ) {
-        recordDataList.add(recordData)
-        recordLiveData.value = recordDataList
+        searchFragmentDao.deleteData(searchFragmentEntity)
     }
+
 }

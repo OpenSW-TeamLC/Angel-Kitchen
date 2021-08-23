@@ -1,39 +1,33 @@
 package hello.world.angelkitchen.view.bottom_menu.search
 
-import androidx.databinding.ObservableField
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import hello.world.angelkitchen.database.search_fragment.SearchFragmentEntity
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
+    private val recordRepository: RecordRepository
 ) : ViewModel() {
 
-    private val data = arrayListOf<RecordData>()
+    private val _touchItem = MutableLiveData<Boolean>()
+    val touchItem: LiveData<Boolean>
+        get() = _touchItem
 
-    private val _recordDataList = MutableLiveData<List<RecordData>>()
-    val recordDataList: LiveData<List<RecordData>>
-        get() = _recordDataList
+    private val preSearchWord: LiveData<List<SearchFragmentEntity>> =
+        recordRepository.getAllData().asLiveData()
 
-    private val _sharePlace = MutableLiveData<String>()
-    val sharePlace: LiveData<String>
-        get() = _sharePlace
-
-    fun touchItem(recordData: RecordData) {
-        recordData.isClicked = !recordData.isClicked
-        _recordDataList.value = data
-        _sharePlace.value = recordData.recordText
+    fun touchItem(isTouched: Boolean) {
+        _touchItem.value = isTouched
     }
 
-    fun addRecord(recordData: RecordData) {
-        data.add(recordData)
-        _recordDataList.value = data
+    fun getAllData() = preSearchWord.asFlow()
+
+    fun insertPreWorld(searchFragmentEntity: SearchFragmentEntity) {
+        recordRepository.insertData(searchFragmentEntity)
     }
 
-    fun deleteRecord(recordData: RecordData) {
-        data.remove(recordData)
-        _recordDataList.value = data
+    fun deletePreWorld(searchFragmentEntity: SearchFragmentEntity) {
+        recordRepository.deleteData(searchFragmentEntity)
     }
 }
