@@ -30,7 +30,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ted.gun0912.clustering.naver.TedNaverClustering
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback{
     public val markers = mutableListOf<Marker>()
@@ -42,7 +41,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         locationSource =
-            FusedLocationSource(this, LocationTrackingActivity.LOCATION_PERMISSION_REQUEST_CODE)
+            FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
         //naver Map 초기 설정
         val options = NaverMapOptions()
             .camera(CameraPosition(LatLng(37.5666102, 126.9783881), 16.0))
@@ -73,6 +72,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
 
     //naver Map이 렌더링 완료되면 실행 되는 함수
     override fun onMapReady(naverMap: NaverMap) {
+        var goal:String?="129.075986,35.179470"
         this.naverMap = naverMap
         //naver Map 사용자 위치 추적
         naverMap.locationSource = locationSource
@@ -90,7 +90,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                 build()
                 val api = retrofit.create(NaverAPI::class.java)
                 //API 응답값 받기
-                val callgetPath = api.getPath(APIKEY_ID, APIKEY,"${location.longitude},${location.latitude}", "126.97822,37.55855")
+                val callgetPath = api.getPath(APIKEY_ID, APIKEY,"127.1058342,37.359708", "${goal}")
                 callgetPath.enqueue(object : Callback<ResultPath> {
                     override fun onResponse(//응답값 성공
                         call: Call<ResultPath>,
@@ -204,9 +204,6 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                 }
             }
         }
-        TedNaverClustering.with<NaverItem>(this, naverMap)
-            .items(getItems())
-            .make()
     }
 
     private fun getItems(): Collection<NaverItem> {
