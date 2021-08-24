@@ -31,4 +31,7 @@ class SearchViewModel @Inject constructor(
     fun deletePreWorld(searchFragmentEntity: SearchFragmentEntity) {
         recordRepository.deleteData(searchFragmentEntity)
     }
+
+    fun searchDatabase(searchQuery: String) =
+        recordRepository.searchDatabase(searchQuery).asLiveData()
 }

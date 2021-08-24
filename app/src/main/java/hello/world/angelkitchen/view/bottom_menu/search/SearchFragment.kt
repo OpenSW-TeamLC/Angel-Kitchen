@@ -1,8 +1,15 @@
 package hello.world.angelkitchen.view.bottom_menu.search
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.KeyEvent
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.widget.SearchView
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,12 +25,26 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_search) {
+
     private val viewModel: SearchViewModel by activityViewModels()
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var recordAdapter: RecordAdapter
 
     override fun initView() {
         initRecyclerView()
+        binding.tfEt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchDatabase(s.toString())
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+        })
 
         binding.tfLayout.setStartIconOnClickListener {
             if (binding.tfLayout.startIconContentDescription == "Search Icon") {
@@ -95,5 +116,16 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
             adapter = recordAdapter
             addItemDecoration(decoration)
         }
+    }
+
+    private fun searchDatabase(query: String) {
+        val searchQuery = "%$query%"
+        viewModel.searchDatabase(searchQuery).observe(this, { list ->
+            list.let { it ->
+                recordAdapter.setData(it.distinctBy {
+                    it.preSearchWord
+                })
+            }
+        })
     }
 }

@@ -24,4 +24,7 @@ class RecordRepository @Inject constructor(
     ) {
         searchFragmentDao.deleteData(searchFragmentEntity)
     }
+
+    fun searchDatabase(searchQuery: String): Flow<List<SearchFragmentEntity>> =
+        searchFragmentDao.searchDatabase(searchQuery)
 }

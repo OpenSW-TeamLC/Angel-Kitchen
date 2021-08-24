@@ -14,4 +14,7 @@ interface SearchFragmentDao {
 
     @Delete
     fun deleteData(word: SearchFragmentEntity)
+
+    @Query("SELECT * FROM frag_search WHERE word LIKE :searchQuery")
+    fun searchDatabase(searchQuery: String): Flow<List<SearchFragmentEntity>>
 }
