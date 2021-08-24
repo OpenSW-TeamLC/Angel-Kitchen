@@ -1,18 +1,15 @@
 package hello.world.angelkitchen.database.search_fragment
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SearchFragmentDao {
 
-    @Query("SELECT * FROM frag_search")
+    @Query("SELECT * FROM frag_search ORDER BY id DESC")
     fun getAllData(): Flow<List<SearchFragmentEntity>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertData(word: SearchFragmentEntity)
 
     @Delete

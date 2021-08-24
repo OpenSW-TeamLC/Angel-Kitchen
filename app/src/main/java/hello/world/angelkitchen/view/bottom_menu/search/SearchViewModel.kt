@@ -14,14 +14,15 @@ class SearchViewModel @Inject constructor(
     val touchItem: LiveData<Boolean>
         get() = _touchItem
 
-    private val preSearchWord: LiveData<List<SearchFragmentEntity>> =
-        recordRepository.getAllData().asLiveData()
+//    언젠간 쓸 날이...?
+//    private val _preSearchWord: LiveData<List<SearchFragmentEntity>> =
+//        recordRepository.getAllData().asLiveData()
 
     fun touchItem(isTouched: Boolean) {
         _touchItem.value = isTouched
     }
 
-    fun getAllData() = preSearchWord.asFlow()
+    fun getAllData() = recordRepository.getAllData()
 
     fun insertPreWorld(searchFragmentEntity: SearchFragmentEntity) {
         recordRepository.insertData(searchFragmentEntity)

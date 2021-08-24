@@ -24,5 +24,4 @@ class RecordRepository @Inject constructor(
     ) {
         searchFragmentDao.deleteData(searchFragmentEntity)
     }
-
 }

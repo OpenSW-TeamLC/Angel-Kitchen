@@ -47,7 +47,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
 
         binding.tfEt.setOnKeyListener { _, keyCode, event ->
             if ((event.action == KeyEvent.ACTION_DOWN) && keyCode == KeyEvent.KEYCODE_ENTER) {
-                val inputSearchText = SearchFragmentEntity(0, binding.tfEt.text.toString())
+                val inputSearchText = SearchFragmentEntity(binding.tfEt.text.toString())
                 viewModel.insertPreWorld(inputSearchText)
                 return@setOnKeyListener true
             } else {
@@ -56,8 +56,10 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         }
 
         CoroutineScope(Main).launch {
-            viewModel.getAllData().collect {
-                recordAdapter.setData(it)
+            viewModel.getAllData().collect { it ->
+                recordAdapter.setData(it.distinctBy {
+                    it.preSearchWord
+                })
             }
         }
     }
@@ -75,10 +77,6 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
 
     private fun initRecyclerView() {
         linearLayoutManager = LinearLayoutManager(activity)
-        linearLayoutManager.apply {
-            reverseLayout = true
-            stackFromEnd = true
-        }
 
         val decoration = DividerItemDecoration(activity, linearLayoutManager.orientation)
 
