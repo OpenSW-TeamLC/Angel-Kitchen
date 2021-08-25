@@ -8,11 +8,13 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.base.BindingFragment
@@ -83,6 +85,14 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
                 })
             }
         }
+
+        binding.chip1.setOnClickListener {
+            viewModel.getAllAngelData().observe(this, {
+                if(it != null) Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
+                else Toast.makeText(activity, "Null", Toast.LENGTH_LONG).show()
+            })
+        }
+        viewModel.loadAllAngelData()
     }
 
     override fun onResume() {

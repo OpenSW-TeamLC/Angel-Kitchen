@@ -7,7 +7,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val recordRepository: RecordRepository
+    private val recordRepository: RecordRepository,
+    private val angelAllDataRepository: AngelAllDataRepository
 ) : ViewModel() {
 
     private val _touchItem = MutableLiveData<Boolean>()
@@ -17,6 +18,10 @@ class SearchViewModel @Inject constructor(
 //    언젠간 쓸 날이...?
 //    private val _preSearchWord: LiveData<List<SearchFragmentEntity>> =
 //        recordRepository.getAllData().asLiveData()
+
+    private val _angelAllData = MutableLiveData<String>()
+    val angelAllData: LiveData<String>
+        get() = _angelAllData
 
     fun touchItem(isTouched: Boolean) {
         _touchItem.value = isTouched
@@ -34,4 +39,10 @@ class SearchViewModel @Inject constructor(
 
     fun searchDatabase(searchQuery: String) =
         recordRepository.searchDatabase(searchQuery).asLiveData()
+
+    fun getAllAngelData(): LiveData<String> = angelAllData
+
+    fun loadAllAngelData() {
+        angelAllDataRepository.makeApiCall(_angelAllData)
+    }
 }
