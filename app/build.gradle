@@ -122,4 +122,7 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.4.0-alpha04'
     implementation "androidx.room:room-ktx:2.3.0"
 
+    // location
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+
 }

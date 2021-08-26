@@ -15,6 +15,8 @@ class DirectionFragment : BindingFragment<FragmentFindDirectionBinding>(R.layout
 
     override fun initView() {
         val bundle = arguments
-        binding.etArrive.setText(bundle?.getString("share_address")!!)
+        if (bundle != null) {
+            binding.etArrive.setText(bundle.getString("share_address"))
+        }
     }
 }

@@ -2,9 +2,12 @@ package hello.world.angelkitchen
 
 import android.content.Intent
 import androidx.annotation.UiThread
+import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.overlay.LocationOverlay
+import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.base.BindingActivity
 import hello.world.angelkitchen.databinding.ActivityMainBinding
@@ -41,7 +44,18 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     @UiThread
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
+        val uiSetting = naverMap.uiSettings
+        binding.btnLocation.map = naverMap
 
+        val locationSource = FusedLocationSource(this, 1000)
+        naverMap.locationSource = locationSource
+
+        // 사용자 위치 오버레이 띄움
+        val locationOverlay = naverMap.locationOverlay
+        locationOverlay.isVisible = true
+
+        // 현재 위치로 이동
+        naverMap.locationTrackingMode = LocationTrackingMode.Follow
     }
 
     private fun initBottomNavigation() {
