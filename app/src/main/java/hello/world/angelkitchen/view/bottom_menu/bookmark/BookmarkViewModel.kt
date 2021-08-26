@@ -12,8 +12,16 @@ class BookmarkViewModel @Inject constructor(
     private val bookmarkFragmentRepository: BookmarkFragmentRepository
 ) : ViewModel() {
 
-    val bookmarkDataList: LiveData<List<BookmarkFragmentEntity>> =
+    private val _touchItemInfo = MutableLiveData<BookmarkFragmentEntity>()
+    val touchItemInfo: LiveData<BookmarkFragmentEntity>
+        get() = _touchItemInfo
+
+    private val bookmarkDataList: LiveData<List<BookmarkFragmentEntity>> =
         bookmarkFragmentRepository.getAllData().asLiveData()
+
+    fun touchItem(bookmarkFragmentEntity: BookmarkFragmentEntity) {
+        _touchItemInfo.value = bookmarkFragmentEntity
+    }
 
     fun getAllData() = bookmarkDataList
 
@@ -22,5 +30,4 @@ class BookmarkViewModel @Inject constructor(
             bookmarkFragmentRepository.deleteByNumber(number)
         }
     }
-
 }

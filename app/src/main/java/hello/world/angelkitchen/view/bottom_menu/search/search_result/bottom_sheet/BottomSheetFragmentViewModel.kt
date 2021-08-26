@@ -5,7 +5,6 @@ import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import hello.world.angelkitchen.database.bookmark_fragment.BookmarkFragmentEntity
 import hello.world.angelkitchen.view.bottom_menu.bookmark.BookmarkFragmentRepository
-import hello.world.angelkitchen.view.bottom_menu.search.search_result.SearchResultData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect

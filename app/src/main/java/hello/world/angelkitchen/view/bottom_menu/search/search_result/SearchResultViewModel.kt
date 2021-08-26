@@ -25,7 +25,6 @@ class SearchResultViewModel @Inject constructor(
     fun touchItem(resultData: BookmarkFragmentEntity) {
         _resultList.value = data
         _searchResultPlace.value = resultData
-        Log.d("testest", "${_searchResultPlace.value!!}")
     }
 
     fun addPlace(resultData: BookmarkFragmentEntity) {

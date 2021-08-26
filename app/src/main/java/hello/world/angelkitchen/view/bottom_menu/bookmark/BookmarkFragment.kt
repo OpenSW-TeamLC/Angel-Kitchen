@@ -9,11 +9,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.base.BindingFragment
 import hello.world.angelkitchen.databinding.FragmentBookmarkBinding
+import hello.world.angelkitchen.view.bottom_menu.search.search_result.SearchResultViewModel
+import hello.world.angelkitchen.view.bottom_menu.search.search_result.bottom_sheet.BottomSheetFragment
 
 @AndroidEntryPoint
 class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragment_bookmark) {
     private val viewModel: BookmarkViewModel by activityViewModels()
+    private val searchResultViewModel: SearchResultViewModel by activityViewModels()
     private val linearLayoutManager: LinearLayoutManager by lazy { LinearLayoutManager(activity) }
+    private val sheet: BottomSheetFragment by lazy { BottomSheetFragment() }
     private lateinit var bookmarkAdapter: BookmarkAdapter
 
     override fun initView() {
@@ -34,6 +38,8 @@ class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragm
         bookmarkAdapter = BookmarkAdapter(
             emptyList(),
             onClickItem = {
+                searchResultViewModel.touchItem(it)
+                sheet.show(activity?.supportFragmentManager!!, "BookmarkFragment")
             },
             onClickButton = {
             }
