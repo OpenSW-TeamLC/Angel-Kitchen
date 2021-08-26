@@ -31,6 +31,7 @@
         </activity>
         <activity android:name=".MainActivity"/>
         <activity android:name=".view.bottom_menu.BottomMenuActivity"/>
+        <activity android:name=".view.bottom_menu.direction.DirectionAttachActivity"/>
     </application>
 
 </manifest>

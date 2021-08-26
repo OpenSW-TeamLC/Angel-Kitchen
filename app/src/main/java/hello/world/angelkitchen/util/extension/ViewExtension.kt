@@ -2,6 +2,7 @@ package hello.world.angelkitchen.util.extension
 
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.naver.maps.map.MapFragment
@@ -29,7 +30,7 @@ fun AppCompatActivity.replaceToBackStack(
         .commit()
 }
 
-fun AppCompatActivity.replaceAdd(
+fun AppCompatActivity.add(
     fragment: androidx.fragment.app.Fragment
 ) {
     supportFragmentManager

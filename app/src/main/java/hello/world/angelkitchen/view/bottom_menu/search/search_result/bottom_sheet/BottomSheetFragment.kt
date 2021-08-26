@@ -1,6 +1,7 @@
 package hello.world.angelkitchen.view.bottom_menu.search.search_result.bottom_sheet
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -24,7 +25,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.database.bookmark_fragment.BookmarkFragmentEntity
 import hello.world.angelkitchen.databinding.FragmentBottomSheetBinding
+import hello.world.angelkitchen.util.extension.add
 import hello.world.angelkitchen.util.extension.setNaverMapRender
+import hello.world.angelkitchen.view.bottom_menu.direction.DirectionAttachActivity
 import hello.world.angelkitchen.view.bottom_menu.search.search_result.SearchResultViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -66,7 +69,6 @@ class BottomSheetFragment : BottomDrawerFragment(), OnMapReadyCallback {
         binding.ivBookmark.setOnClickListener {
             when (it.tag) {
                 "none" -> {
-                    Log.d("testest2", "${searchResultViewModel.searchResultPlace.value!!}")
                     searchResultViewModel.searchResultPlace.value!!.like = true
                     bottomSheetFragmentViewModel.insertBookmark(searchResultViewModel.searchResultPlace.value!!)
                     binding.ivBookmark.setImageResource(R.drawable.ic_star_fill)
@@ -74,7 +76,6 @@ class BottomSheetFragment : BottomDrawerFragment(), OnMapReadyCallback {
                     Snackbar.make(binding.mainContainer, "저장되었습니다", LENGTH_SHORT).show()
                 }
                 "set" -> {
-                    Log.d("testest2", "${searchResultViewModel.searchResultPlace.value!!}")
                     searchResultViewModel.searchResultPlace.value!!.like = false
                     bottomSheetFragmentViewModel.deleteByNumber(searchResultViewModel.searchResultPlace.value!!.number)
                     binding.ivBookmark.setImageResource(R.drawable.ic_star)
@@ -82,6 +83,12 @@ class BottomSheetFragment : BottomDrawerFragment(), OnMapReadyCallback {
                     Snackbar.make(binding.mainContainer, "삭제되었습니다.", LENGTH_SHORT).show()
                 }
             }
+        }
+
+        binding.btnFind.setOnClickListener {
+            val intent = Intent(activity, DirectionAttachActivity::class.java)
+            intent.putExtra("share_address", binding.tvAddress.text.toString())
+            startActivity(intent)
         }
 
         return binding.root

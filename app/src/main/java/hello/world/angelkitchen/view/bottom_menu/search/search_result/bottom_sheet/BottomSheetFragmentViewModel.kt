@@ -20,8 +20,16 @@ class BottomSheetFragmentViewModel @Inject constructor(
     val resultPlaceInfo: LiveData<BookmarkFragmentEntity>
         get() = _resultPlaceInfo
 
+    private val _btnAddressShare = MutableLiveData<String>()
+    val btnAddressShare: LiveData<String>
+        get() = _btnAddressShare
+
     fun setPlaceInfo(searchResultData: BookmarkFragmentEntity) {
         _resultPlaceInfo.value = searchResultData
+    }
+
+    fun setAddress(address: String) {
+        _btnAddressShare.value = address
     }
 
     fun insertBookmark(bookmarkFragmentEntity: BookmarkFragmentEntity) {

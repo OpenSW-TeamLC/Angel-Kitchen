@@ -41,7 +41,7 @@ class SearchResultFragment :
                 BookmarkFragmentEntity(
                     "https://picsum.photos/200/300",
                     "${i}강남 급식소",
-                    "서울 강남구 테헤란로 13-1",
+                    "서울 강남구 테헤란로 13-${i}",
                     "02-${i}234-5678",
                     false
                 )

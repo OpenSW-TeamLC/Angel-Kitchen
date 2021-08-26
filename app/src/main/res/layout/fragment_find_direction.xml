@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="vm"
+            type="hello.world.angelkitchen.view.bottom_menu.direction.DirectionFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,7 +48,9 @@
                     app:layout_constraintLeft_toRightOf="@id/tv_start"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/et_arrive"
-                    app:layout_constraintRight_toRightOf="parent"/>
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:inputType="text"
+                    android:scrollbars="vertical"/>
 
                 <TextView
                     android:id="@+id/tv_arrive"
@@ -65,8 +69,10 @@
                     android:hint="도착지 입력"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/tv_arrive"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/et_start"
-                    app:layout_constraintRight_toRightOf="parent"/>
+                    android:inputType="text"
+                    android:scrollbars="vertical"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
