@@ -8,12 +8,13 @@ import coil.api.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
 import hello.world.angelkitchen.R
+import hello.world.angelkitchen.database.bookmark_fragment.BookmarkFragmentEntity
 import hello.world.angelkitchen.databinding.RecyclerBookmarkItemBinding
 
 class BookmarkAdapter(
-    private var bookmarkList: List<BookmarkData>,
-    val onClickItem: (bookmarkData: BookmarkData) -> Unit,
-    val onClickButton: (bookmarkData: BookmarkData) -> Unit
+    private var bookmarkList: List<BookmarkFragmentEntity>,
+    val onClickItem: (bookmarkData: BookmarkFragmentEntity) -> Unit,
+    val onClickButton: (bookmarkData: BookmarkFragmentEntity) -> Unit
 ) : RecyclerView.Adapter<BookmarkAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -32,7 +33,7 @@ class BookmarkAdapter(
 
     override fun getItemCount(): Int = bookmarkList.size
 
-    fun setData(newData: List<BookmarkData>) {
+    fun setData(newData: List<BookmarkFragmentEntity>) {
         bookmarkList = newData
         notifyDataSetChanged()
     }
@@ -41,9 +42,9 @@ class BookmarkAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(
-            bookmarkData: BookmarkData,
-            onClickItem: (bookmarkData: BookmarkData) -> Unit,
-            onClickButton: (bookmarkData: BookmarkData) -> Unit
+            bookmarkData: BookmarkFragmentEntity,
+            onClickItem: (bookmarkData: BookmarkFragmentEntity) -> Unit,
+            onClickButton: (bookmarkData: BookmarkFragmentEntity) -> Unit
         ) {
             binding.tvPlace.text = bookmarkData.place
             binding.tvAddress.text = bookmarkData.address

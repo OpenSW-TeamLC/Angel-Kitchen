@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.annotation.UiThread
 import androidx.fragment.app.activityViewModels
 import coil.api.load
@@ -17,17 +16,23 @@ import coil.transform.CircleCropTransformation
 import com.github.heyalex.bottomdrawer.BottomDrawerDialog
 import com.github.heyalex.bottomdrawer.BottomDrawerFragment
 import com.github.heyalex.handle.PlainHandleView
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
+import com.google.android.material.snackbar.Snackbar
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.R
+import hello.world.angelkitchen.database.bookmark_fragment.BookmarkFragmentEntity
 import hello.world.angelkitchen.databinding.FragmentBottomSheetBinding
 import hello.world.angelkitchen.util.extension.setNaverMapRender
 import hello.world.angelkitchen.view.bottom_menu.search.search_result.SearchResultViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class BottomSheetFragment : BottomDrawerFragment(), OnMapReadyCallback {
-
     private var _binding: FragmentBottomSheetBinding? = null
     private val binding get() = _binding!!
     private val searchResultViewModel: SearchResultViewModel by activityViewModels()
@@ -53,11 +58,45 @@ class BottomSheetFragment : BottomDrawerFragment(), OnMapReadyCallback {
                     transformations(CircleCropTransformation())
                     memoryCachePolicy(CachePolicy.DISABLED)
                 }
+
             }
         })
         setNaverMapRender(R.id.container_map_temp, childFragmentManager, this)
 
+        binding.ivBookmark.setOnClickListener {
+            when (it.tag) {
+                "none" -> {
+                    Log.d("testest2", "${searchResultViewModel.searchResultPlace.value!!}")
+                    searchResultViewModel.searchResultPlace.value!!.like = true
+                    bottomSheetFragmentViewModel.insertBookmark(searchResultViewModel.searchResultPlace.value!!)
+                    binding.ivBookmark.setImageResource(R.drawable.ic_star_fill)
+                    binding.ivBookmark.tag = "set"
+                    Snackbar.make(binding.mainContainer, "저장되었습니다", LENGTH_SHORT).show()
+                }
+                "set" -> {
+                    Log.d("testest2", "${searchResultViewModel.searchResultPlace.value!!}")
+                    searchResultViewModel.searchResultPlace.value!!.like = false
+                    bottomSheetFragmentViewModel.deleteByNumber(searchResultViewModel.searchResultPlace.value!!.number)
+                    binding.ivBookmark.setImageResource(R.drawable.ic_star)
+                    binding.ivBookmark.tag = "none"
+                    Snackbar.make(binding.mainContainer, "삭제되었습니다.", LENGTH_SHORT).show()
+                }
+            }
+        }
+
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bottomSheetFragmentViewModel.getAllLikeData().observe(this, { it ->
+            it.iterator().forEach {
+                if (it.place == binding.tvTitle.text.toString()) {
+                    binding.ivBookmark.setImageResource(R.drawable.ic_star_fill)
+                    binding.ivBookmark.tag = "set"
+                }
+            }
+        })
     }
 
     override fun configureBottomDrawer(): BottomDrawerDialog {
@@ -69,8 +108,11 @@ class BottomSheetFragment : BottomDrawerFragment(), OnMapReadyCallback {
                 val heightHandle =
                     resources.getDimensionPixelSize(R.dimen.bottom_sheet_handle_height)
                 val params =
-                    FrameLayout.LayoutParams(widthHandle, heightHandle, Gravity.CENTER_HORIZONTAL)
-
+                    FrameLayout.LayoutParams(
+                        widthHandle,
+                        heightHandle,
+                        Gravity.CENTER_HORIZONTAL
+                    )
                 params.topMargin =
                     resources.getDimensionPixelSize(R.dimen.bottom_sheet_handle_top_margin)
 

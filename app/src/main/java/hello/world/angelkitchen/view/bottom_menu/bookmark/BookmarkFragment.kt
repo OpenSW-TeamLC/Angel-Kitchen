@@ -8,6 +8,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.base.BindingFragment
 import hello.world.angelkitchen.databinding.FragmentBookmarkBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragment_bookmark) {
@@ -16,38 +20,11 @@ class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragm
     private lateinit var bookmarkAdapter: BookmarkAdapter
 
     override fun initView() {
+        initRecyclerView()
 
-        viewModel.bookmarkDataList.observe(this, {
+        viewModel.getAllData().observe(this, {
             bookmarkAdapter.setData(it)
         })
-
-        for(i in 1..30000){
-        viewModel.addBookmark(
-            BookmarkData(
-                "https://picsum.photos/200/300",
-                "강남 급식소",
-                "서울 강남구 테헤란로 13-1",
-                "02-1234-5678"
-            )
-        )
-        viewModel.addBookmark(
-            BookmarkData(
-                "https://picsum.photos/200/300",
-                "강북 급식소",
-                "서울 강남구 테헤란로 13-1",
-                "02-1234-5678"
-            )
-        )
-        viewModel.addBookmark(
-            BookmarkData(
-                "https://picsum.photos/200/300",
-                "강서 급식소",
-                "서울 강남구 테헤란로 13-1",
-                "02-1234-5678"
-            )
-        )}
-
-        initRecyclerView()
     }
 
     private fun initRecyclerView() {
@@ -60,11 +37,8 @@ class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragm
         bookmarkAdapter = BookmarkAdapter(
             emptyList(),
             onClickItem = {
-                val position = viewModel.showToastBookmark(it)
-                Toast.makeText(activity, "$position List Clicked", Toast.LENGTH_SHORT).show()
             },
             onClickButton = {
-                Toast.makeText(activity, "Button Clicked", Toast.LENGTH_SHORT).show()
             }
         )
 
@@ -73,10 +47,5 @@ class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragm
             adapter = bookmarkAdapter
             addItemDecoration(decoration)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.removeAllBookmark()
     }
 }

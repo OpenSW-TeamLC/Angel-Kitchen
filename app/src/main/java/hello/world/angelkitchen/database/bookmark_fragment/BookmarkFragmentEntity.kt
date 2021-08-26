@@ -6,10 +6,12 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "frag_bookmark")
 class BookmarkFragmentEntity(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id")
-    var id: Int = 0,
     val imgPath: String,
     val place: String,
     val address: String,
-    val number: String
-)
+    val number: String,
+    var like: Boolean
+) {
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id")
+    var id: Int = 0
+}

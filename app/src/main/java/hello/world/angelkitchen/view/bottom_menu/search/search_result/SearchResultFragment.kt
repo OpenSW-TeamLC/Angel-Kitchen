@@ -11,6 +11,7 @@ import com.naver.maps.map.OnMapReadyCallback
 import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.base.BindingFragment
+import hello.world.angelkitchen.database.bookmark_fragment.BookmarkFragmentEntity
 import hello.world.angelkitchen.databinding.FragmentSearchResultBinding
 import hello.world.angelkitchen.util.extension.setNaverMapRender
 import hello.world.angelkitchen.view.bottom_menu.search.search_result.bottom_sheet.BottomSheetFragment
@@ -37,11 +38,12 @@ class SearchResultFragment :
 
         for (i in 1..3)
             searchResultViewModel.addPlace(
-                SearchResultData(
+                BookmarkFragmentEntity(
                     "https://picsum.photos/200/300",
                     "${i}강남 급식소",
                     "서울 강남구 테헤란로 13-1",
-                    "02-1234-5678"
+                    "02-${i}234-5678",
+                    false
                 )
             )
         initRecyclerView()

@@ -3,6 +3,10 @@ package hello.world.angelkitchen.view.bottom_menu.search
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import hello.world.angelkitchen.database.search_fragment.SearchFragmentEntity
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,8 +19,8 @@ class SearchViewModel @Inject constructor(
     val touchItem: LiveData<Boolean>
         get() = _touchItem
 
-//    언젠간 쓸 날이...?
-//    private val _preSearchWord: LiveData<List<SearchFragmentEntity>> =
+    //    언젠간 쓸 날이...?
+//    val preSearchWord: LiveData<List<SearchFragmentEntity>> =
 //        recordRepository.getAllData().asLiveData()
 
     private val _angelAllData = MutableLiveData<String>()
@@ -40,9 +44,9 @@ class SearchViewModel @Inject constructor(
     fun searchDatabase(searchQuery: String) =
         recordRepository.searchDatabase(searchQuery).asLiveData()
 
-    fun getAllAngelData(): LiveData<String> = angelAllData
-
-    fun loadAllAngelData() {
-        angelAllDataRepository.makeApiCall(_angelAllData)
-    }
+//    fun getAllAngelData(): LiveData<String> = angelAllData
+//
+//    fun loadAllAngelData() {
+//        angelAllDataRepository.makeApiCall(_angelAllData)
+//    }
 }

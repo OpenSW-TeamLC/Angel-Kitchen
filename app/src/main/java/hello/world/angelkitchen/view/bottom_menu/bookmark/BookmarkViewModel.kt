@@ -3,29 +3,22 @@ package hello.world.angelkitchen.view.bottom_menu.bookmark
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import hello.world.angelkitchen.database.bookmark_fragment.BookmarkFragmentEntity
 import javax.inject.Inject
 
 @HiltViewModel
 class BookmarkViewModel @Inject constructor(
+    private val bookmarkFragmentRepository: BookmarkFragmentRepository
 ) : ViewModel() {
 
-    private val data = arrayListOf<BookmarkData>()
+    val bookmarkDataList: LiveData<List<BookmarkFragmentEntity>> =
+        bookmarkFragmentRepository.getAllData().asLiveData()
 
-    private val _bookmarkDataList = MutableLiveData<List<BookmarkData>>()
-    val bookmarkDataList: LiveData<List<BookmarkData>>
-        get() = _bookmarkDataList
+    fun getAllData() = bookmarkDataList
 
-    fun showToastBookmark(bookmarkData: BookmarkData): Int =
-        data.indexOf(bookmarkData)
-
-    fun addBookmark(bookmarkData: BookmarkData) {
-        data.add(bookmarkData)
-        _bookmarkDataList.value = data
-    }
-
-    fun removeAllBookmark() {
-        data.clear()
-        _bookmarkDataList.value = data
+    suspend fun removeAllBookmark(bookmarkFragmentEntity: BookmarkFragmentEntity) {
+        bookmarkFragmentRepository.deleteData(bookmarkFragmentEntity)
     }
 }
