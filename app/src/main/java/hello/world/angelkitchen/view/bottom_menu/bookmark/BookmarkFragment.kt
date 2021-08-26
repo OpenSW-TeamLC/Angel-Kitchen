@@ -1,17 +1,14 @@
 package hello.world.angelkitchen.view.bottom_menu.bookmark
 
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.base.BindingFragment
 import hello.world.angelkitchen.databinding.FragmentBookmarkBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragment_bookmark) {
@@ -46,6 +43,20 @@ class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragm
             layoutManager = linearLayoutManager
             adapter = bookmarkAdapter
             addItemDecoration(decoration)
+        }
+
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean = true
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                viewModel.deleteBookmark(viewModel.getAllData().value!![viewHolder.adapterPosition].number)
+            }
+        }).apply {
+            attachToRecyclerView(binding.rvBookmark)
         }
     }
 }

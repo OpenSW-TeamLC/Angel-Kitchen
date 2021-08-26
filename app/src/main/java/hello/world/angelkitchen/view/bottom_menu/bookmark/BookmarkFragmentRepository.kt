@@ -18,12 +18,6 @@ class BookmarkFragmentRepository @Inject constructor(
         bookmarkFragmentDao.insertData(bookmarkFragmentEntity)
     }
 
-    suspend fun deleteData(
-        bookmarkFragmentEntity: BookmarkFragmentEntity
-    ) {
-        bookmarkFragmentDao.deleteData(bookmarkFragmentEntity)
-    }
-
     suspend fun deleteByNumber(
         number: String
     ) {
