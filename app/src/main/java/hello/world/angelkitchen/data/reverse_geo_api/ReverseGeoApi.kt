@@ -120,8 +120,7 @@ data class Result1(
 data class Region(
     val area1: Area1,
     val area2: Area2,
-    val area3: Area3,
-    val area4: Area4
+    val area3: Area3
 )
 
 data class Area1(
@@ -133,9 +132,5 @@ data class Area2(
 )
 
 data class Area3(
-    val name: String
-)
-
-data class Area4(
     val name: String
 )
