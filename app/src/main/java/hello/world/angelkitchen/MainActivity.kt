@@ -1,6 +1,10 @@
 package hello.world.angelkitchen
 
 import android.content.Intent
+import android.location.LocationManager
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.UiThread
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
@@ -34,7 +38,6 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     }
 
     override fun startView() {
-
     }
 
     override fun stopView() {
@@ -56,6 +59,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
         // 현재 위치로 이동
         naverMap.locationTrackingMode = LocationTrackingMode.Follow
+        val location = locationOverlay.position
+//        Toast.makeText(this, "${location.latitude}")
     }
 
     private fun initBottomNavigation() {

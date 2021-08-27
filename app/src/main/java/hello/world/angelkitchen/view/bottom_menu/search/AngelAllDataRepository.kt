@@ -3,14 +3,16 @@ package hello.world.angelkitchen.view.bottom_menu.search
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import hello.world.angelkitchen.data.angel_api.AngelAllData
+import hello.world.angelkitchen.di.RetrofitModule
 import hello.world.angelkitchen.network.AngelServiceInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
+import javax.inject.Named
 
 class AngelAllDataRepository @Inject constructor(
-    private val angelServiceInstance: AngelServiceInstance
+    @RetrofitModule.AngelAllDataType private val angelServiceInstance: AngelServiceInstance
 ) {
     fun makeApiCall(
         liveDataList: MutableLiveData<String>
