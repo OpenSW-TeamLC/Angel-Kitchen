@@ -1,7 +1,6 @@
 package hello.world.angelkitchen.network
 
 import hello.world.angelkitchen.data.reverse_geo_api.Region
-import hello.world.angelkitchen.data.reverse_geo_api.Result1
 import hello.world.angelkitchen.data.reverse_geo_api.ReverseGeoApi
 import retrofit2.Call
 import retrofit2.http.GET
@@ -14,6 +13,7 @@ interface ReverseGeoInstance {
         @Query("X-NCP-APIGW-API-KEY-ID") apiKeyId: String,
         @Query("X-NCP-APIGW-API-KEY") apiKey: String,
         @Query("coords") coords: String,
-        @Query("output") output: String = "json"
+        @Query("output") output: String = "json",
+        @Query("orders") orders: String = "addr"
     ): Call<ReverseGeoApi>
 }

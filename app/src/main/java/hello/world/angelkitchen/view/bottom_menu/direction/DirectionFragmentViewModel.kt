@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import hello.world.angelkitchen.data.reverse_geo_api.Land
 import hello.world.angelkitchen.data.reverse_geo_api.Result1
-import hello.world.angelkitchen.data.reverse_geo_api.TestData
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,8 +16,6 @@ class DirectionFragmentViewModel @Inject constructor(
     private val _curLocation = MutableLiveData<Result1>()
     val curLocation: LiveData<Result1>
         get() = _curLocation
-
-    val test = MutableLiveData<TestData>()
 
     fun getGeoApi(
         apiKeyId: String,

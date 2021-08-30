@@ -2,6 +2,7 @@ package hello.world.angelkitchen.view.bottom_menu.direction
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import hello.world.angelkitchen.data.reverse_geo_api.Land
 import hello.world.angelkitchen.data.reverse_geo_api.Result1
 import hello.world.angelkitchen.data.reverse_geo_api.ReverseGeoApi
 import hello.world.angelkitchen.di.RetrofitModule
@@ -24,7 +25,7 @@ class DirectionFragmentRepository @Inject constructor(
         call.enqueue(object : Callback<ReverseGeoApi> {
             override fun onResponse(call: Call<ReverseGeoApi>, response: Response<ReverseGeoApi>) {
                 if(response.body() != null && response.isSuccessful)
-                    liveDataList.postValue(response.body()!!.results[0])
+                    liveDataList.postValue(response.body()!!.results?.get(0))
                 else
                     liveDataList.postValue(null)
             }

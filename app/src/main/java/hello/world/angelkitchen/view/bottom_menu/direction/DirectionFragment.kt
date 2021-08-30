@@ -5,6 +5,7 @@ import android.content.Context.LOCATION_SERVICE
 import android.location.Location
 import android.location.LocationManager
 import android.os.Looper
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.google.android.gms.location.*
@@ -28,7 +29,6 @@ class DirectionFragment :
     private lateinit var naverMap: NaverMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
-    var i = 0
 
     override fun initView() {
 
@@ -40,7 +40,8 @@ class DirectionFragment :
         }
 
         viewModel.curLocation.observe(this, {
-            val location = "${it.region.area1.name} ${it.region.area2.name} ${it.region.area3.name} $i"
+            val location =
+                "${it.region?.area1?.name} ${it.region?.area2?.name} ${it.region?.area3?.name} ${it.region?.area4?.name} ${it.land?.number1}-${it.land?.number2}"
             binding.etStart.setText(location)
         })
     }
@@ -82,11 +83,13 @@ class DirectionFragment :
                     "INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc",
                     locationLonLat
                 )
-                Toast.makeText(activity, locationLonLat, Toast.LENGTH_SHORT).show()
-                i++
             }
         }
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            Looper.myLooper()
+        )
     }
 
     override fun onDestroy() {
