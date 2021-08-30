@@ -134,3 +134,9 @@ data class Area2(
 data class Area3(
     val name: String
 )
+
+
+data class TestData(
+    val lat: Double,
+    val lng: Double
+)
