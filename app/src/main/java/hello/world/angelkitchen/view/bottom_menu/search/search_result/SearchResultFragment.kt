@@ -18,7 +18,8 @@ import hello.world.angelkitchen.view.bottom_menu.search.search_result.bottom_she
 
 @AndroidEntryPoint
 class SearchResultFragment :
-    BindingFragment<FragmentSearchResultBinding>(R.layout.fragment_search_result), OnMapReadyCallback {
+    BindingFragment<FragmentSearchResultBinding>(R.layout.fragment_search_result),
+    OnMapReadyCallback {
     private val searchResultViewModel: SearchResultViewModel by activityViewModels()
     private lateinit var searchResultAdapter: SearchResultAdapter
     private val linearLayoutManager: LinearLayoutManager by lazy { LinearLayoutManager(activity) }
@@ -36,16 +37,33 @@ class SearchResultFragment :
         searchResultViewModel.searchResultPlace.observe(this, {
         })
 
-        for (i in 1..3)
-            searchResultViewModel.addPlace(
-                BookmarkFragmentEntity(
-                    "https://picsum.photos/200/300",
-                    "${i}강남 급식소",
-                    "서울 강남구 테헤란로 13-${i}",
-                    "02-${i}234-5678",
-                    false
-                )
+        searchResultViewModel.addPlace(
+            BookmarkFragmentEntity(
+                "https://picsum.photos/200/300",
+                "강남 급식소 1",
+                "서울특별시 강남구 삼성동 66",
+                "02-1234-5678",
+                false
             )
+        )
+        searchResultViewModel.addPlace(
+            BookmarkFragmentEntity(
+                "https://picsum.photos/200/300",
+                "강남 급식소 2",
+                "서울특별시 강남구 개포동 12",
+                "02-2234-5678",
+                false
+            )
+        )
+        searchResultViewModel.addPlace(
+            BookmarkFragmentEntity(
+                "https://picsum.photos/200/300",
+                "강남 급식소 3",
+                "서울특별시 강남구 역삼동 682-8",
+                "02-3234-5678",
+                false
+            )
+        )
         initRecyclerView()
 
         Toast.makeText(activity, "${binding.recycler.getSelectedPosition()}", Toast.LENGTH_SHORT)
