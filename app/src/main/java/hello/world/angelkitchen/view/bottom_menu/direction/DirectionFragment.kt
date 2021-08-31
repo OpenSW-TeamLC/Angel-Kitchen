@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.location.Location
 import android.os.Looper
+import android.util.Log
+import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.google.android.gms.location.*
 import com.naver.maps.geometry.LatLng
@@ -55,11 +57,13 @@ class DirectionFragment :
 
         viewModel.getResultPath.observe(this, {
             val path = PathOverlay()
-            val pathContainer : MutableList<LatLng> = mutableListOf(LatLng(0.1,0.1))
-            if(it != null) {
-                for(pathCode in it) {
-                    for(pathCodeXY in pathCode.path) {
+            var routesCount = 0
+            val pathContainer: MutableList<LatLng> = mutableListOf(LatLng(0.1, 0.1))
+            if (it != null) {
+                for (pathCode in it) {
+                    for (pathCodeXY in pathCode.path) {
                         pathContainer.add(LatLng(pathCodeXY[1], pathCodeXY[0]))
+                        routesCount++
                     }
                 }
             }
@@ -67,9 +71,22 @@ class DirectionFragment :
             path.color = Color.RED
             path.map = naverMap
 
-            val cameraUpdate = CameraUpdate.scrollTo(path.coords[0]!!)
-                .animate(CameraAnimation.Easing, 3000)
-            naverMap.moveCamera(cameraUpdate)
+            val zoomRatio = when ((it[0].summary.distance * 0.001).toInt()) {
+                in 10..29 -> 11.0
+                in 30..59 -> 10.0
+                in 60..89 -> 9.0
+                in 90..99 -> 7.0
+                in 100..999 -> 3.0
+                else -> 11.0
+            }
+
+            val CenterLatlng = LatLng(it[0].path[routesCount / 2][1], it[0].path[routesCount / 2][0])
+            naverMap.moveCamera(
+                CameraUpdate.scrollAndZoomTo(CenterLatlng, zoomRatio)
+                    .animate(CameraAnimation.Fly, 2000)
+            )
+
+            binding.btnNavigation.visibility = View.VISIBLE
         })
     }
 
@@ -90,7 +107,7 @@ class DirectionFragment :
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         val locationRequest = LocationRequest.create().apply {
-//            interval = 100
+            interval = 10000
 //            fastestInterval = 50
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
             maxWaitTime = 3000
