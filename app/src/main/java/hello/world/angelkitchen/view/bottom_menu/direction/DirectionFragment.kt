@@ -23,6 +23,7 @@ class DirectionFragment :
     BindingFragment<FragmentFindDirectionBinding>(R.layout.fragment_find_direction),
     OnMapReadyCallback {
     private val viewModel: DirectionFragmentViewModel by activityViewModels()
+    private var zoomRatio: Double = 11.0
     private lateinit var naverMap: NaverMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
@@ -71,7 +72,7 @@ class DirectionFragment :
             path.color = Color.RED
             path.map = naverMap
 
-            val zoomRatio = when ((it[0].summary.distance * 0.001).toInt()) {
+            zoomRatio = when ((it[0].summary.distance * 0.001).toInt()) {
                 in 10..29 -> 11.0
                 in 30..59 -> 10.0
                 in 60..89 -> 9.0
@@ -80,7 +81,8 @@ class DirectionFragment :
                 else -> 11.0
             }
 
-            val CenterLatlng = LatLng(it[0].path[routesCount / 2][1], it[0].path[routesCount / 2][0])
+            val CenterLatlng =
+                LatLng(it[0].path[routesCount / 2][1], it[0].path[routesCount / 2][0])
             naverMap.moveCamera(
                 CameraUpdate.scrollAndZoomTo(CenterLatlng, zoomRatio)
                     .animate(CameraAnimation.Fly, 2000)
@@ -94,7 +96,8 @@ class DirectionFragment :
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
         val uiSetting = naverMap.uiSettings
-        uiSetting.isLocationButtonEnabled = true
+        binding.btnLocation.map = naverMap
+
         val locationSource = FusedLocationSource(this, 1000)
         naverMap.locationSource = locationSource
 
@@ -140,8 +143,15 @@ class DirectionFragment :
                 binding.etArrive.text.toString().replace(" ", "")
             )
         }
-        binding.btnNavigation.setOnClickListener{
-            naverMap.locationTrackingMode = LocationTrackingMode.Follow
+
+        binding.btnNavigation.setOnClickListener {
+            zoomRatio = 17.0
+            naverMap.moveCamera(CameraUpdate.toCameraPosition(CameraPosition(LatLng(currentLocation.latitude, currentLocation.longitude), zoomRatio)))
+            naverMap.moveCamera(
+                CameraUpdate.zoomTo(zoomRatio)
+                    .animate(CameraAnimation.Easing, 2000)
+            )
+            naverMap.locationTrackingMode = LocationTrackingMode.Face
         }
     }
 
