@@ -10,8 +10,12 @@ data class Result_trackoption(
 )
 data class Result_path(
     val summary : Result_distance,
-    val path : List<List<Double>>
+    val path : List<List<Double>>,
+    val guide : List<guide>
 )
 data class Result_distance(
     val distance : Int
+)
+data class guide(
+    val instructions : String
 )

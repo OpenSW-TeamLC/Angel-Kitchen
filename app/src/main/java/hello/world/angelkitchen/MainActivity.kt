@@ -99,6 +99,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                         var path_cords_list = response.body()?.route?.traoptimal //JSON 응답값 중 traoptimal(경로) 받아오기
                         val path = PathOverlay() //경로 객체 생성
                         val path_container : MutableList<LatLng>? = mutableListOf(LatLng(0.1,0.1)) //LatLng MutableList 생성
+                        var guide_container : MutableList<String>? = mutableListOf("")
                         if (path_cords_list != null) {
                             for(path_cords in path_cords_list){
                                 for(path_cords_xy in path_cords?.path){
@@ -204,6 +205,35 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                 }
             }
         }
+        val retrofit = Retrofit.Builder().
+        baseUrl("https://angelkitchen-1326.herokuapp.com/").
+        addConverterFactory(GsonConverterFactory.create()).
+        build()
+        val api = retrofit.create(AngelKitchenLocation::class.java)
+        //API 응답값 받기
+        val callgetPath = api.getPath("강남","강남")
+        callgetPath.enqueue(object : Callback<FoodLocation> {
+            override fun onResponse(//응답값 성공
+                call: Call<FoodLocation>,
+                response: Response<FoodLocation>
+            ) {
+                var location_container : MutableList<FoodLocationItem>? = response.body()
+                if (location_container != null) {
+                    for(i in location_container){
+                        Log.d("식당",i.fcltyNm)
+                        Log.d("전화번호",i.phoneNumber)
+                        Log.d("주소",i.lnmadr)
+                        Log.d("대상자",i.mlsvTrget)
+                        Log.d("시간",i.mlsvTime)
+                        Log.d("날짜",i.mlsvDate)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<FoodLocation>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 
     private fun getItems(): Collection<NaverItem> {
