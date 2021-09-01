@@ -94,7 +94,7 @@ class DirectionFragment :
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
         val uiSetting = naverMap.uiSettings
-
+        uiSetting.isLocationButtonEnabled = true
         val locationSource = FusedLocationSource(this, 1000)
         naverMap.locationSource = locationSource
 
@@ -139,6 +139,9 @@ class DirectionFragment :
                 "INnDxBgwB6Tt20sjSdFEqi6smxIBUNp4r7EkDUBc",
                 binding.etArrive.text.toString().replace(" ", "")
             )
+        }
+        binding.btnNavigation.setOnClickListener{
+            naverMap.locationTrackingMode = LocationTrackingMode.Follow
         }
     }
 
