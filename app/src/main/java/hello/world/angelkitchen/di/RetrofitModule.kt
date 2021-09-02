@@ -21,7 +21,7 @@ object RetrofitModule {
 
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
-    annotation class AngelAllDataType
+    annotation class AngelThreeDataType
 
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
@@ -37,15 +37,15 @@ object RetrofitModule {
 
     @Singleton
     @Provides
-    @AngelAllDataType
+    @AngelThreeDataType
     fun provideGetRetroServiceInterfaceSearchFragment(
-        @AngelAllDataType retrofit: Retrofit
+        @AngelThreeDataType retrofit: Retrofit
     ): AngelServiceInstance =
         retrofit.create(AngelServiceInstance::class.java)
 
     @Singleton
     @Provides
-    @AngelAllDataType
+    @AngelThreeDataType
     fun provideGetRetroInstanceSearchFragment(): Retrofit =
         Retrofit.Builder()
             .baseUrl(baseAngelURL)

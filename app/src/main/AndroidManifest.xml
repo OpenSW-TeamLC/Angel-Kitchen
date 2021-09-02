@@ -29,7 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".view.main.MainActivity"/>
         <activity android:name=".view.bottom_menu.BottomMenuActivity"/>
         <activity android:name=".view.bottom_menu.direction.DirectionAttachActivity"/>
     </application>

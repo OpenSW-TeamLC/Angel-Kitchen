@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.AngelKitchenDevelopApplication
-import hello.world.angelkitchen.MainActivity
+import hello.world.angelkitchen.view.main.MainActivity
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.base.BindingFragment
 import hello.world.angelkitchen.databinding.FragmentFirstBinding
