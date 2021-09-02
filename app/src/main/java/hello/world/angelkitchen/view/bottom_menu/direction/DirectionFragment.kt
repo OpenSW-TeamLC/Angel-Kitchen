@@ -146,7 +146,16 @@ class DirectionFragment :
 
         binding.btnNavigation.setOnClickListener {
             zoomRatio = 17.0
-            naverMap.moveCamera(CameraUpdate.toCameraPosition(CameraPosition(LatLng(currentLocation.latitude, currentLocation.longitude), zoomRatio)))
+            naverMap.moveCamera(
+                CameraUpdate.toCameraPosition(
+                    CameraPosition(
+                        LatLng(
+                            currentLocation.latitude,
+                            currentLocation.longitude
+                        ), zoomRatio
+                    )
+                )
+            )
             naverMap.moveCamera(
                 CameraUpdate.zoomTo(zoomRatio)
                     .animate(CameraAnimation.Easing, 2000)

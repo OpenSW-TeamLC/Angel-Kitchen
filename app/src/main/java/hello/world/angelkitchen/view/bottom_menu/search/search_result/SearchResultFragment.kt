@@ -6,8 +6,9 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
-import com.naver.maps.map.NaverMap
-import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.*
+import com.naver.maps.map.overlay.Marker
 import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.base.BindingFragment
@@ -71,7 +72,7 @@ class SearchResultFragment :
         })
 
         searchResultViewModel.getSearchData.observe(this, {
-            for(i in it.items.indices) {
+            for (i in it.items.indices) {
                 searchResultViewModel.addPlace(
                     BookmarkFragmentEntity(
                         "https://picsum.photos/200/300",
@@ -81,7 +82,42 @@ class SearchResultFragment :
                         false
                     )
                 )
-            }
+                val marker = Marker()
+                marker.position = LatLng(
+                    it.items[i].latitude,
+                    it.items[i].longitude
+                )
+                marker.map = naverMap
+            } // 중복 코드 제거
+            naverMap.moveCamera(
+                CameraUpdate.toCameraPosition(
+                    CameraPosition(
+                        LatLng(
+                            it.items[0].latitude,
+                            it.items[0].longitude
+                        ), 13.0
+                    )
+                )
+            )
+            binding.recycler.setItemSelectListener(object : CarouselLayoutManager.OnSelected {
+                override fun onItemSelected(position: Int) {
+                    naverMap.moveCamera(
+                        CameraUpdate.toCameraPosition(
+                            CameraPosition(
+                                LatLng(
+                                    it.items[position].latitude,
+                                    it.items[position].longitude
+                                ), 13.0
+                            )
+                        )
+                    )
+                    naverMap.moveCamera(
+                        CameraUpdate.zoomTo(13.0)
+                            .animate(CameraAnimation.Fly, 2000)
+                    )
+                }
+
+            })
         })
     }
 
