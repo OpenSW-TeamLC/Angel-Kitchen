@@ -101,7 +101,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         }
 
         naverMap.addOnCameraIdleListener {
-            viewModel.clearDataList()
+//            viewModel.clearDataList()
             viewModel.getThreeData(
                 AngelScanKitchenPostData(
                     currentCameraPosition.target.latitude,

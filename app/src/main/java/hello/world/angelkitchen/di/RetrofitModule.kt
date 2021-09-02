@@ -21,7 +21,7 @@ object RetrofitModule {
 
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
-    annotation class AngelThreeDataType
+    annotation class AngelGetDataType
 
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
@@ -37,16 +37,16 @@ object RetrofitModule {
 
     @Singleton
     @Provides
-    @AngelThreeDataType
-    fun provideGetRetroServiceInterfaceSearchFragment(
-        @AngelThreeDataType retrofit: Retrofit
+    @AngelGetDataType
+    fun provideGetRetroServiceInterfaceAngelThreeData(
+        @AngelGetDataType retrofit: Retrofit
     ): AngelServiceInstance =
         retrofit.create(AngelServiceInstance::class.java)
 
     @Singleton
     @Provides
-    @AngelThreeDataType
-    fun provideGetRetroInstanceSearchFragment(): Retrofit =
+    @AngelGetDataType
+    fun provideGetRetroInstanceAngelThreeData(): Retrofit =
         Retrofit.Builder()
             .baseUrl(baseAngelURL)
             .addConverterFactory(GsonConverterFactory.create())

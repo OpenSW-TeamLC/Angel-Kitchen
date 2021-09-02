@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import hello.world.angelkitchen.data.angel_api.AngelScanKitchenData
 import hello.world.angelkitchen.data.angel_api.AngelScanKitchenDataBody
-import hello.world.angelkitchen.data.angel_api.AngelScanKitchenDataValue
 import hello.world.angelkitchen.data.angel_api.AngelScanKitchenPostData
 import hello.world.angelkitchen.di.RetrofitModule
 import hello.world.angelkitchen.network.AngelServiceInstance
@@ -14,7 +13,7 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class MainActivityRepository @Inject constructor(
-    @RetrofitModule.AngelThreeDataType private val angelServiceInstance: AngelServiceInstance
+    @RetrofitModule.AngelGetDataType private val angelServiceInstance: AngelServiceInstance
 ) {
     fun makeApi(
         angelScanKitchenPostData: AngelScanKitchenPostData,

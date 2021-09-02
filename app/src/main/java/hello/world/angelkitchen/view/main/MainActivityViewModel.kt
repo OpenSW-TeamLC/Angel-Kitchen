@@ -20,8 +20,4 @@ class MainActivityViewModel @Inject constructor(
     fun getThreeData(angelScanKitchenPostData: AngelScanKitchenPostData) {
         mainActivityRepository.makeApi(angelScanKitchenPostData, _angelThreeDataList)
     }
-
-    fun clearDataList() {
-        _angelThreeDataList.value?.items?.clear()
-    }
 }

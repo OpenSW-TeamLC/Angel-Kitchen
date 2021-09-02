@@ -14,13 +14,16 @@ import hello.world.angelkitchen.base.BindingFragment
 import hello.world.angelkitchen.database.bookmark_fragment.BookmarkFragmentEntity
 import hello.world.angelkitchen.databinding.FragmentSearchResultBinding
 import hello.world.angelkitchen.util.extension.setNaverMapRender
+import hello.world.angelkitchen.view.bottom_menu.search.SearchViewModel
 import hello.world.angelkitchen.view.bottom_menu.search.search_result.bottom_sheet.BottomSheetFragment
 
 @AndroidEntryPoint
 class SearchResultFragment :
     BindingFragment<FragmentSearchResultBinding>(R.layout.fragment_search_result),
     OnMapReadyCallback {
+
     private val searchResultViewModel: SearchResultViewModel by activityViewModels()
+    private val searchViewModel: SearchViewModel by activityViewModels()
     private lateinit var searchResultAdapter: SearchResultAdapter
     private val linearLayoutManager: LinearLayoutManager by lazy { LinearLayoutManager(activity) }
     private val sheet: BottomSheetFragment by lazy { BottomSheetFragment() }
@@ -37,37 +40,7 @@ class SearchResultFragment :
         searchResultViewModel.searchResultPlace.observe(this, {
         })
 
-        searchResultViewModel.addPlace(
-            BookmarkFragmentEntity(
-                "https://picsum.photos/200/300",
-                "강남 급식소 1",
-                "서울특별시 강남구 삼성동 66",
-                "02-1234-5678",
-                false
-            )
-        )
-        searchResultViewModel.addPlace(
-            BookmarkFragmentEntity(
-                "https://picsum.photos/200/300",
-                "강남 급식소 2",
-                "서울특별시 강남구 개포동 12",
-                "02-2234-5678",
-                false
-            )
-        )
-        searchResultViewModel.addPlace(
-            BookmarkFragmentEntity(
-                "https://picsum.photos/200/300",
-                "강남 급식소 3",
-                "서울특별시 강남구 역삼동 682-8",
-                "02-3234-5678",
-                false
-            )
-        )
         initRecyclerView()
-
-        Toast.makeText(activity, "${binding.recycler.getSelectedPosition()}", Toast.LENGTH_SHORT)
-            .show()
 
         // 추후 BindingAdapter로 변경
         binding.ivPre.setBackgroundDrawable(ColorDrawable(Color.RED))
@@ -90,6 +63,24 @@ class SearchResultFragment :
                         binding.ivNext.setBackgroundDrawable(ColorDrawable(Color.BLUE))
                     }
                 }
+            }
+        })
+
+        searchViewModel.searchItem.observe(this, {
+            searchResultViewModel.getSearchData(it)
+        })
+
+        searchResultViewModel.getSearchData.observe(this, {
+            for(i in it.items.indices) {
+                searchResultViewModel.addPlace(
+                    BookmarkFragmentEntity(
+                        "https://picsum.photos/200/300",
+                        it.items[i].fcltyNm,
+                        it.items[i].lnmadr,
+                        it.items[i].phoneNumber,
+                        false
+                    )
+                )
             }
         })
     }

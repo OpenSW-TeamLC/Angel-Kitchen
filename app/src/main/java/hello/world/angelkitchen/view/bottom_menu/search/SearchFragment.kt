@@ -116,6 +116,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
             emptyList(),
             onClickItem = {
                 viewModel.touchItem(true)
+                viewModel.savePreWorld(SearchFragmentEntity(it.preSearchWord))
             },
             onClickDelete = {
                 viewModel.deletePreWorld(it)

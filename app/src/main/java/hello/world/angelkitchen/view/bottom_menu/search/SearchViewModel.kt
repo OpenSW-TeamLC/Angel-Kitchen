@@ -11,21 +11,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val recordRepository: RecordRepository,
-    private val angelAllDataRepository: AngelAllDataRepository
+    private val recordRepository: RecordRepository
 ) : ViewModel() {
 
     private val _touchItem = MutableLiveData<Boolean>()
     val touchItem: LiveData<Boolean>
         get() = _touchItem
 
-    //    언젠간 쓸 날이...?
-//    val preSearchWord: LiveData<List<SearchFragmentEntity>> =
-//        recordRepository.getAllData().asLiveData()
-
-    private val _angelAllData = MutableLiveData<String>()
-    val angelAllData: LiveData<String>
-        get() = _angelAllData
+    private val _searchItem = MutableLiveData<String>()
+    val searchItem: LiveData<String>
+         get() = _searchItem
 
     fun touchItem(isTouched: Boolean) {
         _touchItem.value = isTouched
@@ -35,6 +30,11 @@ class SearchViewModel @Inject constructor(
 
     fun insertPreWorld(searchFragmentEntity: SearchFragmentEntity) {
         recordRepository.insertData(searchFragmentEntity)
+        _searchItem.value = searchFragmentEntity.preSearchWord
+    }
+
+    fun savePreWorld(searchFragmentEntity: SearchFragmentEntity) {
+        _searchItem.value = searchFragmentEntity.preSearchWord
     }
 
     fun deletePreWorld(searchFragmentEntity: SearchFragmentEntity) {
@@ -43,10 +43,4 @@ class SearchViewModel @Inject constructor(
 
     fun searchDatabase(searchQuery: String) =
         recordRepository.searchDatabase(searchQuery).asLiveData()
-
-//    fun getAllAngelData(): LiveData<String> = angelAllData
-//
-//    fun loadAllAngelData() {
-//        angelAllDataRepository.makeApiCall(_angelAllData)
-//    }
 }
