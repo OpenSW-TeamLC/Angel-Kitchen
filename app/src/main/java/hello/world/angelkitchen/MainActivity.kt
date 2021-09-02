@@ -136,55 +136,59 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
         var path_lat: MutableList<String> = mutableListOf() //latitude MutableList 생성
         var path_long: MutableList<String> = mutableListOf()//longitude MutableList 생성
         val foodapi = retrofitfood.create(AngelKitchen::class.java)
-        for(i in 0..15) {
-            //무료급식소 API 응답값 받아오기
-            val foodlocation = foodapi.getPath(
-                "VEAAk7E+AFl+ebvIIp8rYPoQ0+dqaJRy4NRnWbo2wju5lvbYzuhlA55ZDydaRcdaViJftJwWTQiFtjtdS2Kkiw==",
-                i.toString(),
-                "100",
-                "json"
-            )
-            foodlocation.enqueue(object : Callback<FoodData> {
-                override fun onResponse(// 응답 성공시
-                    call: Call<FoodData>,
-                    response: Response<FoodData>
-                ) {
-                    //Toast.makeText(this@MainActivity, "error", Toast.LENGTH_SHORT).show()
-                    var foodposition: List<items>? = mutableListOf()//무료급식소 API 응답값인 무료급식소 정보를 받기 위한 List 생성
-                    var theDataList: List<items> = ArrayList<items>()
-                    if(response.body()?.response?.body?.items!=null) {
-                        foodposition = response.body()?.response?.body?.items//무료급식소 API 응답값인 무료급식소 정보를 받아오기
-                    }
-                    if (foodposition != null) {
-                        for(j in 0..(foodposition.size-1)) {
-                            val marker = Marker()//마커 객체 생성
-                            var path_la: Double? =
-                                (foodposition[j].latitude).toDoubleOrNull()//latitude List에 무료급식소의 latitude 입력
-                            var path_lon: Double? =
-                                (foodposition[j].longitude).toDoubleOrNull()//longitude List에 무료급식소의 longitude 입력
-                            if (path_la != null && path_lon != null) {//null check
-                                marker.position = LatLng(
-                                    path_la,
-                                    path_lon
-                                )//마커 위치 생성
-                                marker.tag =
-                                    foodposition[j]?.fcltyNm//마커 입력시 나오는 값 설정(현재 설정된 값은 무료급식소 이름)
-                                marker.setOnClickListener {// 마커를 클릭할 때 정보창을 엶
-                                    infoWindow.open(marker)
-                                    true
+        if(markers.isNullOrEmpty()) {
+            for (i in 0..15) {
+                //무료급식소 API 응답값 받아오기
+                val foodlocation = foodapi.getPath(
+                    "VEAAk7E+AFl+ebvIIp8rYPoQ0+dqaJRy4NRnWbo2wju5lvbYzuhlA55ZDydaRcdaViJftJwWTQiFtjtdS2Kkiw==",
+                    i.toString(),
+                    "100",
+                    "json"
+                )
+                foodlocation.enqueue(object : Callback<FoodData> {
+                    override fun onResponse(// 응답 성공시
+                        call: Call<FoodData>,
+                        response: Response<FoodData>
+                    ) {
+                        //Toast.makeText(this@MainActivity, "error", Toast.LENGTH_SHORT).show()
+                        var foodposition: List<items>? =
+                            mutableListOf()//무료급식소 API 응답값인 무료급식소 정보를 받기 위한 List 생성
+                        var theDataList: List<items> = ArrayList<items>()
+                        if (response.body()?.response?.body?.items != null) {
+                            foodposition =
+                                response.body()?.response?.body?.items//무료급식소 API 응답값인 무료급식소 정보를 받아오기
+                        }
+                        if (foodposition != null) {
+                            for (j in 0..(foodposition.size - 1)) {
+                                val marker = Marker()//마커 객체 생성
+                                var path_la: Double? =
+                                    (foodposition[j].latitude).toDoubleOrNull()//latitude List에 무료급식소의 latitude 입력
+                                var path_lon: Double? =
+                                    (foodposition[j].longitude).toDoubleOrNull()//longitude List에 무료급식소의 longitude 입력
+                                if (path_la != null && path_lon != null) {//null check
+                                    marker.position = LatLng(
+                                        path_la,
+                                        path_lon
+                                    )//마커 위치 생성
+                                    marker.tag =
+                                        foodposition[j]?.fcltyNm//마커 입력시 나오는 값 설정(현재 설정된 값은 무료급식소 이름)
+                                    marker.setOnClickListener {// 마커를 클릭할 때 정보창을 엶
+                                        infoWindow.open(marker)
+                                        true
+                                    }
+                                    markers.add(marker)//marker List에 설정된 마커 설정
                                 }
-                                markers.add(marker)//marker List에 설정된 마커 설정
                             }
                         }
+                        //Toast.makeText(this@MainActivity, response.body().toString(), Toast.LENGTH_LONG).show()
                     }
-                    //Toast.makeText(this@MainActivity, response.body().toString(), Toast.LENGTH_LONG).show()
-                }
-                override fun onFailure(call: Call<FoodData>, t: Throwable) {//응답 실패시
-                }
 
-            })
+                    override fun onFailure(call: Call<FoodData>, t: Throwable) {//응답 실패시
+                    }
+
+                })
+            }
         }
-
         infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(this) {
             override fun getText(infoWindow: InfoWindow): CharSequence {
                 // 정보 창이 열린 마커의 tag를 텍스트로 노출하도록 반환
