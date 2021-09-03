@@ -14,7 +14,9 @@ class BookmarkFragmentEntity(
     val target: String,
     val startTime: String,
     val day: String,
-    val start: String
+    val start: String,
+    val lat: Double,
+    val lon: Double
 ) {
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id")
     var id: Int = 0

@@ -83,7 +83,9 @@ class SearchResultFragment :
                         it.items[i].mlsvTrget,
                         it.items[i].mlsvTime,
                         it.items[i].mlsvDate.replace("+", " "),
-                        it.items[i].operOpenDate
+                        it.items[i].operOpenDate,
+                        it.items[i].latitude,
+                        it.items[i].longitude
                     )
                 )
                 val marker = Marker()

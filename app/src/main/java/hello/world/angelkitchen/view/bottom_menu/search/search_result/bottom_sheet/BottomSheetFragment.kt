@@ -19,8 +19,12 @@ import com.github.heyalex.bottomdrawer.BottomDrawerFragment
 import com.github.heyalex.handle.PlainHandleView
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
 import com.google.android.material.snackbar.Snackbar
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraPosition
+import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.overlay.Marker
 import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.R
 import hello.world.angelkitchen.database.bookmark_fragment.BookmarkFragmentEntity
@@ -146,5 +150,21 @@ class BottomSheetFragment : BottomDrawerFragment(), OnMapReadyCallback {
     @UiThread
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
+        naverMap.moveCamera(
+            CameraUpdate.toCameraPosition(
+                CameraPosition(
+                    LatLng(
+                        bottomSheetFragmentViewModel.resultPlaceInfo.value?.lat!!,
+                        bottomSheetFragmentViewModel.resultPlaceInfo.value?.lon!!
+                    ), 13.0
+                )
+            )
+        )
+        val marker = Marker()
+        marker.position = LatLng(
+            bottomSheetFragmentViewModel.resultPlaceInfo.value?.lat!!,
+            bottomSheetFragmentViewModel.resultPlaceInfo.value?.lon!!
+        )
+        marker.map = naverMap
     }
 }
