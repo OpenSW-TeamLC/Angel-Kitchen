@@ -13,8 +13,8 @@
         <action
             android:id="@+id/action_firstFragment_to_secondFragment"
             app:destination="@id/step_2_dest"
-            app:exitAnim="@anim/slide_in_top"
-            app:enterAnim="@anim/slide_in_bottom"/>
+            app:exitAnim="@anim/slide_in_exit_left_right"
+            app:enterAnim="@anim/slide_in_enter_right_left"/>
     </fragment>
     <fragment
         android:id="@+id/step_2_dest"
@@ -24,12 +24,23 @@
         <action
             android:id="@+id/action_secondFragment_to_thirdFragment"
             app:destination="@id/step_3_dest"
-            app:enterAnim="@anim/slide_in_bottom"
-            app:exitAnim="@anim/slide_in_top"/>
+            app:enterAnim="@anim/slide_in_enter_right_left"
+            app:exitAnim="@anim/slide_in_exit_left_right"/>
+        <action
+            android:id="@+id/action_step_2_dest_to_step_1_dest"
+            app:destination="@id/step_1_dest"
+            app:enterAnim="@anim/slide_in_pre_enter_right_left"
+            app:exitAnim="@anim/slide_in_pre_exit_left_right"/>
     </fragment>
     <fragment
         android:id="@+id/step_3_dest"
         android:name="hello.world.angelkitchen.view.onboard.ThirdFragment"
         android:label="ThirdFragment"
-        tools:layout="@layout/fragment_third"/>
+        tools:layout="@layout/fragment_third">
+        <action
+            android:id="@+id/action_step_3_dest_to_step_2_dest"
+            app:destination="@id/step_2_dest"
+            app:enterAnim="@anim/slide_in_pre_enter_right_left"
+            app:exitAnim="@anim/slide_in_pre_exit_left_right"/>
+    </fragment>
 </navigation>

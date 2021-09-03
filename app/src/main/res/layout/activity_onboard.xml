@@ -20,7 +20,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fg_onboard"
-            app:stepperType="tab_numbered"/>
+            app:stepperType="tab_numbered"
+            android:padding="24dp"
+            app:stepperWidgetColor="#32CA20"/>
 
 
         <!-- Not support to androidx -->
@@ -29,7 +31,7 @@
             android:id="@+id/fg_onboard"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:navGraph="@navigation/nav_graph"
             app:defaultNavHost="true"
             app:layout_constraintTop_toBottomOf="@id/stepper"

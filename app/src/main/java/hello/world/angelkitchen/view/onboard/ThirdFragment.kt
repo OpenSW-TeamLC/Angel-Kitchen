@@ -1,6 +1,7 @@
 package hello.world.angelkitchen.view.onboard
 
 import android.content.Intent
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import hello.world.angelkitchen.AngelKitchenDevelopApplication
 import hello.world.angelkitchen.view.main.MainActivity
@@ -17,6 +18,10 @@ class ThirdFragment : BindingFragment<FragmentThirdBinding>(R.layout.fragment_th
             val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
             activity?.finish()
+        }
+
+        binding.btnPre.setOnClickListener {
+            findNavController().navigate(R.id.action_step_3_dest_to_step_2_dest)
         }
     }
 }

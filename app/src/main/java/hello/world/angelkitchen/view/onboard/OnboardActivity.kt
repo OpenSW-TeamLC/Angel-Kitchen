@@ -36,6 +36,7 @@ class OnboardActivity : BindingActivity<ActivityOnboardBinding>(R.layout.activit
         }
         context = this@OnboardActivity
         checkPermission()
+
     }
 
     override fun startView() {
