@@ -34,11 +34,13 @@ import ted.gun0912.clustering.naver.TedNaverClustering
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback{
     public val markers = mutableListOf<Marker>()
-    private var isFirstLocation = true;
+    private var isFirstLocation = true
+    private var isCluster=false
     private val LOCATION_PERMISSION_REQUEST_CODE = 1000
     private var locationSource: FusedLocationSource? = null
     private lateinit var naverMap: NaverMap
-    lateinit var tedNaverClustering: TedNaverClustering<NaverItem>
+    private var tedNaverClustering: TedNaverClustering<NaverItem>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -130,8 +132,26 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
         uiSettings.isCompassEnabled = true
         var i:Int
         val infoWindow = InfoWindow()
-            tedNaverClustering = TedNaverClustering.with<NaverItem>(this, naverMap).make()
         //공공데이터 포털 급식소 API 레트로핏 객체 생성
+        naverMap.addOnCameraChangeListener { reason, animated ->
+            var position = naverMap.cameraPosition
+            if (position.zoom < 10) {
+                Log.d("Zoom","True")
+                tedNaverClustering = TedNaverClustering.with<NaverItem>(this, naverMap).make()
+                if(isCluster) {
+                    for (marker in markers) {
+                        var tedMar = NaverItem(marker.position)
+                        tedNaverClustering?.addItem(tedMar)
+                    }
+                }
+                isCluster=false
+            }
+            else{
+                isCluster=true;
+                Log.d("Zoom","False")
+                tedNaverClustering = null
+            }
+        }
         val retrofitfood = Retrofit.Builder().
         baseUrl("http://api.data.go.kr/openapi/").
         addConverterFactory(GsonConverterFactory.create()).
@@ -179,9 +199,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                                         infoWindow.open(marker)
                                         true
                                     }
-                                    marker.zIndex=10
-                                    var tedMar = NaverItem(marker.position)
-                                    tedNaverClustering.addItem(tedMar)
+                                    marker.zIndex=100
                                     markers.add(marker)//marker List에 설정된 마커 설정
                                 }
                             }
@@ -203,20 +221,28 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                 return infoWindow.marker?.tag as CharSequence? ?: ""
             }
         }
-        // 정의된 마커위치들중 가시거리 내에있는것들만 마커 생성
-        naverMap.addOnCameraChangeListener { reason, animated ->
-            //freeActiveMarkers(markers1)
-            val currentPosition = getCurrentPosition(naverMap)//현재 카메라 위치 받아오기
-            val cameraPosition = naverMap.cameraPosition
-            for (markerPosition in markers) {
-                if (withinSightMarker(LatLng(cameraPosition.target.latitude, cameraPosition.target.longitude), markerPosition.position)) {
-                    markerPosition.map = naverMap
-                }
-                else{
-                    markerPosition.map = null
+            // 정의된 마커위치들중 가시거리 내에있는것들만 마커 생성
+            naverMap.addOnCameraChangeListener { reason, animated ->
+                //freeActiveMarkers(markers1)
+                var position = naverMap.cameraPosition
+                Log.d("True",(position.zoom).toString())
+                if (position.zoom >= 10) {
+                    val cameraPosition = naverMap.cameraPosition
+                    for (markerPosition in markers) {
+                        if (withinSightMarker(
+                                LatLng(
+                                    cameraPosition.target.latitude,
+                                    cameraPosition.target.longitude
+                                ), markerPosition.position
+                            )
+                        ) {
+                            markerPosition.map = naverMap
+                        } else {
+                            markerPosition.map = null
+                        }
+                    }
                 }
             }
-        }
         val retrofit = Retrofit.Builder().
         baseUrl("https://angelkitchen-1326.herokuapp.com/").
         addConverterFactory(GsonConverterFactory.create()).
