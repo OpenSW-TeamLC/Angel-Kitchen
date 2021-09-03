@@ -79,7 +79,11 @@ class SearchResultFragment :
                         it.items[i].fcltyNm,
                         it.items[i].lnmadr,
                         it.items[i].phoneNumber,
-                        false
+                        false,
+                        it.items[i].mlsvTrget,
+                        it.items[i].mlsvTime,
+                        it.items[i].mlsvDate.replace("+", " "),
+                        it.items[i].operOpenDate
                     )
                 )
                 val marker = Marker()

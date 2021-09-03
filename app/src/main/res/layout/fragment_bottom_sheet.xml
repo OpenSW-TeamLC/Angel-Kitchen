@@ -143,6 +143,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_target"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="결식노인, 저소득층"
@@ -163,6 +164,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="중식 (12:00 ~ 13:00)"
@@ -188,6 +190,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/tv_day"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="8dp"
@@ -195,53 +198,53 @@
                             android:textSize="16dp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="8dp"
-                            android:text="화"
-                            android:textSize="16dp"
-                            android:textStyle="bold" />
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:padding="8dp"-->
+<!--                            android:text="화"-->
+<!--                            android:textSize="16dp"-->
+<!--                            android:textStyle="bold" />-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="8dp"
-                            android:text="수"
-                            android:textSize="16dp"
-                            android:textStyle="bold" />
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:padding="8dp"-->
+<!--                            android:text="수"-->
+<!--                            android:textSize="16dp"-->
+<!--                            android:textStyle="bold" />-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="8dp"
-                            android:text="목"
-                            android:textSize="16dp"
-                            android:textStyle="bold" />
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:padding="8dp"-->
+<!--                            android:text="목"-->
+<!--                            android:textSize="16dp"-->
+<!--                            android:textStyle="bold" />-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="8dp"
-                            android:text="금"
-                            android:textSize="16dp"
-                            android:textStyle="bold" />
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:padding="8dp"-->
+<!--                            android:text="금"-->
+<!--                            android:textSize="16dp"-->
+<!--                            android:textStyle="bold" />-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="8dp"
-                            android:text="토"
-                            android:textSize="16dp"
-                            android:textStyle="bold" />
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:padding="8dp"-->
+<!--                            android:text="토"-->
+<!--                            android:textSize="16dp"-->
+<!--                            android:textStyle="bold" />-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="8dp"
-                            android:text="일"
-                            android:textSize="16dp"
-                            android:textStyle="bold" />
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:padding="8dp"-->
+<!--                            android:text="일"-->
+<!--                            android:textSize="16dp"-->
+<!--                            android:textStyle="bold" />-->
 
                     </LinearLayout>
                 </LinearLayout>
@@ -260,6 +263,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_start"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2017.01.01"

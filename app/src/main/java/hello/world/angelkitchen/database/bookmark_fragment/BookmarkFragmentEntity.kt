@@ -10,7 +10,11 @@ class BookmarkFragmentEntity(
     val place: String,
     val address: String,
     val number: String,
-    var like: Boolean
+    var like: Boolean,
+    val target: String,
+    val startTime: String,
+    val day: String,
+    val start: String
 ) {
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id")
     var id: Int = 0

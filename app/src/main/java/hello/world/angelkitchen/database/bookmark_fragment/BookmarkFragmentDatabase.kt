@@ -8,7 +8,7 @@ import androidx.room.migration.Migration
 
 @Database(
     entities = [BookmarkFragmentEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class BookmarkFragmentDatabase : RoomDatabase() {

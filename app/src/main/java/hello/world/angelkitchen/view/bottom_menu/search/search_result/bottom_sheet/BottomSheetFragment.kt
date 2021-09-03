@@ -55,6 +55,10 @@ class BottomSheetFragment : BottomDrawerFragment(), OnMapReadyCallback {
                 tvTitle.text = bottomSheetFragmentViewModel.resultPlaceInfo.value?.place!!
                 tvAddress.text = bottomSheetFragmentViewModel.resultPlaceInfo.value?.address!!
                 tvNumber.text = bottomSheetFragmentViewModel.resultPlaceInfo.value?.number!!
+                tvTarget.text = bottomSheetFragmentViewModel.resultPlaceInfo.value?.target!!
+                tvTime.text = bottomSheetFragmentViewModel.resultPlaceInfo.value?.startTime!!
+                tvDay.text = bottomSheetFragmentViewModel.resultPlaceInfo.value?.day!!
+                tvStart.text = bottomSheetFragmentViewModel.resultPlaceInfo.value?.start!!
                 ivThumb.load(bottomSheetFragmentViewModel.resultPlaceInfo.value?.imgPath!!) {
                     crossfade(true)
                     placeholder(R.drawable.ic_launcher_foreground)
