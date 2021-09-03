@@ -30,6 +30,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ted.gun0912.clustering.naver.TedNaverClustering
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback{
     public val markers = mutableListOf<Marker>()
@@ -37,6 +38,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
     private val LOCATION_PERMISSION_REQUEST_CODE = 1000
     private var locationSource: FusedLocationSource? = null
     private lateinit var naverMap: NaverMap
+    lateinit var tedNaverClustering: TedNaverClustering<NaverItem>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -128,6 +130,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
         uiSettings.isCompassEnabled = true
         var i:Int
         val infoWindow = InfoWindow()
+            tedNaverClustering = TedNaverClustering.with<NaverItem>(this, naverMap).make()
         //공공데이터 포털 급식소 API 레트로핏 객체 생성
         val retrofitfood = Retrofit.Builder().
         baseUrl("http://api.data.go.kr/openapi/").
@@ -176,6 +179,9 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                                         infoWindow.open(marker)
                                         true
                                     }
+                                    marker.zIndex=10
+                                    var tedMar = NaverItem(marker.position)
+                                    tedNaverClustering.addItem(tedMar)
                                     markers.add(marker)//marker List에 설정된 마커 설정
                                 }
                             }
@@ -188,7 +194,9 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
 
                 })
             }
+
         }
+
         infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(this) {
             override fun getText(infoWindow: InfoWindow): CharSequence {
                 // 정보 창이 열린 마커의 tag를 텍스트로 노출하도록 반환
@@ -235,18 +243,8 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
             }
 
             override fun onFailure(call: Call<FoodLocation>, t: Throwable) {
-                TODO("Not yet implemented")
             }
         })
-    }
-
-    private fun getItems(): Collection<NaverItem> {
-        return ArrayList<NaverItem>().apply {
-            for(ma in markers){
-                val temp = NaverItem(ma.position)
-                add(temp)
-            }
-        }
     }
 
     private var markersPosition: Vector<LatLng>? = null
