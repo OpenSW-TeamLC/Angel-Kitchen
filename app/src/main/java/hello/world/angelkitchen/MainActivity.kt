@@ -36,6 +36,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
     public val markers = mutableListOf<Marker>()
     private var isFirstLocation = true
     private var isCluster=false
+    private var isCluster1=false
     private val LOCATION_PERMISSION_REQUEST_CODE = 1000
     private var locationSource: FusedLocationSource? = null
     private lateinit var naverMap: NaverMap
@@ -132,26 +133,33 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
         uiSettings.isCompassEnabled = true
         var i:Int
         val infoWindow = InfoWindow()
-        //공공데이터 포털 급식소 API 레트로핏 객체 생성
-        naverMap.addOnCameraChangeListener { reason, animated ->
+        naverMap.addOnCameraIdleListener {
             var position = naverMap.cameraPosition
             if (position.zoom < 10) {
                 Log.d("Zoom","True")
-                tedNaverClustering = TedNaverClustering.with<NaverItem>(this, naverMap).make()
-                if(isCluster) {
-                    for (marker in markers) {
-                        var tedMar = NaverItem(marker.position)
-                        tedNaverClustering?.addItem(tedMar)
+                if(isCluster1) {
+                    tedNaverClustering = TedNaverClustering.with<NaverItem>(this, naverMap).make()
+                    for(i in markers){
+                        var ted1 = NaverItem(i.position)
+                        tedNaverClustering?.addItem(ted1)
                     }
                 }
-                isCluster=false
+                isCluster=true
+                isCluster1=false
             }
             else{
-                isCluster=true;
                 Log.d("Zoom","False")
-                tedNaverClustering = null
+                if(isCluster) {
+                    for(i in markers){
+                        var ted1 = NaverItem(i.position)
+                        tedNaverClustering?.removeItem(ted1)
+                    }
+                }
+                isCluster1=true
+                isCluster=false
             }
         }
+        //공공데이터 포털 급식소 API 레트로핏 객체 생성
         val retrofitfood = Retrofit.Builder().
         baseUrl("http://api.data.go.kr/openapi/").
         addConverterFactory(GsonConverterFactory.create()).
@@ -200,6 +208,8 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                                         true
                                     }
                                     marker.zIndex=100
+                                    var ted = NaverItem(marker.position)
+                                    tedNaverClustering?.addItem(ted)
                                     markers.add(marker)//marker List에 설정된 마커 설정
                                 }
                             }
@@ -222,7 +232,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
             }
         }
             // 정의된 마커위치들중 가시거리 내에있는것들만 마커 생성
-            naverMap.addOnCameraChangeListener { reason, animated ->
+            naverMap.addOnCameraIdleListener {
                 //freeActiveMarkers(markers1)
                 var position = naverMap.cameraPosition
                 Log.d("True",(position.zoom).toString())
