@@ -135,8 +135,9 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
         val infoWindow = InfoWindow()
         naverMap.addOnCameraIdleListener {
             var position = naverMap.cameraPosition
+            //현재 카메라 줌이 10미만일 때는 클러스터링 사용
             if (position.zoom < 10) {
-                Log.d("Zoom","True")
+                //클러스터링 렌더링을 위해서 일일히 클러스터에 마커를 넣어주어야함
                 if(isCluster1) {
                     tedNaverClustering = TedNaverClustering.with<NaverItem>(this, naverMap).make()
                     for(i in markers){
@@ -147,12 +148,28 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                 isCluster=true
                 isCluster1=false
             }
+            //현재 카메라 줌이 10이사일 경우에는 화면내의 마커만 렌더링
             else{
-                Log.d("Zoom","False")
+                //클러스터링 삭제 하기위해 일일히 클러스트에 마커를 삭제해주어야함
                 if(isCluster) {
                     for(i in markers){
                         var ted1 = NaverItem(i.position)
                         tedNaverClustering?.removeItem(ted1)
+                    }
+                }
+                //정의된 마커위치들중 가시거리 내에있는것들만 마커 생성
+                val cameraPosition = naverMap.cameraPosition
+                for (markerPosition in markers) {
+                    if (withinSightMarker(
+                            LatLng(
+                                cameraPosition.target.latitude,
+                                cameraPosition.target.longitude
+                            ), markerPosition.position
+                        )
+                    ) {
+                        markerPosition.map = naverMap
+                    } else {
+                        markerPosition.map = null
                     }
                 }
                 isCluster1=true
@@ -231,28 +248,6 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback{
                 return infoWindow.marker?.tag as CharSequence? ?: ""
             }
         }
-            // 정의된 마커위치들중 가시거리 내에있는것들만 마커 생성
-            naverMap.addOnCameraIdleListener {
-                //freeActiveMarkers(markers1)
-                var position = naverMap.cameraPosition
-                Log.d("True",(position.zoom).toString())
-                if (position.zoom >= 10) {
-                    val cameraPosition = naverMap.cameraPosition
-                    for (markerPosition in markers) {
-                        if (withinSightMarker(
-                                LatLng(
-                                    cameraPosition.target.latitude,
-                                    cameraPosition.target.longitude
-                                ), markerPosition.position
-                            )
-                        ) {
-                            markerPosition.map = naverMap
-                        } else {
-                            markerPosition.map = null
-                        }
-                    }
-                }
-            }
         val retrofit = Retrofit.Builder().
         baseUrl("https://angelkitchen-1326.herokuapp.com/").
         addConverterFactory(GsonConverterFactory.create()).
