@@ -52,7 +52,8 @@
                         android:layout_height="wrap_content"
                         android:text="뉴욕 급식소"
                         android:textSize="24dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:ellipsize="end"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"

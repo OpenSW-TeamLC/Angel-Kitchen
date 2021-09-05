@@ -115,11 +115,7 @@ class SearchResultFragment :
                                     it.items[position].longitude
                                 ), 13.0
                             )
-                        )
-                    )
-                    naverMap.moveCamera(
-                        CameraUpdate.zoomTo(13.0)
-                            .animate(CameraAnimation.Fly, 2000)
+                        ).animate(CameraAnimation.Fly, 2000)
                     )
                 }
 

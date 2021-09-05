@@ -29,7 +29,8 @@
             android:paddingStart="8dp"
             app:layout_constraintBottom_toTopOf="@id/address_container"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
 
             <TextView
                 android:id="@+id/tv_place"
