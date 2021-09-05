@@ -14,6 +14,7 @@ import hello.world.angelkitchen.view.bottom_menu.search.SearchFragment
 import hello.world.angelkitchen.view.bottom_menu.search.SearchViewModel
 import hello.world.angelkitchen.view.bottom_menu.search.search_result.SearchResultFragment
 import hello.world.angelkitchen.view.bottom_menu.setting.SettingFragment
+import timber.log.Timber
 
 @AndroidEntryPoint
 class BottomMenuActivity : BindingActivity<ActivityBottomMenuBinding>(R.layout.activity_bottom_menu) {
@@ -25,13 +26,20 @@ class BottomMenuActivity : BindingActivity<ActivityBottomMenuBinding>(R.layout.a
     private val searchViewModel: SearchViewModel by viewModels()
 
     override fun initView() {
-        val isSelectedBottomMenu = intent.extras?.getString("bottom_nav")!!
-        Log.d("BottomMenuActivity", isSelectedBottomMenu)
-        replaceFragment(isSelectedBottomMenu)
+        getDataFromActivity()
+        viewModelInit()
+    }
 
+    private fun viewModelInit() {
         searchViewModel.touchItem.observe(this, {
             replaceToBackStack(R.id.container_main, searchResultFragment)
         })
+    }
+
+    private fun getDataFromActivity() {
+        val isSelectedBottomMenu = intent.extras?.getString("bottom_nav")!!
+        Timber.d(isSelectedBottomMenu)
+        replaceFragment(isSelectedBottomMenu)
     }
 
     override fun startView() {

@@ -18,6 +18,10 @@ class OnboardActivity : BindingActivity<ActivityOnboardBinding>(R.layout.activit
     private lateinit var permissionlistener: PermissionListener
 
     override fun initView() {
+        initPermission()
+    }
+
+    private fun initPermission() {
         permissionlistener = object : PermissionListener {
             // Access permission
             override fun onPermissionGranted() {
@@ -44,19 +48,6 @@ class OnboardActivity : BindingActivity<ActivityOnboardBinding>(R.layout.activit
     }
 
     private fun checkPermission() {
-//        if (Build.VERSION.SDK_INT >= 26) { // 출처를 알 수 없는 앱 설정 화면 띄우기
-//            val pm: PackageManager = context.packageManager
-//            Log.e("Package Name", packageName)
-//            if (!pm.canRequestPackageInstalls()) {
-//                startActivity(
-//                    Intent(
-//                        Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
-//                        Uri.parse("package:$packageName")
-//                    )
-//                )
-//            }
-//        }
-
         TedPermission.with(context)
             .setPermissionListener(permissionlistener)
             .setRationaleMessage("앱을 이용하기 위해서는 접근 권한이 필요합니다")

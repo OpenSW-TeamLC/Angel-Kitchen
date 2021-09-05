@@ -25,8 +25,5 @@ class AngelKitchenDevelopApplication : Application() {
         lateinit var prefs: PreferenceUtil
         lateinit var pixelRatio: PixelRatio
         lateinit var instance: AngelKitchenDevelopApplication
-        fun ApplicationContext(): Context {
-            return instance.applicationContext
-        }
     }
 }

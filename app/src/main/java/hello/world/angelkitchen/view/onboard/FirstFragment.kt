@@ -12,6 +12,10 @@ import hello.world.angelkitchen.databinding.FragmentFirstBinding
 @AndroidEntryPoint
 class FirstFragment : BindingFragment<FragmentFirstBinding>(R.layout.fragment_first) {
     override fun initView() {
+        checkPreference()
+    }
+
+    private fun checkPreference() {
         val isSaved = AngelKitchenDevelopApplication.prefs.getString("onboard_save", "isSaved")
         if(isSaved == "save") {
             val intent = Intent(activity, MainActivity::class.java)
@@ -19,7 +23,6 @@ class FirstFragment : BindingFragment<FragmentFirstBinding>(R.layout.fragment_fi
             activity?.finish()
         }
         else startOnboard()
-
     }
 
     private fun startOnboard() {

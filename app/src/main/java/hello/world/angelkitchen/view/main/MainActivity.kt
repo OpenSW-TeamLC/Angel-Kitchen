@@ -1,11 +1,9 @@
 package hello.world.angelkitchen.view.main
 
 import android.content.Intent
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.annotation.UiThread
 import com.naver.maps.geometry.LatLng
-import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
@@ -17,6 +15,7 @@ import hello.world.angelkitchen.data.angel_api.AngelScanKitchenPostData
 import hello.world.angelkitchen.databinding.ActivityMainBinding
 import hello.world.angelkitchen.util.extension.setNaverMapRender
 import hello.world.angelkitchen.view.bottom_menu.BottomMenuActivity
+import timber.log.Timber
 import kotlin.math.abs
 
 @AndroidEntryPoint
@@ -28,14 +27,16 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     private lateinit var currentCameraPosition: CameraPosition
     private lateinit var naverMap: NaverMap
 
-
     override fun initView() {
 //        Call Dialog
 //        AddActionExitDialogFragment().show(supportFragmentManager, "Test")
 
         initBottomNavigation()
-        setNaverMapRender(R.id.container_map, supportFragmentManager, this)
+        setNaverMapRendering()
+        setMarkerInMap()
+    }
 
+    private fun setMarkerInMap() {
         val infoWindow = InfoWindow()
         viewModel.angelThreeDataList.observe(this, {
             naverMap.locationTrackingMode = LocationTrackingMode.NoFollow
@@ -45,7 +46,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                     it.items[markerIndex].latitude,
                     it.items[markerIndex].longitude
                 )
-                Log.d("KitchenList", it.items[markerIndex].fcltyNm)
+                Timber.d(it.items[markerIndex].fcltyNm)
                 marker.tag = it.items[markerIndex].fcltyNm
                 marker.setOnClickListener {
                     infoWindow.open(marker)
@@ -53,7 +54,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 }
                 markerList.add(marker)
             }
-            Log.d("KitchenList", "---------------------------------")
+            Timber.d("---------------------------------")
             for (markerPosition in markerList) {
                 if (withinSightMarker(
                         LatLng(
@@ -149,5 +150,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
             }
             false
         }
+    }
+
+    private fun setNaverMapRendering() {
+        setNaverMapRender(R.id.container_map, supportFragmentManager, this)
     }
 }
