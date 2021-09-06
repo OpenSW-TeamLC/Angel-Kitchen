@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.gms.location.*
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
+import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.PathOverlay
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
@@ -85,6 +86,10 @@ class DirectionFragment :
                 CameraUpdate.scrollAndZoomTo(CenterLatlng, zoomRatio)
                     .animate(CameraAnimation.Fly, 2000)
             )
+
+            val marker = Marker()
+            marker.position = LatLng(it[0].path[routesCount - 1][1], it[0].path[routesCount - 1][0])
+            marker.map = naverMap
 
             binding.btnNavigation.visibility = View.VISIBLE
         })
