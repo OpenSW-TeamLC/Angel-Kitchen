@@ -16,6 +16,8 @@ abstract class BindingFragment<T : ViewDataBinding>(
     protected val binding: T
         get() = requireNotNull(_binding)
 
+    abstract fun initView()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -23,6 +25,8 @@ abstract class BindingFragment<T : ViewDataBinding>(
     ): View? {
         _binding = DataBindingUtil.inflate(inflater, layoutRes, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
+
+        initView()
 
         return binding.root
     }
