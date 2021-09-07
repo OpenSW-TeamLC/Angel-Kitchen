@@ -20,7 +20,7 @@ Retrofit으로 서버와 HTTP 통신하여 검색어에 맞는 무료급식소 �
 
 ## Prerequisites
 ```
-kotlin v14.16.0
+kotlin v1.5.0
 ```
 
 ## API & Open-source
