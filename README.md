@@ -76,4 +76,4 @@ Angel Kitchen은 취약 계층을 위해 무료 급식소를 안내해주는 앱
 <br>
 
 ## License
-This project is licensed under the Apache 2.0 License - see the [Angel-Kitchen_Server/LICENSE](LICENSE)
+This project is licensed under the Apache 2.0 License - see the [Angel-Kitchen/LICENSE](LICENSE)
