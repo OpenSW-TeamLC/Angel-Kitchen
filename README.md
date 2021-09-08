@@ -56,12 +56,12 @@
 </tr>
 <tr>
     <td><b>Third Party Library</b></td>
-    <td>Glide, Timber, Android-Stepper, TedPermission, Lottie, Coil, BottomDrawer, License Dialog, CarouselRecyclerView</td>
+    <td>Timber, Android-Stepper, TedPermission, Lottie, Coil, BottomDrawer, License Dialog, CarouselRecyclerView</td>
 
 </tr>
 <tr>
     <td><b>API</b></td>
-<td>Naver Map API, Direction 5 API, Geocoding, Reverse Geocoding API</td>
+<td>Naver Map API, Direction 5 API, Geocoding, Reverse Geocoding API, Heroku Server API</td>
 </tr>
 <tr>
     <td><b>Other Tool</b></td>
