@@ -1,9 +1,9 @@
 # 👼Angel Kitchen
-### **취약 계층을 위한 무료 급식소 안내 서비스 Angel Kitchen**  <br><br>
+### **취약 계층을 위한 무료 급식소 안내 서비스 천사식당**  <br><br>
 
 # 😇Preview
 ## 앱 설명  
-### 사용자에게 Angel Kitchen이 어떤 앱인지 간략하게 소개합니다.  <br><br>
+### 사용자에게 천사식당이 어떤 앱인지 간략하게 소개합니다.  <br><br>
 <img src = "assets_img/1.jpg" width="250"/><img src = "assets_img/2.jpg" width="250"/><img src = "assets_img/3.jpg" width="250"/>  
 
 ## 내 주변 무료 급식소 찾기
@@ -32,7 +32,7 @@
 <tbody>
 <tr>
     <td><b>Design Pattern</b></td>
-<td>MVVM Pattern, Repository Pattern, Delegation Pattern</td>
+<td>MVVM Pattern, RxKotlin, Repository Pattern, Delegation Pattern</td>
 </tr>
 <tr>
     <td><b>Jetpack Components</b></td>
@@ -58,6 +58,10 @@
 <tr>
     <td><b>API</b></td>
 <td>Naver Map API, Direction 5 API, Geocoding, Reverse Geocoding API, Heroku Server API</td>
+</tr>
+    <tr>
+    <td><b>UX/UI</b></td>
+<td>Material Design</td>
 </tr>
 <tr>
     <td><b>Other Tool</b></td>
