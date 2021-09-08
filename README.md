@@ -30,13 +30,9 @@
 
 <table class="tg">
 <tbody>
-  <tr>
-    <td><b>Architecture</b></td>
-    <td>MVVM</td>
-  </tr>
 <tr>
     <td><b>Design Pattern</b></td>
-<td>Repository Pattern, Delegation Pattern</td>
+<td>MVVM Pattern, Repository Pattern, Delegation Pattern</td>
 </tr>
 <tr>
     <td><b>Jetpack Components</b></td>
