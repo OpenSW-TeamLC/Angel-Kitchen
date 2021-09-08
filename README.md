@@ -32,7 +32,7 @@
 <tbody>
 <tr>
     <td><b>Design Pattern</b></td>
-<td>MVVM Pattern, RxKotlin, Repository Pattern, Delegation Pattern</td>
+<td>MVVM Pattern, RxKotlin, Repository Pattern, Delegation Pattern, Observer Pattern</td>
 </tr>
 <tr>
     <td><b>Jetpack Components</b></td>
