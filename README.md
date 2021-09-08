@@ -64,8 +64,8 @@
 <td>Material Design</td>
 </tr>
 <tr>
-    <td><b>Other Tool</b></td>
-<td>Jira</td>
+    <td><b>Other Tools</b></td>
+<td>Git, Jira</td>
 </tr>
 </tbody>
 </table>
