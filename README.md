@@ -1,34 +1,86 @@
-# Angel-Kitchen
-오픈SW 개발자 대회 팀 LC 천사식당 앱 프로젝트
+# 👼Angel Kitchen
+## **취약 계층을 위한 무료 급식소 안내 서비스 Angel Kitchen**  <br><br>
 
-## About Angel-Kitchen
-Angel-Kitchen 프로젝트 app frontend에 관한 내용을 담당합니다.
-서버의 API에서 받아온 무료급식소 정보와 main 화면에는 naver Map API를 렌더링합니다.
+# 👼🏻About Angel Kitchen
+Angel Kitchen은 취약 계층을 위해 무료 급식소를 안내해주는 앱입니다. <br><br>
 
-### 기능
-#### 1. 무료급식소 마커
-Retrofit으로 서버와 HTTP 통신하여 사용자 위치 반경 내에 존재하는 무료급식소의 위치를 마커로 렌더링합니다.
+# 😇Preview
+# 앱 설명  
+### 사용자에게 Angel Kitchen이 어떤 앱인지 간략하게 소개합니다.  <br><br>
+<img src = "assets_img/1.jpg" width="250"/>
+<img src = "assets_img/2.jpg" width="250"/>
+<img src = "assets_img/3.jpg" width="250"/>  
 
-#### 2. 즐겨찾기
-Room Local Database를 사용하여 사용자가 원하는 급식소만을 저장하고 언제든지 저장한 내용을 확인 가능
+# 내 주변 무료 급식소 찾기
+### 메인 화면에서 3km 반경으로 사용자에게 무료 급식소 위치를 알려줍니다  <br><br>
+<img src = "assets_img/4.jpg" width="250"/>  
 
-#### 3. 무료급식소 검색
-Retrofit으로 서버와 HTTP 통신하여 검색어에 맞는 무료급식소 위치 제공
+# 무료 급식소 검색
+### 검색을 통해 무료 급식소를 찾을 수 있습니다.  <br><br>
+<img src = "assets_img/5.jpg" width="250"/> 
+<img src = "assets_img/6.jpg" width="250"/> 
 
-#### 4. 무료급식소 경로안내
-서버의 API에서 무료급식소의 정보를 검색하여 찾아 선택한 급식소를 naver Direction5 API로 경로를 안내합니다.
+# 무료 급식소 상세 정보
+### 사용자가 선택한 무료 급식소의 위치 및 운영일자 등 자세한 정보를 볼 수 있습니다.  <br><br>
+<img src = "assets_img/7.jpg" width="250"/> 
+<img src = "assets_img/8.jpg" width="250"/>
 
-## Prerequisites
-```
-kotlin v1.5.0
-```
+# 즐겨찾기
+### 사용자가 원하는 무료 급식소를 즐겨찾기를 통해 더욱 효과적으로 관리할 수 있습니다.  <br><br>
+<img src = "assets_img/9.jpg" width="250"/> 
+<img src = "assets_img/10.jpg" width="250"/> 
 
-## API & Open-source
-https://navermaps.github.io/android-map-sdk/guide-ko/
-> naver Map API
+# 무료 급식소 경로 안내
+### 사용자 위치로부터 무료 급식소 위치까지 경로 안내를 시작합니다.  <br><br>
+<img src = "assets_img/12.jpg" width="250"/> 
+<img src = "assets_img/13.jpg" width="250"/> 
+<img src = "assets_img/14.jpg" width="250"/> 
 
-https://api.ncloud-docs.com/docs/ai-naver-mapsdirections
-> naver Direction 5
+# 📚 Specification
+
+<table class="tg">
+<tbody>
+  <tr>
+    <td><b>Architecture</b></td>
+    <td>MVVM</td>
+  </tr>
+<tr>
+    <td><b>Design Pattern</b></td>
+<td>Repository Pattern, Delegation Pattern</td>
+</tr>
+<tr>
+    <td><b>Jetpack Components</b></td>
+<td>DataBinding, ViewBinding, LiveData, ViewModel, Lifecycle, Navigation, Room</td>
+</tr>
+<tr>
+    <td><b>Dependency Injection</b></td>
+<td>Hilt</td>
+</tr>
+<tr>
+    <td><b>Network</b></td>
+<td>OkHttp3, Retrofit2</td>
+</tr>
+<tr>
+    <td><b>Asynchronous Processing</b></td>
+<td>Coroutine</td>
+</tr>
+<tr>
+    <td><b>Third Party Library</b></td>
+    <td>Glide, Timber, Android-Stepper, TedPermission, Lottie, Coil, BottomDrawer, License Dialog, CarouselRecyclerView</td>
+
+</tr>
+<tr>
+    <td><b>API</b></td>
+<td>Naver Map API, Direction 5 API, Geocoding, Reverse Geocoding API</td>
+</tr>
+<tr>
+    <td><b>Other Tool</b></td>
+<td>Jira</td>
+</tr>
+</tbody>
+</table>
+
+<br>
 
 ## License
-This project is licensed under the MIT License - see the [Angel-Kitchen_Server/LICENSE](LICENSE)
+This project is licensed under the Apache 2.0 License - see the [Angel-Kitchen_Server/LICENSE](LICENSE)
