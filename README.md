@@ -40,7 +40,7 @@
 </tr>
 <tr>
     <td><b>Dependency Injection</b></td>
-<td>Hilt</td>
+<td>Dagger2-Hilt</td>
 </tr>
 <tr>
     <td><b>Network</b></td>
