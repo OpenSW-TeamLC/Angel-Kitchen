@@ -32,19 +32,19 @@
 <tbody>
 <tr>
     <td><b>Design Pattern</b></td>
-<td>MVVM Pattern, RxKotlin, Repository Pattern, Delegation Pattern, Observer Pattern</td>
+<td>MVVM Pattern, Repository Pattern, Observer Pattern</td>
 </tr>
 <tr>
     <td><b>Jetpack Components</b></td>
-<td>DataBinding, ViewBinding, LiveData, ViewModel, Lifecycle, Navigation, Room</td>
+<td>ViewBinding, LiveData, ViewModel, Navigation, Room</td>
 </tr>
 <tr>
     <td><b>Dependency Injection</b></td>
-<td>Dagger2-Hilt</td>
+<td>Hilt</td>
 </tr>
 <tr>
     <td><b>Network</b></td>
-<td>OkHttp3, Retrofit2</td>
+<td>Retrofit2</td>
 </tr>
 <tr>
     <td><b>Asynchronous Processing</b></td>
